@@ -10,4 +10,4 @@ __all__ = [
     'L7Attract'
 ]
 
-from l7_attract import *
+from attract import *
