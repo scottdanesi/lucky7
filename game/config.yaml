@@ -5,4 +5,10 @@
 # Disable use_desktop when in production
 use_desktop: False
 keyboard_switch_map:
-  t: trough1
+  1: 1PointHole
+  2: 2PointHole
+  3: 3PointHole
+  4: 4PointHole
+  5: 5PointHole
+  6: 6PointHole
+  x: ExtraBall
