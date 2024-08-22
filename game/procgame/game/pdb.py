@@ -267,12 +267,12 @@ class Lamp(object):
         # Input is of form C-Ax-By-z:R-Ax-By-z  or  C-x/y/z:R-x/y/z  or  aliasX:aliasY
         # We want to return only the address part: Ax-By-z, x/y/z, or aliasX.  That is, remove the two character prefix if present.
         addrs = string.rsplit(':')
-        if len(addrs) is not 2:
+        if len(addrs) != 2:
             return []
         addrs_out = []
         for addr in addrs:
             bits = addr.split('-')
-            if len(bits) is 1:
+            if len(bits) == 1:
                 addrs_out.append(addr)  # Append unchanged.
             else:  # Generally this will be len(bits) 2 or 4.
                 addrs_out.append('-'.join(bits[1:]))  # Remove the first bit and rejoin.
