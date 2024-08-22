@@ -5,12 +5,12 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 
-class L7Attract(procgame.game.AdvancedMode):
+class L7AttractMode(procgame.game.AdvancedMode):
     """
     Example Mode
     """
     def __init__(self, game):
-        super(L7Attract, self).__init__(game=game, priority=2, mode_type=AdvancedMode.Game) # 2 is higher than BGM
+        super(L7AttractMode, self).__init__(game=game, priority=2, mode_type=AdvancedMode.Game) # 2 is higher than BGM
         # stuff that gets done EXACTLY once.
         # happens when the "parent" Game creates this mode
         pass

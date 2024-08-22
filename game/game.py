@@ -6,6 +6,8 @@ import procgame
 from procgame import *
 import logging
 
+from modes import *
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 class Lucky7Game(procgame.game.BasicGame):
@@ -23,6 +25,9 @@ class Lucky7Game(procgame.game.BasicGame):
         self.logger.info("Game initialized 2")
 
     def setup(self):
+
+        # Mode definitions
+        self.attract_mode = L7AttractMode(game=self)  # Priority 2 - System Level
 
         self.sound.register_sound('sound1', 'assets/sfx/drain.wav')
         self.sound.register_music('music1', 'assets/music/mainplay.wav')

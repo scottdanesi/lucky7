@@ -7,7 +7,7 @@
 ## This mode initializes all Advanced modes in Lucky 7.
 ################################################################################################
 __all__ = [
-    'L7Attract'
+    'L7AttractMode'
 ]
 
 from attract import *
