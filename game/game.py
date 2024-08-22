@@ -22,12 +22,13 @@ class Lucky7Game(procgame.game.BasicGame):
         self.sound.play_music('music1', loops=-1)
         self.sound.play('sound1')
 
-        self.logger.info("Game initialized 2")
+        self.logger.info("Game Initialized")
 
     def setup(self):
 
         # Mode definitions
         self.attract_mode = L7AttractMode(game=self)  # Priority 2 - System Level
+        self.score_display_mode = ScoreDisplaysMode(game=self)  # Priority 2 - System Level
 
         self.sound.register_sound('sound1', 'assets/sfx/drain.wav')
         self.sound.register_music('music1', 'assets/music/mainplay.wav')
