@@ -1,0 +1,1168 @@
+# P3-ROC Game Description file for Lucky 7 Prototype
+PRGame:
+    machineType: pdb
+    numBalls: 4
+PRFlippers:
+    - flipperLwR
+    - flipperLwL
+    - flipperUpL
+PRBumpers:
+    - slingR
+    - slingL
+    - popBumper
+    - coreRightSling
+    - coreLeftSling
+    - coreTopSling
+PRSwitches:
+    # **** Format ****
+    # name:
+    #   number: <number>
+    #   type: <type>
+    #   tags: <group>
+    #
+    #   <number> can be: SDx or Raw Input#
+    #   Bank A switch: P3-ROC switch # = SW-16 address * 16 + Bank A switch input #
+    #   Bank B switch: P3-ROC switch # = SW-16 address * 16 + 8 + Bank B switch input #
+    #
+    #   <type> can be: 'NO' (normally open.  This is the default; so no need to use this)
+    #                  'NC' (normally closed.  Common for optos)?
+    flipperLwR:
+        number: SD10 #Address:0 Bank:B Switch:2
+        tags: ballsearchStop,totalAnnihilationIgnored
+    flipperLwL:
+        number: SD12 #Address:0 Bank:B Switch:0
+        tags: ballsearchStop,totalAnnihilationIgnored
+    flipperUpL:
+        number: SD14 #Address:0 Bank:B Switch:1
+        tags: ballsearchStop,totalAnnihilationIgnored
+    exit:
+        number: SD7
+    down:
+        number: SD6
+    up:
+        number: SD5
+    enter:
+        number: SD4
+    coin2:
+        number: SD3
+    coin1:
+        number: SD0
+    tilt:
+        number: SD13
+    startButton:
+        number: SD15
+        tags: softwareDebounce
+    rightOrbit:
+        number: SD23
+        tags: exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    lane4:
+        number: SD22
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    lane3:
+        number: SD21
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    lane2:
+        number: SD20
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    lane1:
+        number: SD19
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    coreTopSling:
+        number: SD18
+        debounce: False
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    leftOrbit:
+        number: SD17
+        tags: exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    coreLeftSling:
+        number: SD16
+        debounce: False
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    dropTarget1Down:
+        number: SD30
+        tags: exitCore,ballsearchReset,tilt_visible,totalAnnihilationIgnored
+    dropTarget2Down:
+        number: SD29
+        tags: exitCore,ballsearchReset,tilt_visible,totalAnnihilationIgnored
+    dropTarget3Down:
+        number: SD28
+        tags: exitCore,ballsearchReset,tilt_visible,totalAnnihilationIgnored
+    coreStandupBottom:
+        number: SD27
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    coreStandupMiddle:
+        number: SD26
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    coreStandupTop:
+        number: SD25
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    rightScoop:
+        number: SD24
+        type: NC
+        tags: voidskillshot,exitCore,ballsearchReset,tilt_visible
+    greenStandup:
+        number: SD31
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    slingR:
+        number: SD39
+        debounce: False
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    rightInlane:
+        number: SD38
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    rightOutlane:
+        number: SD37
+        tags: voidskillshot,early_save,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    popBumper:
+        number: SD36
+        debounce: False
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    trough4:
+        number: SD47
+        tags: trough,tilt_visible
+    trough3:
+        number: SD46
+        tags: trough,tilt_visible
+    trough2:
+        number: SD45
+        tags: trough,tilt_visible
+    trough1:
+        number: SD44
+        type: NC
+        tags: playfield,1,1,trough,tilt_visible
+    troughJam:
+        number: SD43
+        type: NC
+        tags: troughJam,tilt_visible
+    shooter:
+        number: SD42
+        tags: tilt_visible,ballsearchStop
+    redStandup:
+        number: SD55
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    leftScoop:
+        number: SD54
+        type: NC
+        tags: voidskillshot,exitCore,ballsearchReset,tilt_visible
+    codeBankL:
+        number: SD53
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    codeBankM:
+        number: SD52
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    codeBankR:
+        number: SD51
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    coreRightSling:
+        number: SD50
+        debounce: False
+        tags: enterCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    opto2:
+        number: SD49
+        type: NC
+        tags: totalAnnihilationIgnored
+    opto1:
+        number: SD48
+        type: NC
+        tags: totalAnnihilationIgnored
+    leftOutlane:
+        number: SD63
+        tags: voidskillshot,early_save,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    leftInlane:
+        number: SD62
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    slingL:
+        number: SD61
+        debounce: False
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    leftStandupBottom:
+        number: SD60
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    leftStandupMiddle:
+        number: SD59
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    leftStandupTop:
+        number: SD58
+        tags: voidskillshot,exitCore,ballsearchReset,softwareDebounce,totalAnnihilationIgnored
+    spinner:
+        number: SD57
+        tags: ballsearchReset,totalAnnihilationIgnored
+    target1:
+        number: SD122
+    exit2:
+        number: SD123
+    down2:
+        number: SD124
+    up2:
+        number: SD125
+    enter2:
+        number: SD126
+    slamTilt:
+        number: SD127
+    tilt2:
+        number: SD128
+    coreRollover1:
+        number: SD130
+    coreRollover2:
+        number: SD131
+    coreRollover3:
+        number: SD132
+    coreRollover4:
+        number: SD133
+    coreRollover5:
+        number: SD134
+    coreRollover6:
+        number: SD135
+PRCoils:
+    #############################################################################
+    # Coil numbering format: Ax-By-z:
+    # Capital letters are required, lower case letters represent the numbers:
+    # x : Board address (0-7)
+    # y : Bank address (0 for A, 1 for B)
+    # z : Output number (0-7)
+    #############################################################################
+    ###############################
+    # Total Annihilation Addresses:
+    # 6 = Top PD-16
+    # 5 = Bottom PD-16
+    ###############################
+    flipperLwRHold:
+        number: A6-B1-3
+        pulseTime: 255
+        label:  'Flipper - Lower Right Hold'
+    flipperLwRMain:
+        number: A6-B1-2
+        pulseTime: 30
+        label: 'Flipper - Lower Right Main'
+    slingR:
+        number: A6-B1-4
+        pulseTime: 5
+        label: 'Sling - Right'
+        tags: pulsed
+    leftScoop:
+        number: A5-B1-5
+        pulseTime: 30
+        label: 'Scoop - Left'
+    coreRightSling:
+        number: A5-B1-0
+        pulseTime: 6
+        label: 'Sling - Core Right'
+        tags: pulsed
+    rightGate:
+        number: A5-B0-1
+        pulseTime: 10
+        label: 'Gate - Right'
+    dropTarget2Knockdown:
+        number: A6-B0-3
+        pulseTime: 30
+        label: 'Drop Target 2 - Knockdown'
+    dropTarget1Knockdown:
+        number: A6-B0-5
+        pulseTime: 30
+        label: 'Drop Target 1 - Knockdown'
+    trough:
+        number: A6-B1-1
+        pulseTime: 25 #was 25
+        label: 'Trough Kickout'
+    autoFire:
+        number: A6-B1-0
+        label: 'Auto-Fire'
+    popBumper:
+        number: A6-B0-7
+        pulseTime: 12
+        label: 'Pop Bumper'
+    dropTarget1Reset:
+        number: A6-B0-6
+        pulseTime: 35
+        label: 'Drop Target 1 - Reset'
+    dropTarget2Reset:
+        number: A6-B0-4
+        pulseTime: 35
+        label: 'Drop Target 2 - Reset'
+    dropTarget3Reset:
+        number: A6-B0-2
+        pulseTime: 35
+        label: 'Drop Target 3 - Reset'
+    dropTarget3Knockdown:
+        number: A6-B0-1
+        pulseTime: 30
+        label: 'Drop Target 3 - Knockdown'
+    rightScoop:
+        number: A6-B0-0
+        pulseTime: 30
+        label: 'Scoop - Right'
+    flipperLwLHold:
+        number: A6-B1-7
+        pulseTime: 255
+        label: 'Flipper - Lower Left Hold'
+    flipperLwLMain:
+        number: A6-B1-6
+        pulseTime: 30
+        label: 'Flipper - Lower Left Main'
+    slingL:
+        number: A6-B1-5
+        pulseTime: 5
+        label: 'Sling - Left'
+        tags: pulsed
+    flipperUpLHold:
+        number: A5-B1-4
+        pulseTime: 255
+        label: 'Flipper - Upper Hold'
+    flipperUpLMain:
+        number: A5-B1-3
+        pulseTime: 20
+        label: 'Flipper - Upper Main'
+    coreLeftSling:
+        number: A5-B1-2
+        pulseTime: 6
+        label: 'Sling - Core Left'
+        tags: pulsed
+    coreTopSling:
+        number: A5-B1-1
+        pulseTime: 6
+        label: 'Sling - Core Top'
+        tags: pulsed
+    leftGate:
+        number: A5-B0-0
+        pulseTime: 10
+        label: 'Gate - Left'
+    beaconFlasher:
+        number: A5-B0-2
+        pulseTime: 255
+        label: 'Beacon'
+    backboxLight1:
+        number: A5-B0-3
+        pulseTime: 255
+        label: 'Backbox GI 1'
+    RGBOutRed:
+        number: A5-B0-7
+        pulseTime: 255
+        label: 'RGB Output Red'
+    RGBOutGreen:
+        number: A5-B0-6
+        pulseTime: 255
+        label: 'RGB Output Green'
+    RGBOutBlue:
+        number: A5-B0-5
+        pulseTime: 255
+        label: 'RGB Output Blue'
+    startButtonLight:
+        number: A5-B0-4
+        pulseTime: 255
+        label: 'Start Button Lamp'
+    knocker:
+        number: A5-B1-6
+        pulseTime: 30
+        label: 'Knocker'
+    shaker:
+        number: A5-B1-7
+        pulseTime: 10
+        label: 'Shaker'
+#PRBallSave:
+    #pulseCoils: autoFire
+    #resetSwitches:
+        #shooter: open
+    #stopSwitches:
+       # don't ball search if a flipper button is pressed or ball in shooter lane
+        #flipperLwR: closed
+PRLamps:
+    removeMe:
+        number: L11
+PRLEDs:
+    #################################################################
+    # LED numbering format: Ax-Rr-Gg-Bb
+    # x = PD-LED board address
+    # r = LED output number connected to the red input of an LED
+    # g = LED output number connected to the green input of an LED
+    # b = LED output number connected to the blue input of an LED
+    #################################################################
+    bonus01:
+        number: A3-R0-G1-B2
+        polarity: False
+        tags: bonusMatrixLED
+        label: '001 Bonus 1k'
+    bonus02:
+        number: A3-R3-G4-B5
+        polarity: False
+        tags: bonusMatrixLED
+        label: '002 Bonus 2k'
+    bonus03:
+        number: A3-R9-G10-B11
+        polarity: False
+        tags: bonusMatrixLED
+        label: '003 Bonus 3k'
+    bonus04:
+        number: A3-R6-G7-B8
+        polarity: False
+        tags: bonusMatrixLED
+        label: '004 Bonus 4k'
+    bonus05:
+        number: A3-R60-G61-B62
+        polarity: False
+        tags: bonusMatrixLED
+        label: '005 Bonus 5k'
+    bonus06:
+        number: A3-R12-G13-B14
+        polarity: False
+        tags: bonusMatrixLED
+        label: '006 Bonus 6k'
+    bonus07:
+        number: A3-R24-G25-B26
+        polarity: False
+        tags: bonusMatrixLED
+        label: '007 Bonus 7k'
+    bonus08:
+        number: A3-R30-G31-B32
+        polarity: False
+        tags: bonusMatrixLED
+        label: '008 Bonus 8k'
+    bonus09:
+        number: A3-R42-G43-B44
+        polarity: False
+        tags: bonusMatrixLED
+        label: '009 Bonus 9k'
+    bonus10:
+        number: A3-R63-G64-B65
+        polarity: False
+        tags: bonusMatrixLED
+        label: '010 Bonus 10k Upper'
+    bonus11:
+        number: A3-R15-G16-B17
+        polarity: False
+        tags: bonusMatrixLED
+        label: '011 Bonus 10k Lower'
+    bonus12:
+        number: A3-R27-G28-B29
+        polarity: False
+        tags: bonusMatrixLED
+        label: '012 Bonus 20k'
+    bonus13:
+        number: A3-R36-G37-B38
+        polarity: False
+        tags: bonusMatrixLED
+        label: '013 Bonus 30k'
+    bonus14:
+        number: A3-R45-G46-B47
+        polarity: False
+        tags: bonusMatrixLED
+        label: '014 Bonus 40k'
+    bonus15:
+        number: A3-R66-G67-B68
+        polarity: False
+        tags: bonusMatrixLED
+        label: '015 Bonus 50k'
+    bonusX2:
+        number: A3-R33-G34-B35
+        polarity: False
+        tags: none
+        label: '016 X2 Multiplier'
+    bonusX3:
+        number: A3-R39-G40-B41
+        polarity: False
+        tags: none
+        label: '017 X3 Multiplier'
+    bonusX4:
+        number: A3-R69-G70-B71
+        polarity: False
+        tags: none
+        label: '018 X4 Multiplier'
+    codeMatrix1:
+        number: A1-R33-G34-B35
+        polarity: False
+        tags: none
+        label: '019 Code Matrix 1'
+    codeMatrix2:
+        number: A1-R15-G16-B17
+        polarity: False
+        tags: none
+        label: '020 Code Matrix 2'
+    codeMatrix3:
+        number: A1-R21-G22-B23
+        polarity: False
+        tags: none
+        label: '021 Code Matrix 3'
+    codeMatrix4:
+        number: A1-R27-G28-B29
+        polarity: False
+        tags: none
+        label: '022 Code Matrix 4'
+    codeMatrix5:
+        number: A1-R30-G31-B32
+        polarity: False
+        tags: none
+        label: '023 Code Matrix 5'
+    codeMatrix6:
+        number: A1-R18-G19-B20
+        polarity: False
+        tags: none
+        label: '024 Code Matrix 6'
+    codeMatrix7:
+        number: A1-R36-G37-B38
+        polarity: False
+        tags: none
+        label: '025 Code Matrix 7'
+    codeMatrix8:
+        number: A1-R24-G25-B26
+        polarity: False
+        tags: none
+        label: '026 Code Matrix 8'
+    codeMatrix9:
+        number: A1-R12-G13-B14
+        polarity: False
+        tags: none
+        label: '027 Code Matrix 9'
+    coreRollover1:
+        number: A4-R81-G82-B83
+        polarity: False
+        tags: none
+        label: '028 Core Rod 1'
+    coreRollover2:
+        number: A4-R78-G79-B80
+        polarity: False
+        tags: none
+        label: '029 Core Rod 2'
+    coreRollover3:
+        number: A4-R27-G28-B29
+        polarity: False
+        tags: none
+        label: '030 Core Rod 3'
+    coreRollover4:
+        number: A4-R75-G76-B77
+        polarity: False
+        tags: none
+        label: '031 Core Rod 4'
+    coreRollover5:
+        number: A4-R72-G73-B74
+        polarity: False
+        tags: none
+        label: '032 Core Rod 5'
+    coreRollover6:
+        number: A0-R69-G70-B71
+        polarity: False
+        tags: none
+        label: '033 Core Rod 6'
+    coreSegment1a:
+        number: A0-R72
+        polarity: False
+        tags: none
+        label: '034 Core Display Segment 1'
+    coreSegment1b:
+        number: A0-R73
+        polarity: False
+        tags: none
+        label: '035 Core Display Segment 2'
+    coreSegment1c:
+        number: A0-R74
+        polarity: False
+        tags: none
+        label: '036 Core Display Segment 3'
+    coreSegment2a:
+        number: A0-R75
+        polarity: False
+        tags: none
+        label: '037 Core Display Segment 4'
+    coreSegment2b:
+        number: A0-R76
+        polarity: False
+        tags: none
+        label: '038 Core Display Segment 5'
+    coreSegment2c:
+        number: A0-R77
+        polarity: False
+        tags: none
+        label: '039 Core Display Segment 6'
+    coreSegment3a:
+        number: A0-R78
+        polarity: False
+        tags: none
+        label: '040 Core Display Segment 7'
+    coreSegment3b:
+        number: A0-R79
+        polarity: False
+        tags: none
+        label: '041 Core Display Segment 8'
+    coreSegment3c:
+        number: A0-R80
+        polarity: False
+        tags: none
+        label: '042 Core Display Segment 9'
+    coreSegment4a:
+        number: A0-R81
+        polarity: False
+        tags: none
+        label: '043 Core Display Segment 10'
+    coreSegment4b:
+        number: A0-R82
+        polarity: False
+        tags: none
+        label: '044 Core Display Segment 11'
+    coreSegment4c:
+        number: A0-R83
+        polarity: False
+        tags: none
+        label: '045 Core Display Segment 12'
+    coreSegment5a:
+        number: A0-R36
+        polarity: False
+        tags: none
+        label: '046 Core Display Segment 13'
+    coreSegment5b:
+        number: A0-R37
+        polarity: False
+        tags: none
+        label: '047 Core Display Segment 14'
+    coreSegment5c:
+        number: A0-R38
+        polarity: False
+        tags: none
+        label: '048 Core Display Segment 15'
+    coreSegment6a:
+        number: A0-R39
+        polarity: False
+        tags: none
+        label: '049 Core Display Segment 16'
+    coreSegment6b:
+        number: A11-R27
+        polarity: False
+        tags: none
+        label: '050 Core Display Segment 17'
+    coreSegment6c:
+        number: A11-R27
+        polarity: False
+        tags: none
+        label: '051 Core Display Segment 18'
+    coreStatusLeft:
+        number: A0-R42-G43-B44
+        polarity: False
+        tags: none
+        label: '156 Core Status Left'
+    coreStatusRight:
+        number: A0-R45-G46-B47
+        polarity: False
+        tags: none
+        label: '157 Core Status Left'
+    coreStandup1:
+        number: A0-R33-G34-B35
+        polarity: False
+        tags: none
+        label: '052 Core Standup Top'
+    coreStandup2:
+        number: A0-R30-G31-B32
+        polarity: False
+        tags: none
+        label: '053 Core Standup Middle'
+    coreStandup3:
+        number: A0-R27-G28-B29
+        polarity: False
+        tags: none
+        label: '054 Core Standup Bottom'
+    giCore1:
+        number: A0-R24-G25-B26
+        polarity: False
+        tags: coreGI
+        label: '055 GI Core 1'
+    giCore2:
+        number: A0-R63-G64-B65
+        polarity: False
+        tags: coreGI
+        label: '056 GI Core 2'
+    giCore3:
+        number: A4-R9-G10-B11
+        polarity: False
+        tags: coreGI
+        label: '057 GI Core 3'
+    giCoreLeftSling1:
+        number: A4-R30-G31-B32
+        polarity: False
+        tags: coreGI
+        label: '058 GI Core Left Sling 1'
+    giCoreLeftSling2:
+        number: A4-R24-G25-B26
+        polarity: False
+        tags: coreGI
+        label: '059 GI Core Left Sling 2'
+    giCoreRightSling1:
+        number: A0-R66-G67-B68
+        polarity: False
+        tags: coreGI
+        label: '060 GI Core Right Sling 1'
+    giCoreRightSling2:
+        number: A0-R60-G61-B62
+        polarity: False
+        tags: coreGI
+        label: '061 GI Core Right Sling 2'
+    giCoreStandups1:
+        number: A0-R12-G13-B14
+        polarity: False
+        tags: coreGI
+        label: '062 GI Core Standups 1'
+    giCoreStandups2:
+        number: A0-R21-G22-B23
+        polarity: False
+        tags: coreGI
+        label: '063 GI Core Standups 2'
+    giCoreTopSling1:
+        number: A4-R15-G16-B17
+        polarity: False
+        tags: coreGI
+        label: '064 GI Core Top Sling 1 '
+    giCoreTopSling2:
+        number: A4-R12-G13-B14
+        polarity: False
+        tags: coreGI
+        label: '065 GI Core Top Sling 2'
+    giDrops1:
+        number: A0-R57-G58-B59
+        polarity: False
+        tags: none
+        label: '066 GI Drops 1'
+    giDrops2:
+        number: A0-R51-G52-B53
+        polarity: False
+        tags: none
+        label: '067 GI Drops 2'
+    giDrops3:
+        number: A2-R9-G10-B11
+        polarity: False
+        tags: none
+        label: '068 GI Drops 3'
+    giLane1:
+        number: A4-R18-G19-B20
+        polarity: False
+        tags: coreGI
+        label: '069 GI Lane 1'
+    giLane2:
+        number: A4-R39-G40-B41
+        polarity: False
+        tags: coreGI
+        label: '070 GI Lane 2'
+    giLane3:
+        number: A4-R36-G37-B38
+        polarity: False
+        tags: coreGI
+        label: '071 GI Lane 3'
+    giLane4:
+        number: A0-R3-G4-B5
+        polarity: False
+        tags: coreGI
+        label: '072 GI Lane 4'
+    giLane5:
+        number: A0-R0-G1-B2
+        polarity: False
+        tags: coreGI
+        label: '073 GI Lane 5'
+    giLeft1:
+        number: A4-R3-G4-B5
+        polarity: False
+        tags: none
+        label: '074 GI Left Side 1'
+    giLeft2:
+        number: A4-R69-G70-B71
+        polarity: False
+        tags: none
+        label: '075 GI Left Side 2'
+    giLeft3:
+        number: A1-R9-G10-B11
+        polarity: False
+        tags: none
+        label: '076 GI Left Side 3'
+    giLeft4:
+        number: A1-R81-G82-B83
+        polarity: False
+        tags: none
+        label: '077 GI Left Side 4'
+    giLeft5:
+        number: A1-R78-G79-B80
+        polarity: False
+        tags: none
+        label: '078 GI Left Side 5'
+    giLeft6:
+        number: A1-R75-G76-B77
+        polarity: False
+        tags: none
+        label: '079 GI Left Side 6'
+    giLeftFlipper1:
+        number: A4-R51-G52-B53
+        polarity: False
+        tags: lowerSling
+        label: '080 GI Left Flipper 1'
+    giLeftFlipper2:
+        number: A4-R48-G49-B50
+        polarity: False
+        tags: lowerSling
+        label: '081 GI Left Flipper 2'
+    giLeftSling1:
+        number: A4-R57-G58-B59
+        polarity: False
+        tags: lowerSling
+        label: '082 GI Left Sling 1'
+    giLeftSling2:
+        number: A4-R54-G55-B56
+        polarity: False
+        tags: lowerSling
+        label: '083 GI Left Sling 2'
+    giPopBumper1:
+        number: A2-R12-G13-B14
+        polarity: False
+        tags: none
+        label: '084 GI Pop Bumper Upper'
+    giPopBumper2:
+        number: A2-R54-G55-B56
+        polarity: False
+        tags: none
+        label: '085 GI Pop Bumper Lower'
+    giRightFlipper1:
+        number: A2-R63-G64-B65
+        polarity: False
+        tags: lowerSling
+        label: '086 GI Right Flipper 1'
+    giRightFlipper2:
+        number: A2-R60-G61-B62
+        polarity: False
+        tags: lowerSling
+        label: '087 GI Right Flipper 2'
+    giRightSling1:
+        number: A2-R69-G70-B71
+        polarity: False
+        tags: lowerSling
+        label: '088 GI Right Sling 1'
+    giRightSling2:
+        number: A2-R66-G67-B68
+        polarity: False
+        tags: lowerSling
+        label: '089 GI Right Sling 2'
+    giTopRight2:
+        number: A0-R18-G19-B20
+        polarity: False
+        tags: none
+        label: '090 GI Upper Right 2'
+    giUpperLeft1:
+        number: A4-R21-G22-B23
+        polarity: False
+        tags: none
+        label: '091 GI Upper Left 1'
+    giUpperLeft2:
+        number: A4-R33-G34-B35
+        polarity: False
+        tags: none
+        label: '092 GI Upper Left 2'
+    giUpperRight1:
+        number: A0-R15-G16-B17
+        polarity: False
+        tags: none
+        label: '093 GI Upper Right 1'
+    greenStandup:
+        number: A2-R18-G19-B20
+        polarity: False
+        tags: none
+        label: '094 Right Destroy Target'
+    lane1:
+        number: A4-R45-G46-B47
+        polarity: False
+        tags: none
+        label: '095 Upper Lane C'
+    lane2:
+        number: A4-R42-G43-B44
+        polarity: False
+        tags: none
+        label: '096 Upper Lane O'
+    lane3:
+        number: A0-R9-G10-B11
+        polarity: False
+        tags: none
+        label: '097 Upper Lane R'
+    lane4:
+        number: A0-R6-G7-B8
+        polarity: False
+        tags: none
+        label: '098 Upper Lane E'
+    leftInlane:
+        number: A1-R60-G61-B62
+        polarity: False
+        tags: none
+        label: '099 Left Inlane'
+    leftOrbit:
+        number: A1-R6-G7-B8
+        polarity: False
+        tags: none
+        label: '100 Left Orbit'
+    leftOutlane:
+        number: A1-R72-G73-B74
+        polarity: False
+        tags: none
+        label: '101 Left Outlane'
+    leftRadioactive1:
+        number: A4-R0-G1-B2
+        polarity: False
+        tags: none
+        label: '102 Left Radioactive 1'
+    leftRadioactive2:
+        number: A4-R63-G64-B65
+        polarity: False
+        tags: none
+        label: '103 Left Radioactive 2'
+    leftRadioactive3:
+        number: A4-R66-G67-B68
+        polarity: False
+        tags: none
+        label: '104 Left Radioactive 3'
+    leftScoop1:
+        number: A1-R0-G1-B2
+        polarity: False
+        tags: none
+        label: '105 Mystery'
+    leftScoop2:
+        number: A1-R3-G4-B5
+        polarity: False
+        tags: none
+        label: '106 Start Reactor'
+    leftStandup1:
+        number: A1-R69-G70-B71
+        polarity: False
+        tags: none
+        label: '107 Left Standup R'
+    leftStandup2:
+        number: A1-R66-G67-B68
+        polarity: False
+        tags: none
+        label: '108 Left Standup A'
+    leftStandup3:
+        number: A1-R63-G64-B65
+        polarity: False
+        tags: none
+        label: '109 Left Standup D'
+    lock1:
+        number: A0-R54-G55-B56
+        polarity: False
+        tags: none
+        label: '110 Ball Lock 1'
+    lock2:
+        number: A0-R48-G49-B50
+        polarity: False
+        tags: none
+        label: '111 Ball Lock 2'
+    lock3:
+        number: A2-R21-G22-B23
+        polarity: False
+        tags: none
+        label: '112 Ball Lock Release'
+    mapReactor1:
+        number: A1-R57-G58-B59
+        polarity: False
+        tags: none
+        label: '113 Reactor Map 1'
+    mapReactor2:
+        number: A2-R33-G34-B35
+        polarity: False
+        tags: none
+        label: '114 Reactor Map 2'
+    mapReactor3:
+        number: A2-R45-G46-B47
+        polarity: False
+        tags: none
+        label: '115 Reactor Map 3'
+    mapReactor4:
+        number: A2-R39-G40-B41
+        polarity: False
+        tags: none
+        label: '116 Reactor Map 4'
+    mapReactor5:
+        number: A2-R36-G37-B38
+        polarity: False
+        tags: none
+        label: '117 Reactor Map 5'
+    mapReactor6:
+        number: A2-R27-G28-B29
+        polarity: False
+        tags: none
+        label: '118 Reactor Map 6'
+    mapReactor7:
+        number: A1-R51-G52-B53
+        polarity: False
+        tags: none
+        label: '119 Reactor Map 7'
+    mapReactor8:
+        number: A1-R54-G55-B56
+        polarity: False
+        tags: none
+        label: '120 Reactor Map 8'
+    mapReactor9:
+        number: A2-R30-G31-B32
+        polarity: False
+        tags: none
+        label: '121 Reactor Map 9'
+    popBumper:
+        number: A1-R39-G40-B41
+        polarity: False
+        tags: none
+        label: '122 Pop Bumper'
+    popBumper1:
+        number: A2-R42-G43-B44
+        polarity: False
+        tags: none
+        label: '123 Pop Bumper Destroy Upper'
+    popBumper2:
+        number: A2-R57-G58-B59
+        polarity: False
+        tags: none
+        label: '124 Pop Bumper Destroy Lower'
+    redStandup:
+        number: A4-R60-G61-B62
+        polarity: False
+        tags: none
+        label: '125 Left Destroy Target'
+    rightInlane:
+        number: A2-R51-G52-B53
+        polarity: False
+        tags: none
+        label: '126 Right Inlane'
+    rightOrbit:
+        number: A2-R15-G16-B17
+        polarity: False
+        tags: none
+        label: '127 Right Orbit'
+    rightOutlane:
+        number: A2-R48-G49-B50
+        polarity: False
+        tags: none
+        label: '128 Right Outlane'
+    rightRadioactive1:
+        number: A2-R6-G7-B8
+        polarity: False
+        tags: none
+        label: '129 Right Radioactive 1'
+    rightRadioactive2:
+        number: A2-R3-G4-B5
+        polarity: False
+        tags: none
+        label: '130 Right Radioactive 2'
+    rightRadioactive3:
+        number: A2-R0-G1-B2
+        polarity: False
+        tags: none
+        label: '131 Right Radioactive 3'
+    shootAgainSegment1a:
+        number: A3-R48
+        polarity: False
+        tags: none
+        label: '132 Shoot Again Display Segment 1'
+    shootAgainSegment1b:
+        number: A3-R49
+        polarity: False
+        tags: none
+        label: '133 Shoot Again Display Segment 2'
+    shootAgainSegment1c:
+        number: A3-R50
+        polarity: False
+        tags: none
+        label: '134 Shoot Again Display Segment 3'
+    shootAgainSegment2a:
+        number: A3-R51
+        polarity: False
+        tags: none
+        label: '135 Shoot Again Display Segment 4'
+    shootAgainSegment2b:
+        number: A11-R51
+        polarity: False
+        tags: none
+        label: '136 Shoot Again Display Segment 5'
+    shootAgainSegment2c:
+        number: A11-R52
+        polarity: False
+        tags: none
+        label: '137 Shoot Again Display Segment 6'
+    shootAgainSegment3a:
+        number: A3-R72
+        polarity: False
+        tags: none
+        label: '138 Shoot Again Display Segment 7'
+    shootAgainSegment3b:
+        number: A3-R73
+        polarity: False
+        tags: none
+        label: '139 Shoot Again Display Segment 8'
+    shootAgainSegment3c:
+        number: A3-R74
+        polarity: False
+        tags: none
+        label: '140 Shoot Again Display Segment 9'
+    shootAgainSegment4a:
+        number: A3-R75
+        polarity: False
+        tags: none
+        label: '141 Shoot Again Display Segment 10'
+    shootAgainSegment4b:
+        number: A3-R76
+        polarity: False
+        tags: none
+        label: '142 Shoot Again Display Segment 11'
+    shootAgainSegment4c:
+        number: A3-R77
+        polarity: False
+        tags: none
+        label: '143 Shoot Again Display Segment 12'
+    shootAgainSegment5a:
+        number: A3-R78
+        polarity: False
+        tags: none
+        label: '144 Shoot Again Display Segment 13'
+    shootAgainSegment5b:
+        number: A3-R79
+        polarity: False
+        tags: none
+        label: '145 Shoot Again Display Segment 14'
+    shootAgainSegment5c:
+        number: A3-R80
+        polarity: False
+        tags: none
+        label: '146 Shoot Again Display Segment 15'
+    shootAgainSegment6a:
+        number: A3-R81
+        polarity: False
+        tags: none
+        label: '147 Shoot Again Display Segment 16'
+    shootAgainSegment6b:
+        number: A3-R82
+        polarity: False
+        tags: none
+        label: '148 Shoot Again Display Segment 17'
+    shootAgainSegment6c:
+        number: A3-R83
+        polarity: False
+        tags: none
+        label: '149 Shoot Again Display Segment 18'
+    shootAgainLeft:
+        number: A3-R54-G55-B56
+        polarity: False
+        tags: none
+        label: '151 Shoot Again Left'
+    shootAgainRight:
+        number: A3-R57-G58-B59
+        polarity: False
+        tags: none
+        label: '152 Shoot Again Right'
+    spinner:
+        number: A4-R6-G7-B8
+        polarity: False
+        tags: none
+        label: '150 Spinner'
+    clearDropLED3:
+        number: A2-R75-G76-B77
+        polarity: False
+        label: '155 Clear Drop Target LED 3'
+    clearDropLED2:
+        number: A2-R78-G79-B80
+        polarity: False
+        label: '154 Clear Drop Target LED 2'
+    clearDropLED1:
+        number: A2-R81-G82-B83
+        polarity: False
+        label: '153 Clear Drop Target LED 1'
+    ReactorStatus:
+        number: A2-R72-G73-B74
+        polarity: False
+        label: '156 Reactor Status Driver'
+
+
+
+watchdog_time: 2000

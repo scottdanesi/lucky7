@@ -1,0 +1,8 @@
+# Generic framework configuration, mostly for local debugging.
+# For game-specific driver mappings, consult conig/lucky7.yaml
+# Disable fakepinproc useage when in production
+#pinproc_class: procgame.fakepinproc.FakePinPROC
+# Disable use_desktop when in production
+use_desktop: False
+keyboard_switch_map:
+  t: trough1

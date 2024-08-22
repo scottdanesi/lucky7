@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import pinproc
+import procgame
+from procgame import *
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+class Lucky7Game(procgame.game.BasicGame):
+    def __init__(self):
+        super(Lucky7Game, self).__init__(pinproc.MachineTypePDB)
+
+        self.logger = logging.getLogger('game.core')
+        self.load_config('config/lucky7.yaml')
+        self.sound = procgame.sound.SoundController(self)
+        self.setup()
+        self.reset()
+        self.sound.play_music('music1', loops=-1)
+        self.sound.play('sound1')
+
+        self.logger.info("Game initialized 2")
+
+    def setup(self):
+
+        self.sound.register_sound('sound1', 'assets/sfx/drain.wav')
+        self.sound.register_music('music1', 'assets/music/mainplay.wav')
+
+
+if __name__ == '__main__':
+    print("//////////////////////////////This is a test!///////////////////////////////")
+    game = Lucky7Game()
+    game.run_loop()
