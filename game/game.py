@@ -29,6 +29,6 @@ class Lucky7Game(procgame.game.BasicGame):
 
 
 if __name__ == '__main__':
-    print("//////////////////////////////This is a test!///////////////////////////////")
+    print("////////////////////////////// Lucky 7 Starting ///////////////////////////////")
     game = Lucky7Game()
     game.run_loop()
