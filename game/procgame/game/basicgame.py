@@ -44,7 +44,7 @@ class BasicGame(GameController):
         #    self.dmd = DisplayController(self, width=128, height=32, message_font=font_named('Font07x5.dmd'))
         #self.score_display = ScoreDisplay(self, 0)
 
-        use_desktop = config.value_for_key_path(keypath='use_desktop', default=True)
+        use_desktop = config.value_for_key_path(keypath='use_desktop', default=False)
         if use_desktop:
             from ..desktop import Desktop
             self.desktop = Desktop()
