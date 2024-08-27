@@ -11,5 +11,5 @@ __all__ = [
     'ScoreDisplaysMode'
 ]
 
-from attract import *
-from score_displays import *
+from .attract import *
+from .score_displays import *
