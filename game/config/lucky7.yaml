@@ -1,7 +1,7 @@
 # P3-ROC Game Description file for Lucky 7 Prototype
 PRGame:
     machineType: pdb
-    numBalls: 4
+    numBalls: 1
 PRFlippers:
     - nudgeLeft
     - nudgeRight
@@ -74,7 +74,7 @@ PRLEDs:
     #################################################################
     # Lucky 7 PD-LED Addresses
     # PD-LED #1 (Upper) - Address 4
-    # PD-LED #1 (Upper) - Address 5
+    # PD-LED #2 (Lower) - Address 5
     #################################################################
 
     #################################################################
@@ -84,42 +84,42 @@ PRLEDs:
     Player1_1A:
         number: A4-R0
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1A'
     Player1_1B:
         number: A4-R1
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1B'
     Player1_1C:
         number: A4-R2
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1C'
     Player1_1D:
         number: A4-R3
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1D'
     Player1_1E:
         number: A4-R4
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1E'
     Player1_1F:
         number: A4-R5
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1F'
     Player1_1G:
         number: A4-R6
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1G'
     Player1_1DP:
         number: A4-R7
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 1DP'
     #################################################################
     # Player 1 - Display 2
@@ -127,85 +127,85 @@ PRLEDs:
     Player1_2A:
         number: A4-R8
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2A'
     Player1_2B:
         number: A4-R9
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2B'
     Player1_2C:
         number: A4-R10
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2C'
     Player1_2D:
         number: A4-R11
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2D'
     Player1_2E:
         number: A4-R24
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2E'
     Player1_2F:
         number: A4-R25
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2F'
     Player1_2G:
         number: A4-R26
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2G'
     Player1_2DP:
         number: A4-R27
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 2DP'
     #################################################################
     # Player 1 - Display 3
     #################################################################
     Player1_3A:
-        number: A4-R29
+        number: A4-R28
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3A'
     Player1_3B:
         number: A4-R29
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3B'
     Player1_3C:
         number: A4-R30
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3C'
     Player1_3D:
         number: A4-R31
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3D'
     Player1_3E:
         number: A4-R32
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3E'
     Player1_3F:
         number: A4-R33
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3F'
     Player1_3G:
         number: A4-R34
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3G'
     Player1_3DP:
         number: A4-R35
         polarity: False
-        tags: NumericDisplay,Player1ScoreDisplay
+        tags: NumericDisplay,Player1ScoreDisplay,White
         label: 'Player1 3DP'
     #################################################################
     # SCORE DISPLAYS
@@ -214,42 +214,42 @@ PRLEDs:
     Player2_1A:
         number: A4-R48
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1A'
     Player2_1B:
         number: A4-R49
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1B'
     Player2_1C:
         number: A4-R50
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1C'
     Player2_1D:
         number: A4-R51
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1D'
     Player2_1E:
         number: A4-R52
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1E'
     Player2_1F:
         number: A4-R53
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1F'
     Player2_1G:
         number: A4-R54
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1G'
     Player2_1DP:
         number: A4-R55
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 1DP'
     #################################################################
     # Player 2 - Display 2
@@ -257,85 +257,85 @@ PRLEDs:
     Player2_2A:
         number: A4-R56
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2A'
     Player2_2B:
         number: A4-R57
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2B'
     Player2_2C:
         number: A4-R58
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2C'
     Player2_2D:
         number: A4-R59
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2D'
     Player2_2E:
         number: A4-R72
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2E'
     Player2_2F:
         number: A4-R73
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2F'
     Player2_2G:
         number: A4-R74
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2G'
     Player2_2DP:
         number: A4-R75
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 2DP'
     #################################################################
-    # Player 1 - Display 3
+    # Player 2 - Display 3
     #################################################################
     Player2_3A:
         number: A4-R76
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3A'
     Player2_3B:
         number: A4-R77
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3B'
     Player2_3C:
         number: A4-R78
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3C'
     Player2_3D:
         number: A4-R79
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3D'
     Player2_3E:
         number: A4-R80
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3E'
     Player2_3F:
         number: A4-R81
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3F'
     Player2_3G:
         number: A4-R82
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3G'
     Player2_3DP:
         number: A4-R83
         polarity: False
-        tags: NumericDisplay,Player2ScoreDisplay
+        tags: NumericDisplay,Player2ScoreDisplay,White
         label: 'Player2 3DP'
     #################################################################
     # Standard Backglass LEDs
@@ -344,12 +344,12 @@ PRLEDs:
     Player1A:
         number: A4-R12
         polarity: False
-        tags: Backglass,Player1
+        tags: Backglass,Player1,Green
         label: 'Player1 A'
     Player1B:
         number: A4-R13
         polarity: False
-        tags: Backglass,Player1
+        tags: Backglass,Player1,Green
         label: 'Player1 B'
     #################################################################
     # Standard Backglass LEDs
@@ -358,363 +358,572 @@ PRLEDs:
     Big7A:
         number: A4-R14
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 A'
     Big7B:
         number: A4-R15
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 B'
     Big7C:
         number: A4-R16
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 C'
     Big7D:
         number: A4-R17
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 D'
     Big7E:
         number: A4-R18
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 E'
     Big7F:
         number: A4-R19
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 F'
     Big7G:
         number: A4-R20
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 G'
     Big7H:
         number: A4-R21
         polarity: False
-        tags: Backglass,Big7
+        tags: Backglass,Big7,Red
         label: 'Big 7 H'
     #################################################################
     # Standard Backglass LEDs
     # LUCKY LEDs
     #################################################################
     LUCKY_LA:
-        number: A4-R
+        number: A4-R22
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY L A'
     LUCKY_LB:
-        number: A4-R
+        number: A4-R23
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY L B'
     LUCKY_UA:
-        number: A4-R
+        number: A4-R36
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY U A'
     LUCKY_UB:
-        number: A4-R
+        number: A4-R37
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY U B'
     LUCKY_CA:
-        number: A4-R
+        number: A4-R38
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY C A'
     LUCKY_CB:
-        number: A4-R
+        number: A4-R39
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY C B'
     LUCKY_KA:
-        number: A4-R
+        number: A4-R40
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY K A'
     LUCKY_KB:
-        number: A4-R
+        number: A4-R41
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY K B'
     LUCKY_YA:
-        number: A4-R
+        number: A4-R42
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY Y A'
     LUCKY_YB:
-        number: A4-R
+        number: A4-R43
         polarity: False
-        tags: Backglass,LUCKY
+        tags: Backglass,LUCKY,Green
         label: 'LUCKY Y B'
     #################################################################
     # Standard Backglass LEDs
     # Player 2
     #################################################################
     Player2A:
-        number: A4-R
+        number: A4-R44
         polarity: False
-        tags: Backglass,Player2
+        tags: Backglass,Player2,Green
         label: 'Player2 A'
     Player2B:
-        number: A4-R
+        number: A4-R45
         polarity: False
-        tags: Backglass,Player2
+        tags: Backglass,Player2,Green
         label: 'Player2 B'
     #################################################################
     # Standard Backglass LEDs
     # Roll Number
     #################################################################
     1stRoll:
-        number: A4-R
+        number: A4-R46
         polarity: False
-        tags: Backglass,RollNumber
+        tags: Backglass,RollNumber,White
         label: '1st Roll'
     2ndRoll:
-        number: A4-R
+        number: A4-R47
         polarity: False
-        tags: Backglass,RollNumber
+        tags: Backglass,RollNumber,White
         label: '2nd Roll'
     #################################################################
     # Standard Backglass LEDs
     # Ball Score
     #################################################################
     BallScoreA:
-        number: A4-R
+        number: A4-R60
         polarity: False
-        tags: Backglass,BallScore
+        tags: Backglass,BallScore,White
         label: 'Ball Score A'
     BallScoreB:
-        number: A4-R
+        number: A4-R61
         polarity: False
-        tags: Backglass,BallScore
+        tags: Backglass,BallScore,White
         label: 'Ball Score B'
     BallScoreC:
-        number: A4-R
+        number: A4-R62
         polarity: False
-        tags: Backglass,BallScore
+        tags: Backglass,BallScore,White
         label: 'Ball Score C'
     #################################################################
     # Standard Backglass LEDs
     # Score Indicators
     #################################################################
     Score1:
-        number: A4-R
+        number: A4-R63
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Red
         label: 'Score 1'
     Score2:
-        number: A4-R
+        number: A4-R64
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Red
         label: 'Score 2'
     Score3:
-        number: A4-R
+        number: A4-R65
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Red
         label: 'Score 3'
     Score4:
-        number: A4-R
+        number: A4-R66
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Red
         label: 'Score 4'
     Score5:
-        number: A4-R
+        number: A4-R67
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Red
         label: 'Score 5'
     Score6:
-        number: A4-R
+        number: A4-R68
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Red
         label: 'Score 6'
     Score7A:
-        number: A4-R
+        number: A4-R69
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,White
         label: 'Score 7 A'
     Score7B:
-        number: A4-R
+        number: A4-R70
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,White
         label: 'Score 7 B'
     Score8:
-        number: A4-R
+        number: A4-R71
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Yellow
         label: 'Score 8'
     Score9:
-        number: A4-R
+        number: A5-R0
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Yellow
         label: 'Score 9'
     Score10:
-        number: A4-R
+        number: A5-R1
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Yellow
         label: 'Score 10'
     Score11:
-        number: A4-R
+        number: A5-R2
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Yellow
         label: 'Score 11'
     Score12:
-        number: A4-R
+        number: A5-R3
         polarity: False
-        tags: Backglass,Score
+        tags: Backglass,Score,Yellow
         label: 'Score 12'
     #################################################################
     # Standard Backglass LEDs
     # Score Instructional
     #################################################################
     ScoreInstA:
-        number: A4-R
+        number: A5-R4
         polarity: False
-        tags: Backglass,ScoreInst
+        tags: Backglass,ScoreInst,White
         label: 'Score Instructional A'
     ScoreInstB:
-        number: A4-R
+        number: A5-R5
         polarity: False
-        tags: Backglass,ScoreInst
+        tags: Backglass,ScoreInst,White
         label: 'Score Instructional B'
     ScoreInstC:
-        number: A4-R
+        number: A5-R6
         polarity: False
-        tags: Backglass,ScoreInst
+        tags: Backglass,ScoreInst,White
         label: 'Score Instructional C'
     ScoreInstD:
-        number: A4-R
+        number: A5-R7
         polarity: False
-        tags: Backglass,ScoreInst
+        tags: Backglass,ScoreInst,White
         label: 'Score Instructional D'
     #################################################################
     # Standard Backglass LEDs
     # Shoot Under 7
     #################################################################
     ShootUnder7A:
-        number: A4-R
+        number: A5-R8
         polarity: False
-        tags: Backglass,ShootUnder7
+        tags: Backglass,ShootUnder7,Red
         label: 'Shoot Under 7 A'
     ShootUnder7B:
-        number: A4-R
+        number: A5-R9
         polarity: False
-        tags: Backglass,ShootUnder7
+        tags: Backglass,ShootUnder7,Red
         label: 'Shoot Under 7 B'
     ShootUnder7C:
-        number: A4-R
+        number: A5-R10
         polarity: False
-        tags: Backglass,ShootUnder7
+        tags: Backglass,ShootUnder7,Red
         label: 'Shoot Under 7 C'
     ShootUnder7D:
-        number: A4-R
+        number: A5-R11
         polarity: False
-        tags: Backglass,ShootUnder7
+        tags: Backglass,ShootUnder7,Red
         label: 'Shoot Under 7 D'
     #################################################################
     # Standard Backglass LEDs
     # Blue Bonus Numbers
     #################################################################
     BlueBonus20:
-        number: A4-R
+        number: A5-R24
         polarity: False
-        tags: Backglass,BlueBonus,BlueBonusNumbers
+        tags: Backglass,BlueBonus,BlueBonusNumbers,Blue
         label: 'Blue Bonus 20'
     BlueBonus50:
-        number: A4-R
+        number: A5-R25
         polarity: False
-        tags: Backglass,BlueBonus,BlueBonusNumbers
+        tags: Backglass,BlueBonus,BlueBonusNumbers,Blue
         label: 'Blue Bonus 50'
     BlueBonus100:
-        number: A4-R
+        number: A5-R26
         polarity: False
-        tags: Backglass,BlueBonus,BlueBonusNumbers
+        tags: Backglass,BlueBonus,BlueBonusNumbers,Blue
         label: 'Blue Bonus 100'
     #################################################################
     # Standard Backglass LEDs
     # Shoot Over 7
     #################################################################
     ShootOver7A:
-        number: A4-R
+        number: A5-R27
         polarity: False
-        tags: Backglass,ShootOver7
+        tags: Backglass,ShootOver7,Yellow
         label: 'Shoot Over 7 A'
     ShootOver7B:
-        number: A4-R
+        number: A5-R28
         polarity: False
-        tags: Backglass,ShootOver7
+        tags: Backglass,ShootOver7,Yellow
         label: 'Shoot Over 7 B'
     ShootOver7C:
-        number: A4-R
+        number: A5-R29
         polarity: False
-        tags: Backglass,ShootOver7
+        tags: Backglass,ShootOver7,Yellow
         label: 'Shoot Over 7 C'
     #################################################################
     # Standard Backglass LEDs
     # Red Bonus Made
     #################################################################
     RedBonusMadeA:
-        number: A4-R
+        number: A5-R30
         polarity: False
-        tags: Backglass,RedBonus,RedBonusMade
+        tags: Backglass,RedBonus,RedBonusMade,Red
         label: 'Red Bonus Made A'
     RedBonusMadeB:
-        number: A4-R
+        number: A5-R31
         polarity: False
-        tags: Backglass,RedBonus,RedBonusMade
+        tags: Backglass,RedBonus,RedBonusMade,Red
         label: 'Red Bonus Made B'
     RedBonusMadeC:
-        number: A4-R
+        number: A5-R32
         polarity: False
-        tags: Backglass,RedBonus,RedBonusMade
+        tags: Backglass,RedBonus,RedBonusMade,Red
         label: 'Red Bonus Made C'
     #################################################################
     # Standard Backglass LEDs
     # Red Bonus Numbers
     #################################################################
-    RedBonus20:
-        number: A4-R
+    RedBonus10:
+        number: A5-R33
         polarity: False
-        tags: Backglass,RedBonus,RedBonusNumbers
+        tags: Backglass,RedBonus,RedBonusNumbers,Red
+        label: 'Red Bonus 10'
+    RedBonus20:
+        number: A5-R34
+        polarity: False
+        tags: Backglass,RedBonus,RedBonusNumbers,Red
         label: 'Red Bonus 20'
     RedBonus50:
-        number: A4-R
+        number: A5-R35
         polarity: False
-        tags: Backglass,RedBonus,RedBonusNumbers
+        tags: Backglass,RedBonus,RedBonusNumbers,Red
         label: 'Red Bonus 50'
-    RedBonus100:
-        number: A4-R
-        polarity: False
-        tags: Backglass,RedBonus,RedBonusNumbers
-        label: 'Red Bonus 100'
     #################################################################
     # Standard Backglass LEDs
     # 7 Scores Bonus Of
     #################################################################
     7ScoresBonusOfA:
-        number: A4-R
+        number: A5-R48
         polarity: False
-        tags: Backglass,BlueBonus,7ScoresBonusOf
+        tags: Backglass,BlueBonus,7ScoresBonusOf,Blue
         label: '7 Scores Bonus Of A'
     7ScoresBonusOfB:
-        number: A4-R
+        number: A5-R49
         polarity: False
-        tags: Backglass,BlueBonus,7ScoresBonusOf
+        tags: Backglass,BlueBonus,7ScoresBonusOf,Blue
         label: '7 Scores Bonus Of B'
     7ScoresBonusOfC:
-        number: A4-R
+        number: A5-R50
         polarity: False
-        tags: Backglass,BlueBonus,7ScoresBonusOf
+        tags: Backglass,BlueBonus,7ScoresBonusOf,Blue
         label: '7 Scores Bonus Of C'
     7ScoresBonusOfD:
-        number: A4-R
+        number: A5-R51
         polarity: False
-        tags: Backglass,BlueBonus,7ScoresBonusOf
+        tags: Backglass,BlueBonus,7ScoresBonusOf,Blue
         label: '7 Scores Bonus Of D'
-
-
-
+    #################################################################
+    # Standard Backglass LEDs
+    # Blue Bonus Made
+    #################################################################
+    BlueBonusMadeA:
+        number: A5-R52
+        polarity: False
+        tags: Backglass,BlueBonus,BlueBonusMade,Blue
+        label: 'Blue Bonus Made A'
+    BlueBonusMadeB:
+        number: A5-R53
+        polarity: False
+        tags: Backglass,BlueBonus,BlueBonusMade,Blue
+        label: 'Blue Bonus Made B'
+    BlueBonusMadeC:
+        number: A5-R54
+        polarity: False
+        tags: Backglass,BlueBonus,BlueBonusMade,Blue
+        label: 'Blue Bonus Made C'
+    #################################################################
+    # Standard Backglass LEDs
+    # Yellow Bonus Numbers
+    #################################################################
+    YellowBonus10:
+        number: A5-R55
+        polarity: False
+        tags: Backglass,YellowBonus,YellowBonusNumbers,Yellow
+        label: 'Yellow Bonus 10'
+    YellowBonus20:
+        number: A5-R56
+        polarity: False
+        tags: Backglass,YellowBonus,YellowBonusNumbers,Yellow
+        label: 'Yellow Bonus 20'
+    YellowBonus50:
+        number: A5-R57
+        polarity: False
+        tags: Backglass,YellowBonus,YellowBonusNumbers,Yellow
+        label: 'Yellow Bonus 50'
+    #################################################################
+    # Standard Backglass LEDs
+    # Yellow Bonus Made
+    #################################################################
+    YellowBonusMadeA:
+        number: A5-R58
+        polarity: False
+        tags: Backglass,YellowBonus,YellowBonusMade,Yellow
+        label: 'Yellow Bonus Made A'
+    YellowBonusMadeB:
+        number: A5-R59
+        polarity: False
+        tags: Backglass,YellowBonus,YellowBonusMade,Yellow
+        label: 'Yellow Bonus Made B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Extra Ball
+    #################################################################
+    ExtraBallA:
+        number: A5-R72
+        polarity: False
+        tags: Backglass,ExtraBall,Blue
+        label: 'Extra Ball A'
+    ExtraBallB:
+        number: A5-R73
+        polarity: False
+        tags: Backglass,ExtraBall,Blue
+        label: 'Extra Ball B'
+    ExtraBallC:
+        number: A5-R74
+        polarity: False
+        tags: Backglass,ExtraBall,Blue
+        label: 'Extra Ball C'
+    ExtraBallD:
+        number: A5-R75
+        polarity: False
+        tags: Backglass,ExtraBall,Blue
+        label: 'Extra Ball D'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frames
+    #################################################################
+    FramesA:
+        number: A5-R76
+        polarity: False
+        tags: Backglass,Frames,Blue
+        label: 'Frames A'
+    FramesB:
+        number: A5-R77
+        polarity: False
+        tags: Backglass,Frames,Blue
+        label: 'Frames B'
+    FramesC:
+        number: A5-R78
+        polarity: False
+        tags: Backglass,Frames,Blue
+        label: 'Frames C'
+    FramesD:
+        number: A5-R79
+        polarity: False
+        tags: Backglass,Frames,Blue
+        label: 'Frames D'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frame 1
+    #################################################################
+    Frame1A:
+        number: A5-R80
+        polarity: False
+        tags: Backglass,Frames,Frame1,Red
+        label: 'Frame 1 A'
+    Frame1B:
+        number: A5-R81
+        polarity: False
+        tags: Backglass,Frames,Frame1,Red
+        label: 'Frame 1 B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frame 2
+    #################################################################
+    Frame2A:
+        number: A5-R82
+        polarity: False
+        tags: Backglass,Frames,Frame2,Red
+        label: 'Frame 2 A'
+    Frame2B:
+        number: A5-R83
+        polarity: False
+        tags: Backglass,Frames,Frame2,Red
+        label: 'Frame 2 B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frame 3
+    #################################################################
+    Frame3A:
+        number: A5-R12
+        polarity: False
+        tags: Backglass,Frames,Frame3,Red
+        label: 'Frame 3 A'
+    Frame3B:
+        number: A5-R13
+        polarity: False
+        tags: Backglass,Frames,Frame3,Red
+        label: 'Frame 3 B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frame 4
+    #################################################################
+    Frame4A:
+        number: A5-R14
+        polarity: False
+        tags: Backglass,Frames,Frame4,Yellow
+        label: 'Frame 4 A'
+    Frame4B:
+        number: A5-R15
+        polarity: False
+        tags: Backglass,Frames,Frame4,Yellow
+        label: 'Frame 4 B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frame 5
+    #################################################################
+    Frame5A:
+        number: A5-R16
+        polarity: False
+        tags: Backglass,Frames,Frame5,Yellow
+        label: 'Frame 5 A'
+    Frame5B:
+        number: A5-R17
+        polarity: False
+        tags: Backglass,Frames,Frame5,Yellow
+        label: 'Frame 5 B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Frame 6
+    #################################################################
+    Frame6A:
+        number: A5-R18
+        polarity: False
+        tags: Backglass,Frames,Frame6,Yellow
+        label: 'Frame 6 A'
+    Frame6B:
+        number: A5-R19
+        polarity: False
+        tags: Backglass,Frames,Frame6,Yellow
+        label: 'Frame 6 B'
+    #################################################################
+    # Standard Backglass LEDs
+    # Game Over
+    #################################################################
+    GameOverA:
+        number: A5-R20
+        polarity: False
+        tags: Backglass,GameOver,Yellow
+        label: 'Game Over A'
+    GameOverB:
+        number: A5-R21
+        polarity: False
+        tags: Backglass,GameOver,Yellow
+        label: 'Game Over B'
+    #################################################################
+    # Standard Backglass LEDs
+    # System Status
+    #################################################################
+    SystemStatusA:
+        number: A5-R67
+        polarity: False
+        tags: SystemStatus
+        label: 'System Status A'
+    SystemStatusB:
+        number: A5-R69
+        polarity: False
+        tags: SystemStatus
+        label: 'System Status B'
 
 watchdog_time: 2000
