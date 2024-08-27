@@ -12,6 +12,7 @@ from .mode import *
 from procgame import config
 from procgame import util
 from procgame.game.gameitems import AttrCollection
+from procgame import LEDs
 
 
 def config_named(name):
@@ -72,6 +73,8 @@ class GameController(object):
     logger = None
     """:class:`Logger` object instance; instantiated in :meth:`__init__` with the logger name "game"."""
 
+    LEDs = None
+
     def __init__(self, machine_type):
         super(GameController, self).__init__()
         self.logger = logging.getLogger('game')
@@ -80,6 +83,7 @@ class GameController(object):
         self.proc.reset(1)
         self.modes = ModeQueue(self)
         self.t0 = time.time()
+        self.LEDs = LEDs.LEDcontroller(self)
 
     def create_pinproc(self):
         """Instantiates and returns the class to use as the P-ROC device.
@@ -221,7 +225,7 @@ class GameController(object):
         self.logger.info('Loading machine configuration from "%s"...', filename)
         self.config = config_named(filename)
         if not self.config:
-            raise ValueError('load_config(filename="%s") could not be found. Did you set config_path?' % (filename))
+            raise ValueError(f'load_config(filename="{filename}") could not find the specified file. Did you set config_path?')
         self.process_config()
 
     def load_config_stream(self, stream):

@@ -7,6 +7,7 @@ __all__ = [
     'game',
     'highscore',
     'lamps',
+    'LEDs',
     'modes',
     'service',
     'sound',
