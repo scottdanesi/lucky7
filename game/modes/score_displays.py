@@ -7,7 +7,7 @@
 ## Global Imports
 ###############################
 import procgame.game
-from procgame.game import AdvancedMode
+# from procgame.game import AdvancedMode
 import pygame
 from pygame.locals import *
 from pygame.font import *
@@ -16,9 +16,9 @@ from random import *
 COLOR_WHITE = "FFFFFF"
 COLOR_BLACK = "000000"
 
-class ScoreDisplaysMode(procgame.game.AdvancedMode):
+class ScoreDisplaysMode(procgame.game.Mode):
     def __init__(self, game):
-        super(ScoreDisplaysMode, self).__init__(game=game, priority=2, mode_type=AdvancedMode.Game) # 2 is higher than BGM
+        super(ScoreDisplaysMode, self).__init__(game=game, priority=2) # 2 is higher than BGM
 
         # Global Variables
         self.enableScript = self.create_script(COLOR_WHITE, 100)
