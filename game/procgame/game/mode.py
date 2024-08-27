@@ -140,6 +140,7 @@ class Mode(object):
         return self.__class__.__name__
 
     def delay(self, name=None, event_type=None, delay=0, handler=None, param=None):
+        print (f"Delay function called.  Name: {name}, Handler: {str(handler)}, Delay Time: {str(delay)}")
         """Schedule the run loop to call the given handler at a later time.
 
         Keyword arguments:
@@ -180,6 +181,7 @@ class Mode(object):
         self.__delayed.append(
             Mode.Delayed(name=name, time=time.time() + delay, handler=handler, event_type=event_type, param=param))
         try:
+            print (f"self.__delayed Info: {self.__delayed}")
             self.__delayed.sort(key=lambda sx: int(sx.time * 100))
         except TypeError as ex:
             # Debugging code:
@@ -248,6 +250,7 @@ class Mode(object):
 
     def dispatch_delayed(self):
         """Called by the GameController to dispatch any delayed events."""
+        print (f"Delay Dispatch called.")
         t = time.time()
         for item in self.__delayed:
             if item.time <= t:
@@ -255,6 +258,7 @@ class Mode(object):
                 if item.param is not None:
                     handler(item.param)
                 else:
+                    print (f"Delay Dispatch Handler called. Handler: {str(handler)}")
                     handler()
         self.__delayed = filter(lambda x: x.time > t, self.__delayed)
 
@@ -326,7 +330,9 @@ class Mode(object):
             self.param = param
 
         def __str__(self):
-            return '<name=%s time=%s event_type=%s>' % (self.name, self.time, self.event_type)
+            # return '<name=%s time=%s event_type=%s>' % (self.name, self.time, self.event_type)
+            print (f'<name={self.name} time={self.time} event_type={self.event_type}>')
+            return f'<name={self.name} time={self.time} event_type={self.event_type}>'
 
 
 class ModeQueue(object):
@@ -344,9 +350,9 @@ class ModeQueue(object):
     def add(self, mode):
         if mode in self.modes:
             raise ValueError("Attempted to add mode " + str(mode) + ", already in mode queue.")
-        self.modes += [mode]
+        self.modes.append(mode)
         # Sort by priority, descending:
-        self.modes.sort(lambda x, y: y.priority - x.priority)
+        self.modes.sort(key=lambda x: x.priority, reverse=True)
         self.changed = True
         self.logger.info("Added %s.", str(mode))
         mode.mode_started()
