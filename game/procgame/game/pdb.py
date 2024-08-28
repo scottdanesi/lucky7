@@ -17,6 +17,8 @@ class PDLED(object):
         self.board_addr = board_addr
         self.base_reg_addr = 0x01000000 | (board_addr & 0x3F) << 16
         self.fade_time = 0
+
+
         print("Creating PDLED board: %d" % (board_addr))
 
     def write_fade_time(self, time):
@@ -57,12 +59,17 @@ class LED(GameItem):
         GameItem.__init__(self, game, name, number)
         self.logger = logging.getLogger('game.LED')
 
+        self.current_color = []
+
+        self.brightness_compensation = [1.0, 1.0, 1.0]
+
         cr_list = number.split('-')
         self.board_addr = int(cr_list[0][1:])
         self.addrs = []
         self.invert = False
         for color in cr_list[1:]:
             self.addrs.append(int(color[1:]))
+            self.current_color.append(0)
 
         self.logger.debug("Creating LED: %s, board_addr: %s, color_addrs: %s", self.name, self.board_addr, self.addrs)
         self.function = 'none'
@@ -98,6 +105,48 @@ class LED(GameItem):
         for i in range(0, 3):
             new_color = self.normalize_color(color[i])
             self.board.write_fade_color(self.addrs[i], new_color)
+
+    def color_with_fade(self, color, fadetime):
+        """ Changes the LED to the new color via the fadetime parameter
+
+        Paramters
+        color - should be a list, even for LED objects that are single color
+        fadetime - fade time in ms, max 262144, rounded to the nearest 4ms
+        """
+
+        fadetime = int(fadetime/4)
+
+        if type(color) is not list:
+            color = LEDcontroller.convert_hex_to_list(color)
+
+        # If the number of colors is the same or greater than the number of LED
+        # outputs:
+        if len(color) >= len(self.addrs):
+            # match the number of colors to the number of LED outputs
+            if len(color) > len(self.addrs):
+                color = color[-len(self.addrs):]
+
+            for i in range(len(self.addrs)):
+                if color[i] == self.current_color[i]:
+                    continue
+                self.game.proc.led_fade(self.board_addr,
+                                        self.addrs[i],
+                                        self.normalize_color(int(color[i] *
+                                                                 self.brightness_compensation[i])),
+                                        fadetime)
+                self.current_color[i] = color[i]
+
+        else:  # The LED has more outputs than the color we're sending it
+            for i in range(len(color)):
+                if color[i] == self.current_color[i]:
+                    continue
+                # write the colors we can, ignore the rest
+                self.game.proc.led_fade(self.board_addr,
+                                        self.addrs[i],
+                                        self.normalize_color(int(color[i] *
+                                                                 self.brightness_compensation[i])),
+                                        fadetime)
+                self.current_color[i] = color[i]
 
     def disable(self):
         """Disables (turns off) this LED."""

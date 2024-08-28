@@ -384,7 +384,7 @@ class LEDshow(object):
         i = {}
         i['dest_color'] = colorwithfade[0]
         i['fadestart'] = self.game.LEDs.current_time
-        i['fadeend'] = ((int(colorwithfade[1]) * secs_per_tock) +
+        i['fadeend'] = ((int(float(colorwithfade[1])) * secs_per_tock) +
                         self.game.LEDs.current_time)
         return i
         # todo check to make sure we received a list?
