@@ -84,7 +84,7 @@ class LED(GameItem):
         self.change_color(color)
 
     def change_color(self, color):
-        for i in range(0, 3):
+        for i in range(0, len(self.addrs)):
             new_color = self.normalize_color(color[i])
             self.board.write_color(self.addrs[i], new_color)
 
