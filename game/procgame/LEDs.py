@@ -284,7 +284,7 @@ class LEDshow(object):
 
             # create a dictionary of the current actions
             for LEDname, color in (self.LEDshow_actions[self.current_location]
-                                   ['LEDs'].iteritems()):
+                                   ['LEDs'].items()):
 
                 # convert colorwithfade (like 111111-f2) into dictionary of:
                 # color:
@@ -909,7 +909,7 @@ class LEDcontroller(object):
         # If this LED was last touched by something with a higher priority
         # than the priority we're restoring below, then we can end here
 
-        if self.LED_priorities[LEDname] > priority:
+        if self.LED_priorities.get(LEDname, 0) > priority:
             return
 
         # If there are any pending updates, these can jack up what we're trying
@@ -1200,7 +1200,7 @@ class LEDcontroller(object):
         for item in current_list:
             # Only perform the update if the priority is higher than whatever
             # touched that LED last.
-            if item['priority'] >= self.LED_priorities.get(item['LEDname']):
+            if item['priority'] >= self.LED_priorities.get(item['LEDname'],0):
 
                 # Now we're doing the actual update. First set our color:
 
@@ -1287,7 +1287,7 @@ class LEDcontroller(object):
         if not inputstring:
             inputstring = "000000"
         inputstring = str(inputstring).zfill(6)
-        for i in xrange(0, len(inputstring), 2):  # step through every 2 chars
+        for i in range(0, len(inputstring), 2):  # step through every 2 chars
             output.append(int(inputstring[i:i+2], 16))
             # convert from base 16 (hex) to int
         return output
