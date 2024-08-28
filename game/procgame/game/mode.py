@@ -140,7 +140,7 @@ class Mode(object):
         return self.__class__.__name__
 
     def delay(self, name=None, event_type=None, delay=0, handler=None, param=None):
-        print (f"Delay function called.  Name: {name}, Handler: {str(handler)}, Delay Time: {str(delay)}")
+        #self.game.logger.debug(f"Delay function called.  Name: {name}, Handler: {str(handler)}, Delay Time: {str(delay)}")
         """Schedule the run loop to call the given handler at a later time.
 
         Keyword arguments:
@@ -181,7 +181,10 @@ class Mode(object):
         self.__delayed.append(
             Mode.Delayed(name=name, time=time.time() + delay, handler=handler, event_type=event_type, param=param))
         try:
-            print (f"self.__delayed Info: {self.__delayed}")
+            # print (f"self.__delayed Info: {self.__delayed}")
+            #for x in self.__delayed:
+                #print (time.time())
+                #print(x)
             self.__delayed.sort(key=lambda sx: int(sx.time * 100))
         except TypeError as ex:
             # Debugging code:
@@ -250,17 +253,19 @@ class Mode(object):
 
     def dispatch_delayed(self):
         """Called by the GameController to dispatch any delayed events."""
-        print (f"Delay Dispatch called.")
+        #self.game.logger.debug(f"Dispatching delayed events in {self}")
         t = time.time()
         for item in self.__delayed:
+            #self.game.logger.debug(f"Dispatching Item, Now Time: {t}, Item Time: {item.time}, Handler: {str(item.handler)}")
             if item.time <= t:
                 handler = item.handler
                 if item.param is not None:
                     handler(item.param)
                 else:
-                    print (f"Delay Dispatch Handler called. Handler: {str(handler)}")
+                    #self.game.logger.debug(f"Delay Dispatch Handler called. Handler: {str(handler)}")
                     handler()
-        self.__delayed = filter(lambda x: x.time > t, self.__delayed)
+        # self.__delayed = filter(lambda x: x.time > t, self.__delayed)
+        self.__delayed = list(filter(lambda x: x.time > t, self.__delayed))
 
     def is_started(self):
         """Returns ``True`` if this mode is on the mode queue (:meth:`mode_started` has already been called)."""
