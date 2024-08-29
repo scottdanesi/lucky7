@@ -1562,6 +1562,8 @@ class LEDcontroller(object):
                                      'color': color})
 
     def disable(self, LEDname, priority=0, clear_all=True):
+
+        self.logger.debug(f"LED Disable Called.  LED Name: {LEDname}, Priority: {priority}, Clear All: {clear_all}")
         """Command to disable an LED
 
         Parameters:
