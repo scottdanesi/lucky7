@@ -8,8 +8,12 @@
 ################################################################################################
 __all__ = [
     'L7AttractMode',
-    'ScoreDisplaysMode'
+    'ScoreDisplaysMode',
+    'UtilitiesMode',
+    'ServiceMode'
 ]
 
 from .attract import *
 from .score_displays import *
+from .utilities import *
+from .service_mode import *
