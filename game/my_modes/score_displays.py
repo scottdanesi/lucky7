@@ -17,14 +17,14 @@ COLOR_WHITE = "FFFFFF"
 COLOR_BLACK = "000000"
 
 class ScoreDisplaysMode(procgame.game.Mode):
-    def __init__(self, game):
-        super(ScoreDisplaysMode, self).__init__(game=game, priority=2) # 2 is higher than BGM
+    def __init__(self, game, priority):
+        super(ScoreDisplaysMode, self).__init__(game=game, priority=priority) # 2 is higher than BGM
 
         # Global Variables
-        self.enableScript = self.create_script(COLOR_WHITE, 100)
-        self.disableScript = self.create_script(COLOR_BLACK, 100)
-        self.testScript = self.create_script(COLOR_WHITE, 1000) + self.create_script(COLOR_BLACK, 1000)
-        self.animationScript = []  # This will be built in the function below
+        #self.enableScript = self.create_script(COLOR_WHITE, 100)
+        #self.disableScript = self.create_script(COLOR_BLACK, 100)
+        #self.testScript = self.create_script(COLOR_WHITE, 1000) + self.create_script(COLOR_BLACK, 1000)
+        #self.animationScript = []  # This will be built in the function below
 
         # Player 1 Segment List
         self.player1SegmentList = [
@@ -51,57 +51,87 @@ class ScoreDisplaysMode(procgame.game.Mode):
             "6": ["A", "C", "D", "E", "F", "G"],
             "7": ["A", "B", "C"],
             "8": ["A", "B", "C", "D", "E", "F", "G"],
-            "9": ["A", "B", "C", "D", "F", "G"]
+            "9": ["A", "B", "C", "D", "F", "G"],
+            "A": ["A", "B", "C", "E", "F", "G"],
+            "B": ["C", "D", "E", "F", "G"],
+            "C": ["A", "D", "E", "F"],
+            "D": ["B", "C", "D", "E", "G"],
+            "E": ["A", "D", "E", "F", "G"],
+            "F": ["A", "E", "F", "G"],
+            "G": ["A", "B", "C", "D", "F", "G"],
+            "H": ["B", "C", "E", "F", "G"],
+            "I": ["B", "C"],
+            "J": ["B", "C", "D", "E"],
+            "K": ["B", "C", "G"],
+            "L": ["D", "E", "F"],
+            "M": ["A", "B", "C", "E", "F"],
+            "N": ["C", "E", "G"],
+            "O": ["A", "B", "C", "D", "E", "F"],
+            "P": ["A", "B", "E", "F", "G"],
+            "Q": ["A", "B", "D", "E", "F"],
+            "R": ["E", "G"],
+            "S": ["A", "C", "D", "F", "G"],
+            "T": ["A", "E", "F"],
+            "U": ["C", "D", "E"],
+            "V": ["C", "D", "E"],
+            "W": ["B", "C", "D", "E", "F"],
+            "X": ["B", "C", "E", "F"],
+            "Y": ["B", "E", "F", "G"],
+            "Z": ["A", "B", "D", "E", "G"],
+            "-": ["G"],
+            "_": ["D"],
+            "!": ["B", "C", "DP"],
+            ".": ["DP"],
+            "0.": ["A", "B", "C", "D", "E", "F", "DP"],
+            "1.": ["B", "C", "DP"],
+            "2.": ["A", "B", "D", "E", "G", "DP"],
+            "3.": ["A", "B", "C", "D", "G", "DP"],
+            "4.": ["B", "C", "F", "G", "DP"],
+            "5.": ["A", "C", "D", "F", "G", "DP"],
+            "6.": ["A", "C", "D", "E", "F", "G", "DP"],
+            "7.": ["A", "B", "C", "DP"],
+            "8.": ["A", "B", "C", "D", "E", "F", "G", "DP"],
+            "9.": ["A", "B", "C", "D", "F", "G", "DP"],
+            "A.": ["A", "B", "C", "E", "F", "G", "DP"],
+            "B.": ["C", "D", "E", "F", "G", "DP"],
+            "C.": ["A", "D", "E", "F", "DP"],
+            "D.": ["B", "C", "D", "E", "G", "DP"],
+            "E.": ["A", "D", "E", "F", "G", "DP"],
+            "F.": ["A", "E", "F", "G", "DP"],
+            "G.": ["A", "B", "C", "D", "F", "G", "DP"],
+            "H.": ["B", "C", "E", "F", "G", "DP"],
+            "I.": ["B", "C", "DP"],
+            "J.": ["B", "C", "D", "E", "DP"],
+            "K.": ["B", "C", "G", "DP"],
+            "L.": ["D", "E", "F", "DP"],
+            "M.": ["A", "B", "C", "E", "F", "DP"],
+            "N.": ["C", "E", "G", "DP"],
+            "O.": ["A", "B", "C", "D", "E", "F", "DP"],
+            "P.": ["A", "B", "E", "F", "G", "DP"],
+            "Q.": ["A", "B", "D", "E", "F", "DP"],
+            "R.": ["E", "G", "DP"],
+            "S.": ["A", "C", "D", "F", "G", "DP"],
+            "T.": ["A", "E", "F", "DP"],
+            "U.": ["C", "D", "E", "DP"],
+            "V.": ["C", "D", "E", "DP"],
+            "W.": ["B", "C", "D", "E", "F", "DP"],
+            "X.": ["B", "C", "E", "F", "DP"],
+            "Y.": ["B", "E", "F", "G", "DP"],
+            "Z.": ["A", "B", "D", "E", "G", "DP"],
+            "-.": ["G", "DP"],
+            "_.": ["D", "DP"],
         }
 
-    def create_script(self, color, time, fade=True):
-        return [{'color': color, 'time': time, 'fade': fade}]
-
     def mode_started(self):
-        self.disableDisplay(1)
-        self.disableDisplay(2)
+        self.game.utilities_mode.disableAllLEDs("NumericDisplay")
+        self.displayVersionInfo()
 
     def mode_stopped(self):
         pass
 
-    def updatePlayerDisplay(self, displayNum=1, value=0):
-        # Ensure value is positive and within the range for display
-        if value < 0:
-            self.startAnimationScript(displayNum=displayNum)
-            return
-
-        # Convert value to a string, pad with leading zeros if necessary
-        str_value = str(value).zfill(3)
-
-        # Check for leading zeros and disable the display if necessary
-        if str_value[0] == "0":
-            self.sendValueToDisplay(displayNum=str(displayNum), digitNum="1", displayDigit=" ", displayDP=False)  # Disable first digit
-            if str_value[1] == "0":
-                self.sendValueToDisplay(displayNum=str(displayNum), digitNum="2", displayDigit=" ", displayDP=False)  # Disable second digit
-                self.sendValueToDisplay(displayNum=str(displayNum), digitNum="3", displayDigit=str_value[2])  # Show only third digit
-            else:
-                self.sendValueToDisplay(displayNum=str(displayNum), digitNum="2", displayDigit=str_value[1])  # Show second digit
-                self.sendValueToDisplay(displayNum=str(displayNum), digitNum="3", displayDigit=str_value[2])  # Show third digit
-        else:
-            # No leading zeros, display all digits
-            self.sendValueToDisplay(displayNum=str(displayNum), digitNum="1", displayDigit=str_value[0])
-            self.sendValueToDisplay(displayNum=str(displayNum), digitNum="2", displayDigit=str_value[1])
-            self.sendValueToDisplay(displayNum=str(displayNum), digitNum="3", displayDigit=str_value[2])
-
-    def startAnimationScript(self, displayNum=1):
-        self.animationSpeed = 100
-        self.disableDisplay(displayNum)
-
-        segmentList = self.player1SegmentList if displayNum == 1 else self.player2SegmentList
-
-        for i in range(24):
-            self.animationScript = [
-                {'color': COLOR_BLACK, 'time': self.animationSpeed * i, 'fade': True},
-                {'color': COLOR_WHITE, 'time': self.animationSpeed, 'fade': True},
-                {'color': COLOR_BLACK, 'time': self.animationSpeed * 4, 'fade': True},
-                {'color': COLOR_BLACK, 'time': self.animationSpeed * (23 - i), 'fade': True}
-            ]
-            self.game.LEDs.run_script(segmentList[i], self.animationScript)
+    def displayVersionInfo(self):
+        self.updatePlayerDisplay(1,self.game.versionMajor)
+        self.updatePlayerDisplay(2,self.game.versionMinor)
 
     def disableDisplay(self, displayNum=1):
         segmentList = {
@@ -113,7 +143,33 @@ class ScoreDisplaysMode(procgame.game.Mode):
             self.game.LEDs.stop_script(ledName)
             self.game.LEDs.disable(ledName)
 
-    def sendValueToDisplay(self, displayNum="1", digitNum="1", displayDigit="0", displayDP=False):
+    def updatePlayerDisplay(self, displayNum=1, value=""):
+        self.disableDisplay(displayNum)
+        # Convert value to a string and handle justification
+        str_value = str(value).upper()
+
+        if str_value.isdigit():
+            # Right justify if it's a numeric value, with spaces for leading zeros
+            str_value = str_value.rjust(3, " ")
+        else:
+            # Left justify if it contains any characters
+            str_value = str_value.ljust(3)
+
+        # Handle up to 3 characters, accounting for any decimal point
+        digit_num = 1
+        i = 0
+        while i < len(str_value) and digit_num <= 3:
+            displayDigit = str_value[i]
+            next_char = str_value[i+1] if i + 1 < len(str_value) else ""
+            if next_char == ".":
+                displayDigit += "."
+                i += 1  # Skip the decimal point character in the loop
+
+            self.sendValueToDisplay(displayNum=str(displayNum), digitNum=str(digit_num), displayDigit=displayDigit)
+            digit_num += 1
+            i += 1
+
+    def sendValueToDisplay(self, displayNum="1", digitNum="1", displayDigit="0"):
         prefix = f"Player{displayNum}_{digitNum}"
         segments = self.segment_map.get(displayDigit, [])
 
@@ -124,8 +180,8 @@ class ScoreDisplaysMode(procgame.game.Mode):
             else:
                 self.game.LEDs.disable(f"{prefix}{segment}")
 
-        # Handle the decimal point
-        if displayDP:
+        # Handle the decimal point (DP)
+        if "DP" in segments:
             self.game.LEDs.enable(f"{prefix}DP", color=COLOR_WHITE)
         else:
             self.game.LEDs.disable(f"{prefix}DP")
