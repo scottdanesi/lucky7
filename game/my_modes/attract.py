@@ -119,12 +119,13 @@ class L7AttractMode(procgame.game.Mode):
     def mode_started(self):
         self.game.logger.debug("L7 Attract mode started")
         self.set_items(self.game.leds)
-        self.disableAllLEDs()
+        self.game.utilities_mode.disableAllLEDs("Backglass")
         self.defineLightshows()
         self.startLightshow1()
 
     def mode_stopped(self):
         self.game.logger.debug("L7 Attract mode stopped")
+        self.game.utilities_mode.disableAllLEDs("Backglass")
         #self.cancel_delayed('next_led')
         # do cleanup of the mode here.
 
@@ -147,8 +148,9 @@ class L7AttractMode(procgame.game.Mode):
         # Will move this to utilities mode later on
         for led in self.items:
             # print(f"DISABLING LED: {str(led.name)}")
-            # self.game.LEDs.stop_script(led.name)
-            self.game.LEDs.disable(led.name)
+            self.game.LEDs.stop_script(led.name)
+            # Disable by setting all LEDs to 000000, since these are most likely stuck on by default upon boot up.
+            self.game.LEDs.enable(led.name,color="000000")
 
     def set_items(self, item_list):
         if(len(item_list)>0):
