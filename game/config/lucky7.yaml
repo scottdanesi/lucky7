@@ -25,20 +25,270 @@ PRSwitches:
     #
     #   <type> can be: 'NO' (normally open.  This is the default; so no need to use this)
     #                  'NC' (normally closed.  Common for optos)?
-    nudgeLeft:
-        number: SD10 #Address:0 Bank:B Switch:2
-        tags: ballsearchStop,totalAnnihilationIgnored
-    nudgeRight:
-        number: SD12 #Address:0 Bank:B Switch:0
-        tags: ballsearchStop,totalAnnihilationIgnored
+    #nudgeLeft:
+    #    number: SD1110 #Address:0 Bank:B Switch:2
+    #    tags: ballsearchStop,totalAnnihilationIgnored
+    #nudgeRight:
+    #    number: SD1112 #Address:0 Bank:B Switch:0
+    #    tags: ballsearchStop,totalAnnihilationIgnored
     exit:
-        number: SD7
+        number: SD45
     down:
-        number: SD6
+        number: SD44
     up:
-        number: SD5
+        number: SD46
     enter:
+        number: SD47
+    SD1:
+        number: SD1
+    SD2:
+        number: SD2
+    SD3:
+        number: SD3
+    SD4:
         number: SD4
+    SD5:
+        number: SD5
+    SD6:
+        number: SD6
+    SD7:
+        number: SD7
+    SD8:
+        number: SD8
+    SD9:
+        number: SD9
+    SD10:
+        number: SD10
+    SD11:
+        number: SD11
+    SD12:
+        number: SD12
+    SD13:
+        number: SD13
+    SD14:
+        number: SD14
+    SD15:
+        number: SD15
+    SD16:
+        number: SD16
+    SD17:
+        number: SD17
+    SD18:
+        number: SD18
+    SD19:
+        number: SD19
+    SD20:
+        number: SD20
+    SD21:
+        number: SD21
+    SD22:
+        number: SD22
+    SD23:
+        number: SD23
+    SD24:
+        number: SD24
+    SD25:
+        number: SD25
+        tags: Opto
+        type: NO
+    SD26:
+        number: SD26
+    SD27:
+        number: SD27
+    SD28:
+        number: SD28
+    SD29:
+        number: SD29
+    SD30:
+        number: SD30
+    SD31:
+        number: SD31
+    SD32:
+        number: SD32
+    SD33:
+        number: SD33
+    SD34:
+        number: SD34
+    SD35:
+        number: SD35
+    SD36:
+        number: SD36
+    SD37:
+        number: SD37
+    SD38:
+        number: SD38
+    SD39:
+        number: SD39
+    SD40:
+        number: SD40
+    SD41:
+        number: SD41
+    SD42:
+        number: SD42
+    SD43:
+        number: SD43
+    SD48:
+        number: SD48
+    SD49:
+        number: SD49
+    SD50:
+        number: SD50
+    SD51:
+        number: SD51
+    SD52:
+        number: SD52
+    SD53:
+        number: SD53
+    SD54:
+        number: SD54
+    SD55:
+        number: SD55
+    SD56:
+        number: SD56
+    SD57:
+        number: SD57
+    SD58:
+        number: SD58
+    SD59:
+        number: SD59
+    SD60:
+        number: SD60
+    SD61:
+        number: SD61
+    SD62:
+        number: SD62
+    SD63:
+        number: SD63
+    SD64:
+        number: SD64
+    SD65:
+        number: SD65
+    SD66:
+        number: SD66
+    SD67:
+        number: SD67
+    SD68:
+        number: SD68
+    SD69:
+        number: SD69
+    SD70:
+        number: SD70
+    SD71:
+        number: SD71
+    SD72:
+        number: SD72
+    SD73:
+        number: SD73
+    SD74:
+        number: SD74
+    SD75:
+        number: SD75
+    SD76:
+        number: SD76
+    SD77:
+        number: SD77
+    SD78:
+        number: SD78
+    SD79:
+        number: SD79
+    SD80:
+        number: SD80
+    SD81:
+        number: SD81
+    SD82:
+        number: SD82
+    SD83:
+        number: SD83
+    SD84:
+        number: SD84
+    SD85:
+        number: SD85
+    SD86:
+        number: SD86
+    SD87:
+        number: SD87
+    SD88:
+        number: SD88
+    SD89:
+        number: SD89
+    SD90:
+        number: SD90
+    SD91:
+        number: SD91
+    SD92:
+        number: SD92
+    SD93:
+        number: SD93
+    SD94:
+        number: SD94
+    SD95:
+        number: SD95
+    SD96:
+        number: SD96
+    SD97:
+        number: SD97
+    SD98:
+        number: SD98
+    SD99:
+        number: SD99
+    SD100:
+        number: SD100
+    SD101:
+        number: SD101
+    SD102:
+        number: SD102
+    SD103:
+        number: SD103
+    SD104:
+        number: SD104
+    SD105:
+        number: SD105
+    SD106:
+        number: SD106
+    SD107:
+        number: SD107
+    SD108:
+        number: SD108
+    SD109:
+        number: SD109
+    SD110:
+        number: SD110
+    SD111:
+        number: SD111
+    SD112:
+        number: SD112
+    SD113:
+        number: SD113
+    SD114:
+        number: SD114
+    SD115:
+        number: SD115
+    SD116:
+        number: SD116
+    SD117:
+        number: SD117
+    SD118:
+        number: SD118
+    SD119:
+        number: SD119
+    SD120:
+        number: SD120
+    SD121:
+        number: SD121
+    SD122:
+        number: SD122
+    SD123:
+        number: SD123
+    SD124:
+        number: SD124
+    SD125:
+        number: SD125
+    SD126:
+        number: SD126
+    SD127:
+        number: SD127
+    SD128:
+        number: SD128
 PRCoils:
     #############################################################################
     # Coil numbering format: Ax-By-z:
