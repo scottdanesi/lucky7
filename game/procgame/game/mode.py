@@ -199,7 +199,7 @@ class Mode(object):
             for n in name:
                 self.cancel_delayed(n)
         else:
-            self.__delayed = filter(lambda x: x.name != name, self.__delayed)
+            self.__delayed = list(filter(lambda x: x.name != name, self.__delayed))
 
     def handle_event(self, event):
         # We want to turn this event into a function call.
@@ -210,7 +210,7 @@ class Mode(object):
         # Remove all items that are for this switch (sw_name) but for a different state (type).
         # Put another way, keep delayed items pertaining to other switches, plus delayed items
         # pertaining to this switch for another state.
-        self.__delayed = filter(lambda x: not (sw_name == x.name and x.event_type != event['type']), self.__delayed)
+        self.__delayed = list(filter(lambda x: not (sw_name == x.name and x.event_type != event['type']), self.__delayed))
 
         filt = lambda accepted: (accepted.event_type == event['type']) and (accepted.name == sw_name)
         for accepted in filter(filt, self.__accepted_switches):
