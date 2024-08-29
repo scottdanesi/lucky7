@@ -34,4 +34,10 @@ class UtilitiesMode(procgame.game.Mode):
                 # Remove from the internal queue list
                 self.game.LEDs.disable(led.name)
 
+    def disableAllCoils(self, tagFilter=None):
+        # This function will stop and disable ALL Coils in the system.
+        # use the tagFilter to only disable Coils with a specific tag in the YAML definition file.
+        for coil in self.game.coils:
+            if tagFilter is None or tagFilter in coil.tags:
+                self.game.coils[coil.name].disable()
 

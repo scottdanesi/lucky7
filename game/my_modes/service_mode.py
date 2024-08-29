@@ -31,6 +31,13 @@ class ServiceMode(procgame.game.Mode):
         self.displayTestSpeedS = 0.25
         self.displayTestStage = 2 # Start on Stage 2 of Display Test
 
+        ## Coil Test Variables #########################################################################################
+        self.currentCoilIndex = 0
+        self.coilTestDelay = 1
+        self.coils = []
+        for coil in self.game.coils:
+            self.coils.append(coil)
+
         ## Global Switch Handler Definitions ###########################################################################
         for sw in self.game.switches:
             self.add_switch_handler(name=sw.name, event_type="active", delay=None, handler=self.switchTestActiveHandler)
@@ -51,6 +58,7 @@ class ServiceMode(procgame.game.Mode):
 
         self.game.utilities_mode.disableAllLEDs("Backglass")
         self.cancel_delayed('displayTestDelay')
+        self.cancel_delayed('coilTestDelay')
         match self.menuList[self.currentMenu]:
             case 'VER':
                 ########################################################################################################
@@ -81,6 +89,10 @@ class ServiceMode(procgame.game.Mode):
                 ########################################################################################################
                 self.game.score_display_mode.updatePlayerDisplay(1,"SOL")
                 self.game.score_display_mode.updatePlayerDisplay(2,"---")
+                # Reset Variable
+                self.currentCoilIndex = 0
+                # Kick off the coil test loop with a delay...
+                self.delay(name='coilTestDelay', delay=self.coilTestDelay, handler=self.coilTestLoop)
             case 'DSP':
                 ########################################################################################################
                 ## Display Test
@@ -107,6 +119,7 @@ class ServiceMode(procgame.game.Mode):
     def deactivateServiceMode(self):
         self.serviceModeActive = False
         self.cancel_delayed('displayTestDelay')
+        self.cancel_delayed('coilTestDelay')
         self.currentMenu = 0
         self.previousMenu = 1
         self.game.reset()
@@ -162,6 +175,24 @@ class ServiceMode(procgame.game.Mode):
                 self.displayTestStage = 1
 
         self.delay(name='displayTestDelay', delay=self.displayTestSpeedS, handler=self.displayTestLoop)
+
+    def coilTestLoop(self):
+        if not self.serviceModeActive:
+            self.game.logger.debug(f"Coil Test Loop attempted to run when service mode was not active...")
+            return 0
+
+        self.game.utilities_mode.disableAllCoils()
+
+        self.game.score_display_mode.updatePlayerDisplay(1,"SOL")
+        self.game.score_display_mode.updatePlayerDisplay(2,self.coils[self.currentCoilIndex].name)
+        self.coils[self.currentCoilIndex].pulse()
+
+        if self.currentCoilIndex < len(self.coils) - 1:
+            self.currentCoilIndex += 1
+        else:
+            self.currentCoilIndex = 0
+
+        self.delay(name='coilTestDelay', delay=self.coilTestDelay, handler=self.coilTestLoop)
 
     def switchTestActiveHandler(self,sw):
         if self.menuList[self.currentMenu] != 'SW':
