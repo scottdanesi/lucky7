@@ -3,3 +3,8 @@
 SyncL7Here.bat
 SyncL7Here.py
 *.zip
+*.txt
+game/config/game_data.yaml
+game/config/game_data.yaml.bak
+game/config/settings.yaml
+game/config/settings.yaml.bak
