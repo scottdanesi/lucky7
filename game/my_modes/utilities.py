@@ -31,6 +31,8 @@ class UtilitiesMode(procgame.game.Mode):
     ####################################################################################################################
     ## LED UTILITIES
     ####################################################################################################################
+    ## self.game.utilities_mode.disableAllLEDs(tagFilter=None)
+
     def disableAllLEDs(self, tagFilter=None):
         # This function will stop and disable ALL LEDs in the system and clear the entire queue.
         # use the tagFilter to only disable LEDs with a specific tag in the YAML definition file.
@@ -42,6 +44,11 @@ class UtilitiesMode(procgame.game.Mode):
                 # Remove from the internal queue list
                 self.game.LEDs.disable(led.name)
 
+    ####################################################################################################################
+    ## COIL UTILITIES
+    ####################################################################################################################
+    ## self.game.utilities_mode.disableAllCoils(tagFilter=None)
+
     def disableAllCoils(self, tagFilter=None):
         # This function will stop and disable ALL Coils in the system.
         # use the tagFilter to only disable Coils with a specific tag in the YAML definition file.
@@ -52,6 +59,12 @@ class UtilitiesMode(procgame.game.Mode):
     ####################################################################################################################
     ## BALL RETURN LED UTILITIES
     ####################################################################################################################
+    ## self.game.utilities_mode.flashBallReturnLEDs(flashTimeS=0.100,r=255,g=255,b=255)
+    ## self.game.utilities_mode.disableBallReturnLEDs()
+    ## self.game.utilities_mode.disableStrobe()
+    ## self.game.utilities_mode.strobeBallReturnLEDs(r,g,b,pulseGapS,pulsetimeS,strobeOverExisting=False,strobeTimeS=0)
+    ## self.game.utilities_mode.pulseAndFadeBallReturnLEDs(r=255,g=0,b=255,pulse_ms=100,fade_ms=800,step_size_ms=30.0,refreshAfter=False)
+    ## self.game.utilities_mode.setBallReturnLED(r=0,g=0,b=0,pulsetime=0)
 
     def flashBallReturnLEDs(self,flashTimeS=0.100,r=255,g=255,b=255):
         self.setBallReturnLED(r=r,g=g,b=b)
