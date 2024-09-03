@@ -11,7 +11,7 @@ import logging
 
 from my_modes import *
 
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 
 class Lucky7Game(game.BasicGame):
     def __init__(self):
@@ -21,15 +21,22 @@ class Lucky7Game(game.BasicGame):
         self.versionMinor = "r.04"
         self.logger = logging.getLogger('game.core')
         self.load_config('config/lucky7.yaml')
+        self.settings_path = "config/settings.yaml"
+        self.game_data_path = "config/game_data.yaml"
+        self.game_data_template_path = "config/game_data_template.yaml"
+        self.settings_template_path = "config/settings_template.yaml"
 
         self.sound = procgame.sound.SoundController(self)
         self.setup()
-        #self.reset()
         #self.sound.play_music('music1', loops=-1)
         #self.sound.play('sound1')
         self.logger.info("Game Initialized")
 
     def setup(self):
+        #### Load Settings and Game Data ####
+        self.load_settings(self.settings_template_path, self.settings_path)
+        self.load_game_data(self.game_data_template_path, self.game_data_path)
+
         # System Mode definitions
         self.utilities_mode = UtilitiesMode(game=self,priority=0)
         self.service_mode = ServiceMode(game=self,priority=1)
@@ -43,6 +50,12 @@ class Lucky7Game(game.BasicGame):
         self.modes.add(self.service_mode)
         self.modes.add(self.score_display_mode)
 
+        #### Update Game Startup Stats ####
+        self.game_data['Audits']['Machine Startups'] += 1
+
+        # Save the game data file
+        self.save_game_data()
+
         self.reset()
 
 
@@ -50,6 +63,10 @@ class Lucky7Game(game.BasicGame):
         #self.sound.register_music('music1', 'assets/music/mainplay.wav')
 
     def reset(self):
+        #### Settings and Game Data ####
+        self.load_settings(self.settings_template_path, self.settings_path)
+        self.load_game_data(self.game_data_template_path, self.game_data_path)
+
         # Let's disable all the LEDs and set them to an off state upon startup.
         for led in self.leds:
             self.LEDs.disable(led.name)
@@ -67,7 +84,12 @@ class Lucky7Game(game.BasicGame):
         # Ensure that modes tick correctly
         # self.modes.tick()
 
+    def save_settings(self):
+        super(Lucky7Game, self).save_settings(self.settings_path)
+
+    def save_game_data(self):
+        super(Lucky7Game, self).save_game_data(self.game_data_path)
+
 if __name__ == '__main__':
-    print("////////////////////////////// Lucky 7 Starting ///////////////////////////////")
     game = Lucky7Game()
     game.run_loop()

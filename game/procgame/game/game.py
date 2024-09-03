@@ -2,6 +2,8 @@ import copy
 import logging
 import os
 import time
+from shutil import copyfile
+
 from .pdb import PDBConfig, LED
 
 import pinproc
@@ -392,11 +394,33 @@ class GameController(object):
                         self.user_settings[section][item] = self.settings[section][item]['options'][0]
 
     def save_settings(self, filename):
+        self.logger.info("Settings saved to " + str(filename))
         """Writes the game settings to *filename*.  See :meth:`load_settings`."""
         if os.path.exists(filename):
-            os.remove(filename)
-        stream = file(filename, 'w')
-        yaml.dump(self.user_settings, stream)
+            if os.path.exists(filename + '.bak'):
+                os.remove(filename + '.bak')
+            try:
+                os.rename(filename, filename + '.bak')
+            except:
+                pass
+
+        try:
+            if os.path.exists(filename):
+                os.remove(filename)
+
+            with open(filename, 'w') as stream:
+                yaml.dump(self.user_settings, stream)
+                stream.flush()
+                os.fdatasync(stream.fileno())  # Corrected os.fdatasync call
+
+            # Create backup File if data is good
+            if os.path.getsize(filename) > 0:
+                if os.path.exists(filename + '.bak'):
+                    os.remove(filename + '.bak')
+                copyfile(filename, filename + '.bak')
+
+        except Exception as e:
+            self.logger.error("CANNOT SAVE SETTINGS FILE:" + str(filename) + " - " + str(e))
 
     def load_game_data(self, template_filename, user_filename):
         """Loads the YAML game data configuration file.  This file contains
@@ -412,16 +436,37 @@ class GameController(object):
             self.game_data = yaml.load(open(user_filename, 'r'), Loader=yaml.FullLoader)
 
         if template:
-            for key, value in template.iteritems():
+            for key, value in template.items():
                 if key not in self.game_data:
                     self.game_data[key] = copy.deepcopy(value)
 
     def save_game_data(self, filename):
         """Writes the game data to *filename*.  See :meth:`load_game_data`."""
         if os.path.exists(filename):
-            os.remove(filename)
-        stream = file(filename, 'w')
-        yaml.dump(self.game_data, stream)
+            if os.path.exists(filename + '.bak'):
+                os.remove(filename + '.bak')
+            try:
+                os.rename(filename, filename + '.bak')
+            except:
+                pass
+
+        try:
+            if os.path.exists(filename):
+                os.remove(filename)
+
+            with open(filename, 'w') as stream:
+                yaml.dump(self.game_data, stream)
+                stream.flush()
+                os.fdatasync(stream)
+
+            # Create backup File if data is good
+            if os.path.getsize(filename) > 0:
+                if os.path.exists(filename + '.bak'):
+                    os.remove(filename + '.bak')
+                copyfile(filename, filename + '.bak')
+
+        except Exception as e:
+            self.logger.error("CANNOT SAVE GAME DATA FILE:" + str(filename) + " - " + str(e))
 
     def enable_flippers(self, enable):
         # return True
