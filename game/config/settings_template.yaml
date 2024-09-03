@@ -1,0 +1,10 @@
+# This file is a template for all of the settings used in the game.  The game code will
+# load this file along with a user_settings.yaml file.  Any settings not present in
+# the user_settings.yaml file will default to the default value specified here.  When
+# any setting is saved (via the in-game service menu), the user_settings.yaml file
+# will be updated with ALL of the entries here without overwriting existing settings.
+
+Standard:
+  'RUL':
+    options: ["A","B"]
+    default: "A"

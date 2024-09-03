@@ -1,0 +1,34 @@
+# This file is a template for all of the statistical data to be kept for the game.
+# The game code will load this file along with a game_data.yaml file.  
+# Any items not present in the game_data.yaml file will default to the 
+# value specified here.  When game ends or when defaults are restored, 
+# game_data will be written and will then contain every item here.
+
+Audits:
+  Games Played: 0
+  Games Started: 0
+  Machine Startups: 0
+ClassicHighScoreData:
+- {date: 'Sun Oct  3 17:38:46 2010', inits: ---, score: 80}
+- {date: 'Sun Oct  3 17:44:49 2010', inits: ---, score: 66}
+- {date: 'Sun Oct  3 16:22:47 2010', inits: ---, score: 55}
+- {date: 'Sun Oct  3 15:04:27 2010', inits: ---, score: 45}
+- {date: 'Sun Oct  3 22:05:01 2010', inits: ---, score: 30}
+LastGameScores:
+  LastPlayer1Score: 0
+  LastPlayer2Score: 0
+GrandChamp:
+  GrandChampScore: 80
+  GrandChampInits: ---
+HighScore1:
+  HighScore1Score: 66
+  HighScore1Inits: ---
+HighScore2:
+  HighScore2Score: 55
+  HighScore2Inits: ---
+HighScore3:
+  HighScore3Score: 45
+  HighScore3Inits: ---
+HighScore4:
+  HighScore4Score: 30
+  HighScore4Inits: ---
