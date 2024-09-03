@@ -38,8 +38,18 @@ class BaseMode(procgame.game.Mode):
 
         #self.start_ball()
 
-
+    def sw_startButton_active_for_2000ms(self, sw):
+        #Force Stop Game
+        self.logger.warning("FORCE STOPPING GAME")
+        #### Reset Game ####
+        self.game.reset()
 
     def sw_startButton_active(self, sw):
-        pass
+        if self.game.ball == 0:
+            #Start New Game
+            self.start_game()
+        elif self.game.ball == 1 and len(self.game.players) < 2:
+            #Add Player
+            self.game.add_player()
+            self.game.score_display_mode.updateScoreDisplays()
 

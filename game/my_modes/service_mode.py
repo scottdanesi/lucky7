@@ -20,6 +20,7 @@ class ServiceMode(procgame.game.Mode):
         self.menuList = ['VER','LED','SW','SOL','DSP','RUL']
         self.currentMenu = 0
         self.previousMenu = 1
+        # self.game.service_mode.serviceModeActive
         self.serviceModeActive = False
 
         ## LED Test Variables ##########################################################################################
@@ -63,7 +64,9 @@ class ServiceMode(procgame.game.Mode):
         self.logger.debug(f"Current Menu Index: {self.currentMenu}, Current Menu Length: {len(self.menuList)}")
         self.serviceModeActive = True
         #will need to stop all game modes too...
+        self.game.reset()
         self.game.modes.remove(self.game.attract_mode)
+
 
         self.processCurrentTest()
 
