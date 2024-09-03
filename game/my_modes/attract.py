@@ -9,10 +9,12 @@ import procgame.game
 import pygame
 from pygame.locals import *
 from pygame.font import *
+import logging
 
 class L7AttractMode(procgame.game.Mode):
     def __init__(self, game, priority):
         super(L7AttractMode, self).__init__(game=game, priority=priority)
+        self.logger = logging.getLogger('game.L7AttractMode')
         self.led = None
         self.previousLEDName = None
         self.test_sequence = []
@@ -23,6 +25,8 @@ class L7AttractMode(procgame.game.Mode):
         self.item = None
         self.current_index = 0  # Index to track current LED
         self.set_items(self.game.leds)
+        self.startButtonBlinkDelay = 500
+        self.startButtonLEDStatus = False
 
         ###############################################################################################################
         ## BIG 7 Lightshow Script
@@ -117,40 +121,24 @@ class L7AttractMode(procgame.game.Mode):
         }
 
     def mode_started(self):
-        self.game.logger.debug("L7 Attract mode started")
+        self.logger.debug("L7 Attract mode started")
         self.set_items(self.game.leds)
         self.game.utilities_mode.disableAllLEDs("Backglass")
-        self.defineLightshows()
         self.startLightshow1()
+        self.game.coils.StartButtonLED.schedule(schedule=0x0F0F0F0F, cycle_seconds=0, now=True)
+        self.game.utilities_mode.setBallReturnLED(r=255,g=0,b=0,pulsetime=0)
 
     def mode_stopped(self):
-        self.game.logger.debug("L7 Attract mode stopped")
+        self.logger.debug("L7 Attract mode stopped")
         self.game.utilities_mode.disableAllLEDs("Backglass")
-        #self.cancel_delayed('next_led')
-        # do cleanup of the mode here.
-
-    def defineLightshows(self):
-        pass
+        self.game.coils.StartButtonLED.disable()
+        self.game.utilities_mode.setBallReturnLED(r=0,g=0,b=0,pulsetime=0)
 
     def create_led_script(self, fade_time, pattern):
         script = []
         for color in pattern:
             script.append({'color': color, 'time': fade_time, 'fade': True})
         return script
-
-    def startTestLEDShow(self):
-        pass
-
-    def change_item(self):
-        self.change_led()
-
-    def disableAllLEDs(self):
-        # Will move this to utilities mode later on
-        for led in self.items:
-            # print(f"DISABLING LED: {str(led.name)}")
-            self.game.LEDs.stop_script(led.name)
-            # Disable by setting all LEDs to 000000, since these are most likely stuck on by default upon boot up.
-            self.game.LEDs.enable(led.name,color="000000")
 
     def set_items(self, item_list):
         if(len(item_list)>0):
@@ -221,32 +209,3 @@ class L7AttractMode(procgame.game.Mode):
         self.game.LEDs.run_script("YellowBonus10", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['G']))
         self.game.LEDs.run_script("YellowBonus20", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['H']))
         self.game.LEDs.run_script("YellowBonus50", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['I']))
-
-    def change_led(self):
-        if not self.items:
-            return  # If the list is empty, do nothing
-
-        self.item = self.items[self.current_index]
-        self.game.logger.debug("ATTRACT LED TRIGGERED: " + str(self.item.name))
-
-        if self.previousLEDName is not None:
-            #self.game.LEDs.stop_script(self.previousLEDName)
-            self.game.LEDs.disable(self.previousLEDName)
-            #self.game.LEDs.enable(self.item.name,color="FFFFFF",dest_color="000000",fade=150, blend=True)
-
-        #self.game.LEDs.run_script(self.item.name, self.test_sequence)
-        self.game.LEDs.enable(self.item.name,color="FFFFFF",fade=0, blend=True)
-        self.previousLEDName = self.item.name
-        self.led = self.item.name
-
-        # Increment the index and loop back if necessary
-        self.current_index = (self.current_index + 1) % len(self.items)
-
-        # Set up the next delay
-        self.delay(name='next_led', delay=.05, handler=self.change_led)
-
-    def tick(self):
-        super(L7AttractMode, self).tick()
-        # Ensure that modes tick correctly
-        # self.modes.tick()
-

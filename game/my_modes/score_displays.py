@@ -12,6 +12,7 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 from random import *
+import logging
 
 COLOR_WHITE = "FFFFFF"
 COLOR_BLACK = "000000"
@@ -19,12 +20,7 @@ COLOR_BLACK = "000000"
 class ScoreDisplaysMode(procgame.game.Mode):
     def __init__(self, game, priority):
         super(ScoreDisplaysMode, self).__init__(game=game, priority=priority) # 2 is higher than BGM
-
-        # Global Variables
-        #self.enableScript = self.create_script(COLOR_WHITE, 100)
-        #self.disableScript = self.create_script(COLOR_BLACK, 100)
-        #self.testScript = self.create_script(COLOR_WHITE, 1000) + self.create_script(COLOR_BLACK, 1000)
-        #self.animationScript = []  # This will be built in the function below
+        self.logger = logging.getLogger('game.ScoreDisplaysMode')
 
         # Player 1 Segment List
         self.player1SegmentList = [
@@ -124,10 +120,10 @@ class ScoreDisplaysMode(procgame.game.Mode):
 
     def mode_started(self):
         self.game.utilities_mode.disableAllLEDs("NumericDisplay")
-        self.displayVersionInfo()
 
     def mode_stopped(self):
-        pass
+        # This should never happen since this mode always runs, but just in case...
+        self.game.utilities_mode.disableAllLEDs("NumericDisplay")
 
     def displayVersionInfo(self):
         self.updatePlayerDisplay(1,self.game.versionMajor)
