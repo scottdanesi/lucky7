@@ -10,10 +10,12 @@ __all__ = [
     'L7AttractMode',
     'ScoreDisplaysMode',
     'UtilitiesMode',
-    'ServiceMode'
+    'ServiceMode',
+    'BaseMode'
 ]
 
 from .attract import *
 from .score_displays import *
 from .utilities import *
 from .service_mode import *
+from .base import *

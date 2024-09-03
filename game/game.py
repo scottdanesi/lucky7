@@ -43,6 +43,7 @@ class Lucky7Game(game.BasicGame):
         self.score_display_mode = ScoreDisplaysMode(game=self,priority=2)
 
         # Game Modes
+        self.base_mode = BaseMode(game=self,priority=4)
         self.attract_mode = L7AttractMode(game=self,priority=5)
 
         # Add System Level Modes
@@ -57,7 +58,6 @@ class Lucky7Game(game.BasicGame):
         self.save_game_data()
 
         self.reset()
-
 
         #self.sound.register_sound('sound1', 'assets/sfx/drain.wav')
         #self.sound.register_music('music1', 'assets/music/mainplay.wav')
@@ -74,9 +74,11 @@ class Lucky7Game(game.BasicGame):
         # Reset all global variables, remove all modes and add back in attract mode.
         # Remove Game Specific Modes
         self.modes.remove(self.attract_mode)
+        self.modes.remove(self.base_mode)
 
         # Add Attract Mode back in
         self.modes.add(self.attract_mode)
+        self.modes.add(self.base_mode)
 
 
     def tick(self):
