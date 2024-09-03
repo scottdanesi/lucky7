@@ -67,6 +67,9 @@ class Lucky7Game(game.BasicGame):
         self.load_settings(self.settings_template_path, self.settings_path)
         self.load_game_data(self.game_data_template_path, self.game_data_path)
 
+        # Let's make sure all coils are disabled
+        self.utilities_mode.disableAllCoils(tagFilter=None)
+
         # Let's disable all the LEDs and set them to an off state upon startup.
         for led in self.leds:
             self.LEDs.disable(led.name)
@@ -76,8 +79,7 @@ class Lucky7Game(game.BasicGame):
         self.modes.remove(self.attract_mode)
         self.modes.remove(self.base_mode)
 
-        # Add Attract Mode back in
-        self.modes.add(self.attract_mode)
+        # Add Base Mode back in
         self.modes.add(self.base_mode)
 
 
@@ -91,6 +93,15 @@ class Lucky7Game(game.BasicGame):
 
     def save_game_data(self):
         super(Lucky7Game, self).save_game_data(self.game_data_path)
+
+    def sw_startButton_active_for_2000ms(self, sw):
+        #########################
+        #Force Stop Game
+        #########################
+        self.logger.warning("FORCE STOPPING GAME")
+
+        #### Reset Game ####
+        self.reset()
 
 if __name__ == '__main__':
     game = Lucky7Game()

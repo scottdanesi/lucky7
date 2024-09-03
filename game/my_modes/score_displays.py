@@ -181,3 +181,20 @@ class ScoreDisplaysMode(procgame.game.Mode):
             self.game.LEDs.enable(f"{prefix}DP", color=COLOR_WHITE)
         else:
             self.game.LEDs.disable(f"{prefix}DP")
+
+    def updateScoreDisplays(self):
+        # self.game.score_display_mode.updateScoreDisplays()
+
+        currentNumPlayers = len(self.game.players)
+
+        if currentNumPlayers == 0:
+            # Game not in play, update displays
+            self.game.score_display_mode.updatePlayerDisplay(1, self.game.game_data['LastGameScores']['LastPlayer1Score'])
+            self.game.score_display_mode.updatePlayerDisplay(2, self.game.game_data['LastGameScores']['LastPlayer2Score'])
+
+        if currentNumPlayers > 0:
+            self.game.score_display_mode.updatePlayerDisplay(1, self.game.players[0].score)
+            self.game.score_display_mode.updatePlayerDisplay(2, "")
+
+        if (currentNumPlayers > 1):
+            self.game.score_display_mode.updatePlayerDisplay(2, self.game.players[1].score)

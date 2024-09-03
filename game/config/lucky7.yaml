@@ -87,7 +87,7 @@ PRSwitches:
         number: SD23
     SD24:
         number: SD24
-    RearHoleScore2:
+    rearHoleScore2:
         number: SD25
         tags: Opto
         type: NO
@@ -117,7 +117,7 @@ PRSwitches:
         number: SD37
     SD38:
         number: SD38
-    SD39:
+    startButton:
         number: SD39
     SD40:
         number: SD40

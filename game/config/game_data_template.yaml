@@ -15,8 +15,8 @@ ClassicHighScoreData:
 - {date: 'Sun Oct  3 15:04:27 2010', inits: ---, score: 45}
 - {date: 'Sun Oct  3 22:05:01 2010', inits: ---, score: 30}
 LastGameScores:
-  LastPlayer1Score: 0
-  LastPlayer2Score: 0
+  LastPlayer1Score: 123
+  LastPlayer2Score: 456
 GrandChamp:
   GrandChampScore: 80
   GrandChampInits: ---

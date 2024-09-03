@@ -127,6 +127,7 @@ class L7AttractMode(procgame.game.Mode):
         self.startLightshow1()
         self.game.coils.StartButtonLED.schedule(schedule=0x0F0F0F0F, cycle_seconds=0, now=True)
         self.game.utilities_mode.setBallReturnLED(r=255,g=0,b=0,pulsetime=0)
+        self.game.score_display_mode.updateScoreDisplays()
 
     def mode_stopped(self):
         self.logger.debug("L7 Attract mode stopped")
