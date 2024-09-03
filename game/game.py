@@ -32,6 +32,9 @@ class Lucky7Game(game.BasicGame):
         #self.sound.play('sound1')
         self.logger.info("Game Initialized")
 
+        # Global Game Variables
+        self.roll_number = 0
+
     def setup(self):
         #### Load Settings and Game Data ####
         self.load_settings(self.settings_template_path, self.settings_path)
@@ -64,6 +67,7 @@ class Lucky7Game(game.BasicGame):
 
     def reset(self):
         self.ball = 0
+        self.roll_number = 0
         self.old_players = []
         self.old_players = self.players[:]
         self.players = []

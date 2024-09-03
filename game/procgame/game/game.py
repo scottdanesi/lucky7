@@ -65,7 +65,7 @@ class GameController(object):
     """Start :class:`time.time` of the game program.  I.e., the time of power-up."""
     config = None
     """YAML game configuration loaded by :meth:`load_config`."""
-    balls_per_game = 3
+    balls_per_game = 6
     """Number of balls per game."""
     game_data = {}
     """Contains high score and audit information.  That is, transient information specific to one game installation."""
