@@ -10,25 +10,9 @@ Audits:
   Machine Startups: 0
 ClassicHighScoreData:
 - {date: 'Sun Oct  3 17:38:46 2010', inits: ---, score: 80}
-- {date: 'Sun Oct  3 17:44:49 2010', inits: ---, score: 66}
-- {date: 'Sun Oct  3 16:22:47 2010', inits: ---, score: 55}
-- {date: 'Sun Oct  3 15:04:27 2010', inits: ---, score: 45}
-- {date: 'Sun Oct  3 22:05:01 2010', inits: ---, score: 30}
 LastGameScores:
   LastPlayer1Score: 123
   LastPlayer2Score: 456
 GrandChamp:
   GrandChampScore: 80
   GrandChampInits: ---
-HighScore1:
-  HighScore1Score: 66
-  HighScore1Inits: ---
-HighScore2:
-  HighScore2Score: 55
-  HighScore2Inits: ---
-HighScore3:
-  HighScore3Score: 45
-  HighScore3Inits: ---
-HighScore4:
-  HighScore4Score: 30
-  HighScore4Inits: ---
