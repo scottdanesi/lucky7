@@ -28,6 +28,14 @@ class L7AttractMode(procgame.game.Mode):
         self.startButtonBlinkDelay = 500
         self.startButtonLEDStatus = False
 
+        ## Attract Mode Display Frame list
+        self.currentAttractDisplayFrame = 0
+        self.attractDisplayFrameTypeList = ['LS','GC']
+        # self.attractDisplayFrameTypeList = ['LS','GC','HS1','HS2','HS3','HS4'] # Backup for full HS Table
+        self.attractDisplayFrameDelayTimeList = [6,3]
+        self.attractDisplayFrameDisplay1 = ''
+        self.attractDisplayFrameDisplay2 = ''
+
         ###############################################################################################################
         ## BIG 7 Lightshow Script
         ###############################################################################################################
@@ -126,14 +134,20 @@ class L7AttractMode(procgame.game.Mode):
         self.game.utilities_mode.disableAllLEDs("Backglass")
         self.startLightshow1()
         self.game.coils.StartButtonLED.schedule(schedule=0x0F0F0F0F, cycle_seconds=0, now=True)
-        self.game.utilities_mode.setBallReturnLED(r=255,g=0,b=0,pulsetime=0)
-        self.game.score_display_mode.updateScoreDisplays()
+        # self.game.utilities_mode.setBallReturnLED(r=255,g=0,b=0,pulsetime=0)
+        self.game.coils.BallReturnRedLED.schedule(schedule=0xFF00FFFF, cycle_seconds=0, now=True)
+        self.game.coils.BallReturnGreenLED.schedule(schedule=0x0000FFFF, cycle_seconds=0, now=True)
+        self.game.coils.BallReturnBlueLED.schedule(schedule=0x00FF00FF, cycle_seconds=0, now=True)
+        # self.game.score_display_mode.updateScoreDisplays()
+        self.currentAttractDisplayFrame = 0
+        self.attractModeFrameAdvance()
 
     def mode_stopped(self):
         self.logger.debug("L7 Attract mode stopped")
         self.game.utilities_mode.disableAllLEDs("Backglass")
         self.game.coils.StartButtonLED.disable()
         self.game.utilities_mode.setBallReturnLED(r=0,g=0,b=0,pulsetime=0)
+        self.stopAttractModeFrameAdvance()
 
     def create_led_script(self, fade_time, pattern):
         script = []
@@ -185,6 +199,8 @@ class L7AttractMode(procgame.game.Mode):
         self.game.LEDs.run_script("Player1B", self.create_led_script(self.Player1Player2ScriptFade, self.Player1Player2Lightshows['A']))
         self.game.LEDs.run_script("Player2A", self.create_led_script(self.Player1Player2ScriptFade, self.Player1Player2Lightshows['B']))
         self.game.LEDs.run_script("Player2B", self.create_led_script(self.Player1Player2ScriptFade, self.Player1Player2Lightshows['B']))
+        self.game.LEDs.run_script("1stRoll", self.create_led_script(self.Player1Player2ScriptFade, self.Player1Player2Lightshows['B']))
+        self.game.LEDs.run_script("2ndRoll", self.create_led_script(self.Player1Player2ScriptFade, self.Player1Player2Lightshows['A']))
 
         self.game.LEDs.run_script("Frame1A", self.create_led_script(self.FrameNumberScriptFade, self.FrameNumbersLightshows['A']))
         self.game.LEDs.run_script("Frame1B", self.create_led_script(self.FrameNumberScriptFade, self.FrameNumbersLightshows['A']))
@@ -210,3 +226,90 @@ class L7AttractMode(procgame.game.Mode):
         self.game.LEDs.run_script("YellowBonus10", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['G']))
         self.game.LEDs.run_script("YellowBonus20", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['H']))
         self.game.LEDs.run_script("YellowBonus50", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['I']))
+
+        ## Enable Static Backbox Inserts
+        self.game.LEDs.enable("BallScoreA", color="FFFFFF")
+        self.game.LEDs.enable("BallScoreB", color="FFFFFF")
+        self.game.LEDs.enable("BallScoreC", color="FFFFFF")
+
+        self.game.LEDs.enable("ScoreInstA", color="FFFFFF")
+        self.game.LEDs.enable("ScoreInstB", color="FFFFFF")
+        self.game.LEDs.enable("ScoreInstC", color="FFFFFF")
+        self.game.LEDs.enable("ScoreInstD", color="FFFFFF")
+
+        self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('ShootUnder7D', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+
+        self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+
+        self.game.LEDs.run_script('BlueBonusMadeA', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('BlueBonusMadeB', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('BlueBonusMadeC', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+
+        self.game.LEDs.run_script('RedBonusMadeA', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('RedBonusMadeB', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('RedBonusMadeC', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+
+        self.game.LEDs.run_script('YellowBonusMadeA', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+        self.game.LEDs.run_script('YellowBonusMadeB', self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=100, maxspeed=500, length=50))
+
+        self.game.LEDs.enable('7ScoresBonusOfA',color='FFFFFF')
+        self.game.LEDs.enable('7ScoresBonusOfB',color='FFFFFF')
+        self.game.LEDs.enable('7ScoresBonusOfC',color='FFFFFF')
+        self.game.LEDs.enable('7ScoresBonusOfD',color='FFFFFF')
+
+        self.game.LEDs.enable('ExtraBallA',color='FFFFFF')
+        self.game.LEDs.enable('ExtraBallB',color='FFFFFF')
+        self.game.LEDs.enable('ExtraBallC',color='FFFFFF')
+        self.game.LEDs.enable('ExtraBallD',color='FFFFFF')
+
+        self.game.LEDs.enable('FramesA',color='FFFFFF')
+        self.game.LEDs.enable('FramesB',color='FFFFFF')
+        self.game.LEDs.enable('FramesC',color='FFFFFF')
+        self.game.LEDs.enable('FramesD',color='FFFFFF')
+
+
+    def attractModeFrameAdvance(self):
+        # Get the length of the list
+        list_length = len(self.attractDisplayFrameTypeList)
+
+        # Set the current frame to the corresponding item in the list
+        current_frame = self.attractDisplayFrameTypeList[self.currentAttractDisplayFrame]
+
+        match current_frame:
+            case 'LS':
+                self.attractDisplayFrameDisplay1 = self.game.game_data['LastGameScores']['LastPlayer1Score']
+                self.attractDisplayFrameDisplay2 = self.game.game_data['LastGameScores']['LastPlayer2Score']
+            case 'GC':
+                self.attractDisplayFrameDisplay1 = ' GC'
+                self.attractDisplayFrameDisplay2 = self.game.game_data['GrandChamp']['GrandChampScore']
+            #case 'HS1':
+            #    self.attractDisplayFrameDisplay1 = 'HS1'
+            #    self.attractDisplayFrameDisplay2 = self.game.game_data['HighScore1']['HighScore1Score']
+            #case 'HS2':
+            #    self.attractDisplayFrameDisplay1 = 'HS2'
+            #    self.attractDisplayFrameDisplay2 = self.game.game_data['HighScore2']['HighScore2Score']
+            #case 'HS3':
+            #    self.attractDisplayFrameDisplay1 = 'HS3'
+            #    self.attractDisplayFrameDisplay2 = self.game.game_data['HighScore3']['HighScore3Score']
+            #case 'HS4':
+            #    self.attractDisplayFrameDisplay1 = 'HS4'
+            #    self.attractDisplayFrameDisplay2 = self.game.game_data['HighScore4']['HighScore4Score']
+
+        self.game.score_display_mode.updatePlayerDisplay(1, self.attractDisplayFrameDisplay1)
+        self.game.score_display_mode.updatePlayerDisplay(2, self.attractDisplayFrameDisplay2)
+
+        self.delay(name='attractFrameAdvance',delay=self.attractDisplayFrameDelayTimeList[self.currentAttractDisplayFrame],handler=self.attractModeFrameAdvance)
+
+        self.logger.debug(f"Current Attract Frame: {current_frame}")
+
+        # Advance to the next frame, wrapping around using modulus
+        self.currentAttractDisplayFrame = (self.currentAttractDisplayFrame + 1) % list_length
+
+    def stopAttractModeFrameAdvance(self):
+        self.currentAttractDisplayFrame = 0
+        self.cancel_delayed(name='attractFrameAdvance')
