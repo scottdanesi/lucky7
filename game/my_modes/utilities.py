@@ -11,6 +11,7 @@ from pygame.locals import *
 from pygame.font import *
 import math
 import logging
+import random
 
 class UtilitiesMode(procgame.game.Mode):
     def __init__(self, game, priority):
@@ -32,17 +33,40 @@ class UtilitiesMode(procgame.game.Mode):
     ## LED UTILITIES
     ####################################################################################################################
     ## self.game.utilities_mode.disableAllLEDs(tagFilter=None)
+    ## self.game.utilities_mode.generateRandomBlinkSpeedScript(minspeed=140, maxspeed=300, length=50)
 
-    def disableAllLEDs(self, tagFilter=None):
+    def disableAllLEDs(self, tagFilter=None, fade=0):
         # This function will stop and disable ALL LEDs in the system and clear the entire queue.
         # use the tagFilter to only disable LEDs with a specific tag in the YAML definition file.
         for led in self.game.leds:
             if tagFilter is None or tagFilter in led.tags:
                 self.game.LEDs.stop_script(led.name)
                 # Disable by setting all LEDs to 000000, since these are most likely stuck on by default upon boot up.
-                self.game.LEDs.enable(led.name, color="000000")
+                if fade > 0:
+                    self.game.LEDs.enable(led.name, color="000000", fade=fade)
+                else:
+                    self.game.LEDs.enable(led.name, color="000000")
                 # Remove from the internal queue list
                 self.game.LEDs.disable(led.name)
+
+    def generateRandomBlinkSpeedScript(self, minspeed=140, maxspeed=300, length=50):
+        # Initialize an empty script list
+        script = []
+
+        # Alternate between 'FFFFFF' (on) and '000000' (off)
+        colors = ['FFFFFF', '000000']
+
+        for i in range(length):
+            # Randomly choose a fade time between minspeed and maxspeed
+            random_time = random.randint(minspeed, maxspeed)
+
+            # Alternate the color by using the modulo of the index
+            color = colors[i % 2]
+
+            # Append the step to the script list
+            script.append({'color': color, 'time': random_time, 'fade': True})
+
+        return script
 
     ####################################################################################################################
     ## COIL UTILITIES
