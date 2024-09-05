@@ -1519,7 +1519,7 @@ class LEDcontroller(object):
                   'priority': priority}
         #fadeend = None
 
-        if fade:
+        if fade > 0:
             fadestart = self.current_time
             fadeend = fadestart + (fade / 1000)
             if dest_color and not color:  # received dest_color but not color
@@ -1548,7 +1548,7 @@ class LEDcontroller(object):
 
         # Add this command to our update_list so it gets serviced along with
         # all the other updates
-        if fade:  # if we have a fade
+        if fade > 0:  # if we have a fade
             self._add_to_update_list({'LEDname': LEDname,
                                      'priority': priority,
                                      'dest_color': dest_color,
