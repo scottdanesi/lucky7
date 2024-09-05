@@ -3,8 +3,8 @@ PRGame:
     machineType: pdb
     numBalls: 1
 PRFlippers:
-    - LeftNudge
-    - RightNudge
+    - leftNudge
+    - rightNudge
 PRBumpers:
     - slingR
     - slingL
@@ -31,14 +31,6 @@ PRSwitches:
     #nudgeRight:
     #    number: SD1112 #Address:0 Bank:B Switch:0
     #    tags: ballsearchStop,totalAnnihilationIgnored
-    exit:
-        number: SD45
-    down:
-        number: SD44
-    up:
-        number: SD46
-    enter:
-        number: SD47
     SD1:
         number: SD1
     SD2:
@@ -83,10 +75,14 @@ PRSwitches:
         number: SD21
     SD22:
         number: SD22
-    SD23:
+    leftNudge:
         number: SD23
-    SD24:
+        tags: Nudge
+        type: NC
+    rightNudge:
         number: SD24
+        tags: Nudge
+        type: NC
     rearHoleScore2:
         number: SD25
         tags: Opto
@@ -119,6 +115,8 @@ PRSwitches:
         number: SD38
     startButton:
         number: SD39
+        tags: Cabinet
+        type: NC
     SD40:
         number: SD40
     SD41:
@@ -127,6 +125,22 @@ PRSwitches:
         number: SD42
     SD43:
         number: SD43
+    down:
+        number: SD44
+        tags: Service
+        type: NC
+    exit:
+        number: SD45
+        tags: Service
+        type: NC
+    up:
+        number: SD46
+        tags: Service
+        type: NC
+    enter:
+        number: SD47
+        tags: Service
+        type: NC
     SD48:
         number: SD48
     SD49:
