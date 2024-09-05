@@ -10,7 +10,7 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 import logging
-import random
+
 
 class BaseMode(procgame.game.Mode):
     def __init__(self, game, priority):
@@ -69,6 +69,8 @@ class BaseMode(procgame.game.Mode):
         if disableAllPrior:
             self.game.utilities_mode.disableAllLEDs("Backglass")
 
+        self.game.utilities_mode.setBallReturnLED(r=0,g=255,b=0,pulsetime=0)
+
         # Set constant On Lamps
         self.game.LEDs.enable('Big7A',color='FFFFFF')
         self.game.LEDs.enable('Big7B',color='FFFFFF')
@@ -123,10 +125,10 @@ class BaseMode(procgame.game.Mode):
         match self.game.ball:
             # Frames
             case 1:
-                self.game.LEDs.run_script('ShootUnder7A', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7B', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7C', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7D', self.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7D', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.disable('ShootOver7A')
                 self.game.LEDs.disable('ShootOver7B')
                 self.game.LEDs.disable('ShootOver7C')
@@ -155,10 +157,10 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 2:
-                self.game.LEDs.run_script('ShootUnder7A', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7B', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7C', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7D', self.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7D', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.disable('ShootOver7A')
                 self.game.LEDs.disable('ShootOver7B')
                 self.game.LEDs.disable('ShootOver7C')
@@ -187,10 +189,10 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 3:
-                self.game.LEDs.run_script('ShootUnder7A', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7B', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7C', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7D', self.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7D', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.disable('ShootOver7A')
                 self.game.LEDs.disable('ShootOver7B')
                 self.game.LEDs.disable('ShootOver7C')
@@ -219,9 +221,9 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 4:
-                self.game.LEDs.run_script('ShootOver7A', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7B', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7C', self.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.disable('ShootUnder7A')
                 self.game.LEDs.disable('ShootUnder7B')
                 self.game.LEDs.disable('ShootUnder7C')
@@ -251,9 +253,9 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 5:
-                self.game.LEDs.run_script('ShootOver7A', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7B', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7C', self.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.disable('ShootUnder7A')
                 self.game.LEDs.disable('ShootUnder7B')
                 self.game.LEDs.disable('ShootUnder7C')
@@ -283,9 +285,9 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 6:
-                self.game.LEDs.run_script('ShootOver7A', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7B', self.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7C', self.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.disable('ShootUnder7A')
                 self.game.LEDs.disable('ShootUnder7B')
                 self.game.LEDs.disable('ShootUnder7C')
@@ -315,24 +317,7 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.run_script('Frame6A', self.frameBlinkScript)
                 self.game.LEDs.run_script('Frame6B', self.frameBlinkScript)
 
-    def generateRandomBlinkSpeedScript(self, minspeed=140, maxspeed=300, length=50):
-        # Initialize an empty script list
-        script = []
 
-        # Alternate between 'FFFFFF' (on) and '000000' (off)
-        colors = ['FFFFFF', '000000']
-
-        for i in range(length):
-            # Randomly choose a fade time between minspeed and maxspeed
-            random_time = random.randint(minspeed, maxspeed)
-
-            # Alternate the color by using the modulo of the index
-            color = colors[i % 2]
-
-            # Append the step to the script list
-            script.append({'color': color, 'time': random_time, 'fade': True})
-
-        return script
 
 
     def start_game(self):
