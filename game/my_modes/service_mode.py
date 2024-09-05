@@ -31,7 +31,7 @@ class ServiceMode(procgame.game.Mode):
         ## Display Test Variables ######################################################################################
         self.displayTestText = 0
         self.displayTestDisplayNumber = 1
-        self.displayTestDisplayCharacter = 1
+        self.displayTestDisplayCharacter = 0
         self.displayTestSpeedS = 0.25
         self.displayTestStage = 2 # Start on Stage 2 of Display Test
 
@@ -112,15 +112,15 @@ class ServiceMode(procgame.game.Mode):
                 ## Version and Revision Display
                 ########################################################################################################
                 self.logger.info(f"SERVICE MENU VERSION ACTIVE")
-                self.game.score_display_mode.updatePlayerDisplay(1,self.game.versionMajor)
-                self.game.score_display_mode.updatePlayerDisplay(2,self.game.versionMinor)
+                self.game.score_display_mode.updatePlayerDisplay(1,self.game.versionMajor, fade=0)
+                self.game.score_display_mode.updatePlayerDisplay(2,self.game.versionMinor, fade=0)
             case 'LED':
                 ########################################################################################################
                 ## LED Test
                 ########################################################################################################
                 self.logger.info(f"SERVICE MENU LED TEST ACTIVE")
-                self.game.score_display_mode.updatePlayerDisplay(1,"LED")
-                self.game.score_display_mode.updatePlayerDisplay(2,"ALL")
+                self.game.score_display_mode.updatePlayerDisplay(1,"LED", fade=0)
+                self.game.score_display_mode.updatePlayerDisplay(2,"ALL", fade=0)
                 #Start up the LED all test
                 for led in self.game.leds:
                     if "Backglass" in led.tags:
@@ -139,8 +139,8 @@ class ServiceMode(procgame.game.Mode):
                 ## Solenoid Test
                 ########################################################################################################
                 self.logger.info(f"SERVICE MENU SOLENOID TEST ACTIVE")
-                self.game.score_display_mode.updatePlayerDisplay(1,"SOL")
-                self.game.score_display_mode.updatePlayerDisplay(2,"---")
+                self.game.score_display_mode.updatePlayerDisplay(1,"SOL", fade=0)
+                self.game.score_display_mode.updatePlayerDisplay(2,"---", fade=0)
                 # Reset Variable
                 self.currentCoilIndex = 0
                 # Kick off the coil test loop with a delay...
@@ -161,8 +161,8 @@ class ServiceMode(procgame.game.Mode):
                 ########################################################################################################
                 ## Ruleset Selection
                 ########################################################################################################
-                self.game.score_display_mode.updatePlayerDisplay(1,"RUL")
-                self.game.score_display_mode.updatePlayerDisplay(2,str(self.game.user_settings['Standard']['RUL']))
+                self.game.score_display_mode.updatePlayerDisplay(1,"RUL", fade=0)
+                self.game.score_display_mode.updatePlayerDisplay(2,str(self.game.user_settings['Standard']['RUL']), fade=0)
 
     ## Display Test Loop Function ######################################################################################
     def displayTestLoop(self):
@@ -170,9 +170,12 @@ class ServiceMode(procgame.game.Mode):
             self.logger.debug(f"Display Test Loop attempted to run when service mode was not active...")
             return 0
 
-        self.game.utilities_mode.disableAllLEDs("NumericDisplay")
+
         if self.displayTestStage == 1:
-            self.game.score_display_mode.sendValueToDisplay(self.displayTestDisplayNumber,self.displayTestDisplayCharacter, str(self.displayTestText))
+            if self.displayTestDisplayCharacter == 0:
+                self.game.utilities_mode.disableAllLEDs("NumericDisplay",fade=0)
+            else:
+                self.game.score_display_mode.sendValueToDisplay(self.displayTestDisplayNumber,self.displayTestDisplayCharacter, str(''), fade=0)
 
             if self.displayTestDisplayCharacter < 3:
                 # increment character
@@ -188,14 +191,18 @@ class ServiceMode(procgame.game.Mode):
                     self.displayTestText += 1
                 else:
                     self.displayTestText = 0
+                    self.displayTestDisplayCharacter = 0
                     self.displayTestStage = 2
+
+            self.game.score_display_mode.sendValueToDisplay(self.displayTestDisplayNumber,self.displayTestDisplayCharacter, str(self.displayTestText), fade=0)
         else:
-            self.game.score_display_mode.sendValueToDisplay(1,1, str(self.displayTestText))
-            self.game.score_display_mode.sendValueToDisplay(1,2, str(self.displayTestText))
-            self.game.score_display_mode.sendValueToDisplay(1,3, str(self.displayTestText))
-            self.game.score_display_mode.sendValueToDisplay(2,1, str(self.displayTestText))
-            self.game.score_display_mode.sendValueToDisplay(2,2, str(self.displayTestText))
-            self.game.score_display_mode.sendValueToDisplay(2,3, str(self.displayTestText))
+            self.game.utilities_mode.disableAllLEDs("NumericDisplay",fade=0)
+            self.game.score_display_mode.sendValueToDisplay(1,1, str(self.displayTestText), fade=0)
+            self.game.score_display_mode.sendValueToDisplay(1,2, str(self.displayTestText), fade=0)
+            self.game.score_display_mode.sendValueToDisplay(1,3, str(self.displayTestText), fade=0)
+            self.game.score_display_mode.sendValueToDisplay(2,1, str(self.displayTestText), fade=0)
+            self.game.score_display_mode.sendValueToDisplay(2,2, str(self.displayTestText), fade=0)
+            self.game.score_display_mode.sendValueToDisplay(2,3, str(self.displayTestText), fade=0)
             if self.displayTestText < 9:
                 self.displayTestText += 1
             else:
