@@ -9,6 +9,7 @@
 import procgame.game
 # from procgame.game import AdvancedMode
 import pygame
+# from PIL.Image import blend
 from pygame.locals import *
 from pygame.font import *
 from random import *
@@ -21,6 +22,8 @@ class ScoreDisplaysMode(procgame.game.Mode):
     def __init__(self, game, priority):
         super(ScoreDisplaysMode, self).__init__(game=game, priority=priority) # 2 is higher than BGM
         self.logger = logging.getLogger('game.ScoreDisplaysMode')
+
+
 
         # Player 1 Segment List
         self.player1SegmentList = [
@@ -38,6 +41,7 @@ class ScoreDisplaysMode(procgame.game.Mode):
 
         # Mapping of digits to segments (A-G, DP)
         self.segment_map = {
+            # "": [],
             "0": ["A", "B", "C", "D", "E", "F"],
             "1": ["B", "C"],
             "2": ["A", "B", "D", "E", "G"],
@@ -54,7 +58,7 @@ class ScoreDisplaysMode(procgame.game.Mode):
             "D": ["B", "C", "D", "E", "G"],
             "E": ["A", "D", "E", "F", "G"],
             "F": ["A", "E", "F", "G"],
-            "G": ["A", "B", "C", "D", "F", "G"],
+            "G": ["A", "C", "D", "E", "F", "G"],
             "H": ["B", "C", "E", "F", "G"],
             "I": ["B", "C"],
             "J": ["B", "C", "D", "E"],
@@ -116,6 +120,8 @@ class ScoreDisplaysMode(procgame.game.Mode):
             "Z.": ["A", "B", "D", "E", "G", "DP"],
             "-.": ["G", "DP"],
             "_.": ["D", "DP"],
+            "@": ["A", "D", "E", "F"],
+            "#": ["A", "C", "D", "G"],
         }
 
     def mode_started(self):
@@ -129,7 +135,7 @@ class ScoreDisplaysMode(procgame.game.Mode):
         self.updatePlayerDisplay(1,self.game.versionMajor)
         self.updatePlayerDisplay(2,self.game.versionMinor)
 
-    def disableDisplay(self, displayNum=1):
+    def disableDisplay(self, displayNum=1, fade=0):
         segmentList = {
             1: self.player1SegmentList,
             2: self.player2SegmentList
@@ -137,10 +143,13 @@ class ScoreDisplaysMode(procgame.game.Mode):
 
         for ledName in segmentList:
             self.game.LEDs.stop_script(ledName)
-            self.game.LEDs.disable(ledName)
+            if fade > 0:
+                self.game.LEDs.enable(ledName, dest_color="000000", fade=fade)
+            else:
+                self.game.LEDs.disable(ledName)
 
-    def updatePlayerDisplay(self, displayNum=1, value=""):
-        self.disableDisplay(displayNum)
+    def updatePlayerDisplay(self, displayNum=1, value="", fade=0):
+        self.disableDisplay(displayNum, fade=fade)
         # Convert value to a string and handle justification
         str_value = str(value).upper()
 
@@ -161,26 +170,38 @@ class ScoreDisplaysMode(procgame.game.Mode):
                 displayDigit += "."
                 i += 1  # Skip the decimal point character in the loop
 
-            self.sendValueToDisplay(displayNum=str(displayNum), digitNum=str(digit_num), displayDigit=displayDigit)
+            self.sendValueToDisplay(displayNum=str(displayNum), digitNum=str(digit_num), displayDigit=displayDigit, fade=fade)
             digit_num += 1
             i += 1
 
-    def sendValueToDisplay(self, displayNum="1", digitNum="1", displayDigit="0"):
+    def sendValueToDisplay(self, displayNum="1", digitNum="1", displayDigit="0", fade=0):
         prefix = f"Player{displayNum}_{digitNum}"
         segments = self.segment_map.get(displayDigit, [])
 
         # Enable the necessary segments
         for segment in "ABCDEFG":
             if segment in segments:
-                self.game.LEDs.enable(f"{prefix}{segment}", color=COLOR_WHITE)
+                if fade > 0:
+                    self.game.LEDs.enable(f"{prefix}{segment}", color="000000", dest_color=COLOR_WHITE, fade=fade)
+                else:
+                    self.game.LEDs.enable(f"{prefix}{segment}", color=COLOR_WHITE)
             else:
-                self.game.LEDs.disable(f"{prefix}{segment}")
+                if fade > 0:
+                    self.game.LEDs.enable(f"{prefix}{segment}", dest_color="000000", fade=fade)
+                else:
+                    self.game.LEDs.disable(f"{prefix}{segment}")
 
         # Handle the decimal point (DP)
         if "DP" in segments:
-            self.game.LEDs.enable(f"{prefix}DP", color=COLOR_WHITE)
+            if fade > 0:
+                self.game.LEDs.enable(f"{prefix}DP", color="000000", dest_color=COLOR_WHITE, fade=fade)
+            else:
+                self.game.LEDs.enable(f"{prefix}DP", color=COLOR_WHITE)
         else:
-            self.game.LEDs.disable(f"{prefix}DP")
+            if fade > 0:
+                self.game.LEDs.enable(f"{prefix}DP", dest_color="000000", fade=fade)
+            else:
+                self.game.LEDs.disable(f"{prefix}DP")
 
     def updateScoreDisplays(self):
         # self.game.score_display_mode.updateScoreDisplays()
@@ -188,7 +209,8 @@ class ScoreDisplaysMode(procgame.game.Mode):
         currentNumPlayers = len(self.game.players)
 
         if currentNumPlayers == 0:
-            # Game not in play, update displays
+            # Game not in play (attract mode active), update displays
+            pass
             self.game.score_display_mode.updatePlayerDisplay(1, self.game.game_data['LastGameScores']['LastPlayer1Score'])
             self.game.score_display_mode.updatePlayerDisplay(2, self.game.game_data['LastGameScores']['LastPlayer2Score'])
 
