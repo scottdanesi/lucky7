@@ -1,6 +1,7 @@
 ################################################################################################
 ## This mode is the Lucky 7 Base Game Mode.
 ################################################################################################
+from cgitb import handler
 
 ###############################
 ## Global Imports
@@ -15,7 +16,15 @@ import logging
 class BaseMode(procgame.game.Mode):
     def __init__(self, game, priority):
         super(BaseMode, self).__init__(game=game, priority=priority)
+
+        # Global Variables
         self.logger = logging.getLogger('game.BaseMode')
+        self.p = self.game.current_player()
+
+
+        # Global Settings
+        self.scoreGapSpeedS = 0.3
+        self.scoreCalculating = False
 
         # LED Scripts
         self.playerBlinkScript = []
@@ -55,12 +64,13 @@ class BaseMode(procgame.game.Mode):
         self.bonusBlinkScript7.append({'color': '000000', 'time': 160, 'fade': True})
 
     def mode_started(self):
+        self.game.enable_flippers(enable=False)
         self.game.modes.add(self.game.attract_mode)
 
     def mode_stopped(self):
         pass
 
-    def update_lamps(self,disableAllPrior=False):
+    def update_lamps(self,disableAllPrior=True):
 
         if self.game.ball == 0:
             # no game in play
@@ -102,25 +112,83 @@ class BaseMode(procgame.game.Mode):
         self.game.LEDs.enable('FramesC',color='FFFFFF')
         self.game.LEDs.enable('FramesD',color='FFFFFF')
 
-        self.p = self.game.current_player()
-
-        if(self.p.name.upper() == 'PLAYER 1'):
-            self.game.LEDs.run_script("Player1A", self.playerBlinkScript)
-            self.game.LEDs.run_script("Player1B", self.playerBlinkScript)
-            self.game.LEDs.stop_script("Player2A")
-            self.game.LEDs.stop_script("Player2B")
-        elif(self.p.name.upper() == 'PLAYER 2'):
-            self.game.LEDs.run_script("Player2A", self.playerBlinkScript)
-            self.game.LEDs.run_script("Player2B", self.playerBlinkScript)
+        if(self.game.current_player_index == 0):
             self.game.LEDs.stop_script("Player1A")
             self.game.LEDs.stop_script("Player1B")
+            self.game.LEDs.disable('Player1A')
+            self.game.LEDs.disable('Player1B')
+            self.game.LEDs.stop_script("Player2A")
+            self.game.LEDs.stop_script("Player2B")
+            self.game.LEDs.disable('Player2A')
+            self.game.LEDs.disable('Player2B')
+            self.game.LEDs.run_script("Player1A", self.playerBlinkScript)
+            self.game.LEDs.run_script("Player1B", self.playerBlinkScript)
+        elif(self.game.current_player_index == 1):
+            self.game.LEDs.stop_script("Player1A")
+            self.game.LEDs.stop_script("Player1B")
+            self.game.LEDs.disable('Player1A')
+            self.game.LEDs.disable('Player1B')
+            self.game.LEDs.stop_script("Player2A")
+            self.game.LEDs.stop_script("Player2B")
+            self.game.LEDs.disable('Player2A')
+            self.game.LEDs.disable('Player2B')
+            self.game.LEDs.run_script("Player2A", self.playerBlinkScript)
+            self.game.LEDs.run_script("Player2B", self.playerBlinkScript)
 
         if(self.game.roll_number == 1):
-            self.game.LEDs.run_script("1stRoll", self.rollBlinkScript)
             self.game.LEDs.stop_script("2ndRoll")
+            self.game.LEDs.run_script("1stRoll", self.rollBlinkScript)
+
         elif(self.game.roll_number == 2):
             self.game.LEDs.run_script("2ndRoll", self.rollBlinkScript)
             self.game.LEDs.stop_script("1stRoll")
+
+        # Grab the current Ball Roll Score
+        self.currentBallScore = self.getPlayerData(self.game.current_player_index + 1, self.game.ball, 1) + self.getPlayerData(self.game.current_player_index + 1, self.game.ball, 2)
+
+        self.game.LEDs.disable('Score1')
+        self.game.LEDs.disable('Score2')
+        self.game.LEDs.disable('Score3')
+        self.game.LEDs.disable('Score4')
+        self.game.LEDs.disable('Score5')
+        self.game.LEDs.disable('Score6')
+        self.game.LEDs.disable('Score7A')
+        self.game.LEDs.disable('Score7B')
+        self.game.LEDs.disable('Score8')
+        self.game.LEDs.disable('Score9')
+        self.game.LEDs.disable('Score10')
+        self.game.LEDs.disable('Score11')
+        self.game.LEDs.disable('Score12')
+
+        match self.currentBallScore:
+            case 1:
+                self.game.LEDs.enable('Score1',color='FFFFFF')
+            case 2:
+                self.game.LEDs.enable('Score2',color='FFFFFF')
+            case 3:
+                self.game.LEDs.enable('Score3',color='FFFFFF')
+            case 4:
+                self.game.LEDs.enable('Score4',color='FFFFFF')
+            case 5:
+                self.game.LEDs.enable('Score5',color='FFFFFF')
+            case 6:
+                self.game.LEDs.enable('Score6',color='FFFFFF')
+            case 7:
+                self.game.LEDs.enable('Score7A',color='FFFFFF')
+                self.game.LEDs.enable('Score7B',color='FFFFFF')
+            case 8:
+                self.game.LEDs.enable('Score8',color='FFFFFF')
+            case 9:
+                self.game.LEDs.enable('Score9',color='FFFFFF')
+            case 10:
+                self.game.LEDs.enable('Score10',color='FFFFFF')
+            case 11:
+                self.game.LEDs.enable('Score11',color='FFFFFF')
+            case 12:
+                self.game.LEDs.enable('Score12',color='FFFFFF')
+
+
+
 
         match self.game.ball:
             # Frames
@@ -329,14 +397,301 @@ class BaseMode(procgame.game.Mode):
 
         self.game.modes.remove(self.game.attract_mode)
 
-        self.game.add_player() #will be first player at this point
-        self.game.ball = 1
+        self.game.add_player() # will be first player at this point
+        self.game.ball = 1 # AKA Frame
         self.game.roll_number = 1
 
+        self.game.players[0].score = 0
+
+        # Initialize Player Data Arrays with 6 frames and 2 rolls each
+        self.player1DataArray = [[0, 0] for _ in range(6)]
+        self.player2DataArray = [[0, 0] for _ in range(6)]
+
+        # Initialize Player Data Array
+        for f in range(1, 7):  # Loop from 1 to 6 for 1-based indexing
+            for r in range(1, 3):  # Loop from 1 to 2 for 1-based indexing
+                self.setPlayerData(1, f, r, 0)
+                self.setPlayerData(2, f, r, 0)
+
+        self.game.enable_flippers(enable=True)
+
         self.game.score_display_mode.updateScoreDisplays()
-        self.game.update_lamps()
+        self.update_lamps()
 
         #self.start_ball()
+
+    def setPlayerData(self, playerNumber, frame, roll, value):
+        # Adjust for 1-based indexing by subtracting 1
+        if playerNumber == 2:
+            self.player2DataArray[frame - 1][roll - 1] = value
+        else:
+            self.player1DataArray[frame - 1][roll - 1] = value
+
+    def getPlayerData(self, playerNumber, frame, roll):
+        # Adjust for 1-based indexing by subtracting 1
+        if playerNumber == 2:
+            return self.player2DataArray[frame - 1][roll - 1]
+        else:
+            return self.player1DataArray[frame - 1][roll - 1]
+
+    def score100Points(self):
+        # self.p = self.game.current_player()
+        # self.p.score += 100
+        self.game.players[self.game.current_player_index].score += 100
+        # Fire Chime 3
+
+    def score10Points(self):
+        # self.p = self.game.current_player()
+        # self.p.score += 10
+        self.game.players[self.game.current_player_index].score += 10
+        # Fire Chime 2
+
+    def score1Point(self):
+        # self.p = self.game.current_player()
+        # self.p.score += 1
+        self.game.players[self.game.current_player_index].score += 1
+        # Fire Chime 1
+
+    def scoreAccumulator(self,pointsLeft, isExtraBall=False):
+        if (pointsLeft > 0):
+            self.scoreCalculating = True
+        else:
+            self.scoreCalculating = False
+            return 0
+
+
+        if pointsLeft >= 100:
+            self.score100Points()
+            pointsLeft -= 100
+        elif (pointsLeft >= 10):
+            self.score10Points()
+            pointsLeft -= 10
+        elif (pointsLeft >= 1):
+            self.score1Point()
+            pointsLeft -= 1
+
+
+
+
+        if (pointsLeft > 0):
+            self.game.score_display_mode.updateScoreDisplays()
+            #self.update_lamps()
+            self.delay(name='pointsAccumulatorDelay',delay=.3,handler=self.scoreAccumulator,param=pointsLeft)
+        else:
+            self.scoreCalculating = False
+            if not isExtraBall:
+                self.endRoll()
+            self.game.score_display_mode.updateScoreDisplays()
+            self.update_lamps()
+
+
+
+
+
+    def scoreBall(self,score, isExtraBall=False):
+        if not self.scoreCalculating:
+            self.scoreCalculating = True
+
+            self.currentPlayerNumber = self.game.current_player_index + 1
+
+            self.logger.info("---------Score Ball----------")
+            self.logger.info(f"Player Index: {self.currentPlayerNumber}")
+            self.logger.info(f"Ball Number: {self.game.ball}")
+            self.logger.info(f"Roll Number: {self.game.roll_number}")
+            self.logger.info(f"Score: {score}")
+            self.logger.info(f"Extra Ball: {isExtraBall}")
+
+            ######## RULES SECTION ##########
+            # EXTRA BALL #
+            if isExtraBall:
+                self.scoreAccumulator(score,True)
+                return
+
+            match self.game.ball:
+                # Frames
+                case 1:
+                    if self.game.roll_number == 1:
+                        # FIRST ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.scoreAccumulator(score)
+                    else:
+                        # SECOND ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.currentFrameTotal = self.getPlayerData(self.currentPlayerNumber,self.game.ball,1) + score
+
+                        self.currentRollTotal = score
+                        # See if any bonuses
+                        if self.currentFrameTotal == 7:
+                            self.currentRollTotal += 20
+                        elif self.currentFrameTotal < 7:
+                            self.currentRollTotal += 10
+
+                        self.scoreAccumulator(self.currentRollTotal)
+
+                case 2:
+                    if self.game.roll_number == 1:
+                        # FIRST ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.scoreAccumulator(score)
+                    else:
+                        # SECOND ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.currentFrameTotal = self.getPlayerData(self.currentPlayerNumber,self.game.ball,1) + score
+
+                        self.currentRollTotal = score
+                        # See if any bonuses
+                        if self.currentFrameTotal == 7:
+                            self.currentRollTotal += 20
+                        elif self.currentFrameTotal < 7:
+                            self.currentRollTotal += 20
+
+                        self.scoreAccumulator(self.currentRollTotal)
+
+                case 3:
+                    if self.game.roll_number == 1:
+                        # FIRST ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.scoreAccumulator(score)
+                    else:
+                        # SECOND ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.currentFrameTotal = self.getPlayerData(self.currentPlayerNumber,self.game.ball,1) + score
+
+                        self.currentRollTotal = score
+                        # See if any bonuses
+                        if self.currentFrameTotal == 7:
+                            self.currentRollTotal += 50
+                        elif self.currentFrameTotal < 7:
+                            self.currentRollTotal += 50
+
+                        self.scoreAccumulator(self.currentRollTotal)
+
+                case 4:
+                    if self.game.roll_number == 1:
+                        # FIRST ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.scoreAccumulator(score)
+                    else:
+                        # SECOND ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.currentFrameTotal = self.getPlayerData(self.currentPlayerNumber,self.game.ball,1) + score
+
+                        self.currentRollTotal = score
+                        # See if any bonuses
+                        if self.currentFrameTotal == 7:
+                            self.currentRollTotal += 50
+                        elif self.currentFrameTotal > 7:
+                            self.currentRollTotal += 10
+
+                        self.scoreAccumulator(self.currentRollTotal)
+
+                case 5:
+                    if self.game.roll_number == 1:
+                        # FIRST ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.scoreAccumulator(score)
+                    else:
+                        # SECOND ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.currentFrameTotal = self.getPlayerData(self.currentPlayerNumber,self.game.ball,1) + score
+
+                        self.currentRollTotal = score
+                        # See if any bonuses
+                        if self.currentFrameTotal == 7:
+                            self.currentRollTotal += 100
+                        elif self.currentFrameTotal > 7:
+                            self.currentRollTotal += 20
+
+                        self.scoreAccumulator(self.currentRollTotal)
+
+                case 6:
+                    if self.game.roll_number == 1:
+                        # FIRST ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.scoreAccumulator(score)
+                    else:
+                        # SECOND ROLL
+                        self.setPlayerData(self.currentPlayerNumber,self.game.ball,self.game.roll_number,score) # Set the player data in the array
+                        self.update_lamps()
+                        self.currentFrameTotal = self.getPlayerData(self.currentPlayerNumber,self.game.ball,1) + score
+
+                        self.currentRollTotal = score
+                        # See if any bonuses
+                        if self.currentFrameTotal == 7:
+                            self.currentRollTotal += 100
+                        elif self.currentFrameTotal > 7:
+                            self.currentRollTotal += 50
+
+                        self.scoreAccumulator(self.currentRollTotal)
+
+
+    def endRoll(self):
+        self.logger.info("---------END ROLL----------")
+        self.logger.info(f"Current Player Index: {self.game.current_player_index + 1}")
+        self.logger.info(f"Current Ball Number: {self.game.ball}")
+        self.logger.info(f"Current Roll Number: {self.game.roll_number}")
+
+
+        if self.game.roll_number == 2:
+            # Increment Ball and reset roll number
+            if self.game.ball < 6:
+                self.game.roll_number = 1
+                if self.game.current_player_index + 1 < len(self.game.players):
+                    self.game.current_player_index += 1 # Increment that current Player
+                else:
+                    self.game.current_player_index = 0
+                    self.game.ball += 1
+            else:
+                # END OF GAME
+                self.end_game()
+        else:
+            self.game.roll_number += 1
+
+        self.logger.info(f"New Player Index: {self.game.current_player_index + 1}")
+        self.logger.info(f"New Ball Number: {self.game.ball}")
+        self.logger.info(f"New Roll Number: {self.game.roll_number}")
+
+    def end_game(self):
+        self.logger.info("Game Ended")
+
+        self.game.enable_flippers(enable=False)
+
+        if len(self.game.players) == 2:
+            #Set Prior Game Scores
+            self.game.game_data['LastGameScores']['LastPlayer1Score'] = self.game.players[0].score
+            self.game.game_data['LastGameScores']['LastPlayer2Score'] = self.game.players[1].score
+            if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[0].score:
+                self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
+            if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[1].score:
+                self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[1].score
+            # Save the game data file
+            self.game.save_game_data()
+        else:
+            self.game.game_data['LastGameScores']['LastPlayer1Score'] = self.game.players[0].score
+            self.game.game_data['LastGameScores']['LastPlayer2Score'] = ' '
+            if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[0].score:
+                self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
+            # Save the game data file
+            self.game.save_game_data()
+
+        self.game.ball = 0
+        self.game.roll_number = 0
+        self.game.old_players = []
+        self.game.players = []
+        self.game.current_player_index = 0
+
+        self.game.modes.add(self.game.attract_mode)
 
     def sw_startButton_active_for_2000ms(self, sw):
         #Force Stop Game
@@ -351,5 +706,59 @@ class BaseMode(procgame.game.Mode):
         elif self.game.ball == 1 and len(self.game.players) < 2:
             #Add Player
             self.game.add_player()
+            self.game.players[1].score = 0
             self.game.score_display_mode.updateScoreDisplays()
+
+    # Score Holes
+    def sw_rearHoleScore1_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(1, isExtraBall=False)
+
+    def sw_rearHoleScore2_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(2, isExtraBall=False)
+
+    def sw_rearHoleScore3_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(3, isExtraBall=False)
+
+    def sw_rearHoleScore4_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(4, isExtraBall=False)
+
+    def sw_rearHoleScore5_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(5, isExtraBall=False)
+
+    def sw_rearHoleScore6_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(6, isExtraBall=False)
+
+    def sw_centerHoleScore1_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(1, isExtraBall=False)
+
+    def sw_centerHoleScore2_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(2, isExtraBall=False)
+
+    def sw_centerHoleScore3_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(3, isExtraBall=False)
+
+    def sw_centerHoleScore4_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(4, isExtraBall=False)
+
+    def sw_centerHoleScore5_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(5, isExtraBall=False)
+
+    def sw_centerHoleScore6_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(6, isExtraBall=False)
+
+    def sw_rearHoleExtraBall_active_for_50ms(self, sw):
+        if self.game.ball > 0:
+            self.scoreBall(10, isExtraBall=True)
 
