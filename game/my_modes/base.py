@@ -760,4 +760,3 @@ class BaseMode(procgame.game.Mode):
     def sw_rearHoleExtraBall_active_for_50ms(self, sw):
         if self.game.ball > 0:
             self.scoreBall(10, isExtraBall=True)
-
