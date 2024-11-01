@@ -3,15 +3,8 @@ PRGame:
     machineType: pdb
     numBalls: 1
 PRFlippers:
-    - leftNudge
-    - rightNudge
-PRBumpers:
-    - slingR
-    - slingL
-    - popBumper
-    - coreRightSling
-    - coreLeftSling
-    - coreTopSling
+    - leftNudgeLwL
+    - rightNudgeLwR
 PRSwitches:
     # **** Format ****
     # name:
@@ -61,44 +54,66 @@ PRSwitches:
         number: SD14
     SD15:
         number: SD15
-    SD16:
+    centerHoleScore3:
         number: SD16
-    SD17:
+        tags: Opto
+        type: NC
+    centerHoleScore1:
         number: SD17
-    SD18:
+        tags: Opto
+        type: NC
+    centerHoleScore6:
         number: SD18
-    SD19:
+        tags: Opto
+        type: NC
+    centerHoleScore5:
         number: SD19
-    SD20:
+        tags: Opto
+        type: NC
+    centerHoleScore4:
         number: SD20
+        tags: Opto
+        type: NC
     SD21:
         number: SD21
-    SD22:
+    rightNudgeLwR:
         number: SD22
-    leftNudge:
+        tags: Nudge
+    leftNudgeLwL:
         number: SD23
         tags: Nudge
-        type: NC
-    rightNudge:
+    rearHoleScore4:
         number: SD24
-        tags: Nudge
+        tags: Opto
         type: NC
     rearHoleScore2:
         number: SD25
         tags: Opto
-        type: NO
-    SD26:
+        type: NC
+    rearHoleScore6:
         number: SD26
-    SD27:
+        tags: Opto
+        type: NC
+    rearHoleExtraBall:
         number: SD27
-    SD28:
+        tags: Opto
+        type: NC
+    rearHoleScore3:
         number: SD28
-    SD29:
+        tags: Opto
+        type: NC
+    rearHoleScore5:
         number: SD29
-    SD30:
+        tags: Opto
+        type: NC
+    rearHoleScore1:
         number: SD30
-    SD31:
+        tags: Opto
+        type: NC
+    centerHoleScore2:
         number: SD31
+        tags: Opto
+        type: NC
     SD32:
         number: SD32
     SD33:
@@ -116,7 +131,6 @@ PRSwitches:
     startButton:
         number: SD39
         tags: Cabinet
-        type: NC
     SD40:
         number: SD40
     SD41:
@@ -315,13 +329,13 @@ PRCoils:
     # Lucky 7 PD-16 Addresses
     # PD-16 #1 - Address 3
     ###############################
-    LeftNudge:
+    leftNudgeLwLMain:
         number: A3-B0-0
-        pulseTime: 30
+        pulseTime: 10
         label: '0-0'
-    RightNudge:
+    rightNudgeLwRMain:
         number: A3-B0-1
-        pulseTime: 30
+        pulseTime: 10
         label: '0-1'
     0-2:
         number: A3-B0-2
