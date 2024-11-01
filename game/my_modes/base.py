@@ -64,6 +64,10 @@ class BaseMode(procgame.game.Mode):
         self.bonusBlinkScript7.append({'color': '000000', 'time': 160, 'fade': True})
         self.bonusBlinkScript7.append({'color': '000000', 'time': 160, 'fade': True})
 
+        self.madeBonusFlashScript = []
+        self.madeBonusFlashScript.append({'color': 'FFFFFF', 'time': 100, 'fade': False})
+        self.madeBonusFlashScript.append({'color': '000000', 'time': 100, 'fade': False})
+
     def mode_started(self):
         self.game.enable_flippers(enable=False)
         self.game.modes.add(self.game.attract_mode)
@@ -175,8 +179,11 @@ class BaseMode(procgame.game.Mode):
             case 6:
                 self.game.LEDs.enable('Score6',color='FFFFFF')
             case 7:
-                self.game.LEDs.enable('Score7A',color='FFFFFF')
-                self.game.LEDs.enable('Score7B',color='FFFFFF')
+                self.game.LEDs.run_script("Score7A", self.madeBonusFlashScript)
+                self.game.LEDs.run_script("Score7B", self.madeBonusFlashScript)
+                self.game.LEDs.run_script("BlueBonusMadeA", self.madeBonusFlashScript)
+                self.game.LEDs.run_script("BlueBonusMadeB", self.madeBonusFlashScript)
+                self.game.LEDs.run_script("BlueBonusMadeC", self.madeBonusFlashScript)
             case 8:
                 self.game.LEDs.enable('Score8',color='FFFFFF')
             case 9:
@@ -197,6 +204,11 @@ class BaseMode(procgame.game.Mode):
         match self.game.ball:
             # Frames
             case 1:
+                if self.currentBallScore < 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                    self.game.LEDs.run_script("RedBonusMadeA", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("RedBonusMadeB", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("RedBonusMadeC", self.madeBonusFlashScript)
+
                 self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
@@ -229,6 +241,11 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 2:
+                if self.currentBallScore < 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                    self.game.LEDs.run_script("RedBonusMadeA", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("RedBonusMadeB", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("RedBonusMadeC", self.madeBonusFlashScript)
+
                 self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
@@ -261,6 +278,11 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 3:
+                if self.currentBallScore < 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                    self.game.LEDs.run_script("RedBonusMadeA", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("RedBonusMadeB", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("RedBonusMadeC", self.madeBonusFlashScript)
+
                 self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
@@ -293,6 +315,10 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 4:
+                if self.currentBallScore > 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                    self.game.LEDs.run_script("YellowBonusMadeA", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("YellowBonusMadeB", self.madeBonusFlashScript)
+
                 self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
@@ -325,6 +351,10 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 5:
+                if self.currentBallScore > 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                    self.game.LEDs.run_script("YellowBonusMadeA", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("YellowBonusMadeB", self.madeBonusFlashScript)
+
                 self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
@@ -357,6 +387,10 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 6:
+                if self.currentBallScore > 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                    self.game.LEDs.run_script("YellowBonusMadeA", self.madeBonusFlashScript)
+                    self.game.LEDs.run_script("YellowBonusMadeB", self.madeBonusFlashScript)
+
                 self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
                 self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
