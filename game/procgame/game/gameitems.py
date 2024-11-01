@@ -11,12 +11,12 @@ class AttrCollection(object):
 
     def __getattr__(self, attr):
         try:
-            if type(attr) == str:
+            if isinstance(attr, str):
                 return self.__items_by_name[attr]
             else:
                 return self.__items_by_number[attr]
         except KeyError as e:
-            raise KeyError("Error looking up key %s: %s" % attr, e)
+            raise KeyError(f"Error looking up key {attr}: {e}") from e
 
     def add(self, item, value):
         self.__items_by_name[item] = value
