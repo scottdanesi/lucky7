@@ -675,15 +675,14 @@ class BaseMode(procgame.game.Mode):
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[1].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[1].score
-            # Save the game data file
-            self.game.save_game_data()
         else:
             self.game.game_data['LastGameScores']['LastPlayer1Score'] = self.game.players[0].score
             self.game.game_data['LastGameScores']['LastPlayer2Score'] = ' '
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[0].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
-            # Save the game data file
-            self.game.save_game_data()
+
+        # Save the game data file
+        self.game.save_game_data()
 
         self.game.ball = 0
         self.game.roll_number = 0
