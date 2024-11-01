@@ -20,6 +20,7 @@ class BaseMode(procgame.game.Mode):
         # Global Variables
         self.logger = logging.getLogger('game.BaseMode')
         self.p = self.game.current_player()
+        self.lastRollExtraBall = False
 
 
         # Global Settings
@@ -187,8 +188,11 @@ class BaseMode(procgame.game.Mode):
             case 12:
                 self.game.LEDs.enable('Score12',color='FFFFFF')
 
-
-
+        if self.lastRollExtraBall:
+            self.game.LEDs.enable('ExtraBallA',color='FFFFFF')
+            self.game.LEDs.enable('ExtraBallB',color='FFFFFF')
+            self.game.LEDs.enable('ExtraBallC',color='FFFFFF')
+            self.game.LEDs.enable('ExtraBallD',color='FFFFFF')
 
         match self.game.ball:
             # Frames
@@ -385,9 +389,6 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.run_script('Frame6A', self.frameBlinkScript)
                 self.game.LEDs.run_script('Frame6B', self.frameBlinkScript)
 
-
-
-
     def start_game(self):
         self.logger.info("Game Started")
 
@@ -417,8 +418,6 @@ class BaseMode(procgame.game.Mode):
 
         self.game.score_display_mode.updateScoreDisplays()
         self.update_lamps()
-
-        #self.start_ball()
 
     def setPlayerData(self, playerNumber, frame, roll, value):
         # Adjust for 1-based indexing by subtracting 1
@@ -459,7 +458,6 @@ class BaseMode(procgame.game.Mode):
             self.scoreCalculating = False
             return 0
 
-
         if pointsLeft >= 100:
             self.score100Points()
             pointsLeft -= 100
@@ -469,9 +467,6 @@ class BaseMode(procgame.game.Mode):
         elif (pointsLeft >= 1):
             self.score1Point()
             pointsLeft -= 1
-
-
-
 
         if (pointsLeft > 0):
             self.game.score_display_mode.updateScoreDisplays()
@@ -483,10 +478,6 @@ class BaseMode(procgame.game.Mode):
                 self.endRoll()
             self.game.score_display_mode.updateScoreDisplays()
             self.update_lamps()
-
-
-
-
 
     def scoreBall(self,score, isExtraBall=False):
         if not self.scoreCalculating:
@@ -504,8 +495,11 @@ class BaseMode(procgame.game.Mode):
             ######## RULES SECTION ##########
             # EXTRA BALL #
             if isExtraBall:
+                self.lastRollExtraBall = True
                 self.scoreAccumulator(score,True)
                 return
+            else:
+                self.lastRollExtraBall = False
 
             match self.game.ball:
                 # Frames
