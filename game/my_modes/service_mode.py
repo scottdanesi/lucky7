@@ -17,7 +17,8 @@ class ServiceMode(procgame.game.Mode):
 
         self.logger = logging.getLogger('game.ServiceMode')
 
-        self.menuList = ['VER','LED','SW','SOL','DSP','RUL']
+        # self.menuList = ['VER','LED','SW','SOL','DSP','RUL'] # menuList with Ruleset section
+        self.menuList = ['VER','LED','SW','SOL','DSP']
         self.currentMenu = 0
         self.previousMenu = 1
         # self.game.service_mode.serviceModeActive
