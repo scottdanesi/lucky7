@@ -490,8 +490,9 @@ class GameController(object):
                     drivers += [pinproc.driver_state_pulse(main_coil.state(), main_coil.default_pulse_time)]
                     drivers += [pinproc.driver_state_pulse(hold_coil.state(), 0)]
                 else:
-                    drivers += [
-                        pinproc.driver_state_patter(main_coil.state(), 2, 18, main_coil.default_pulse_time, True)]
+                    #drivers += [
+                        #pinproc.driver_state_patter(main_coil.state(), 2, 18, main_coil.default_pulse_time, True)]
+                    drivers += [pinproc.driver_state_pulse(main_coil.state(), main_coil.default_pulse_time)]
             self.proc.switch_update_rule(switch_num, 'closed_nondebounced',
                                          {'notifyHost': False, 'reloadActive': False}, drivers, len(drivers) > 0)
 
@@ -513,7 +514,7 @@ class GameController(object):
         if self.machine_type == pinproc.MachineTypeWPCAlphanumeric:
             self.enable_alphanumeric_flippers(enable)
 
-        self.enable_bumpers(enable)
+        # self.enable_bumpers(enable)
 
     def enable_alphanumeric_flippers(self, enable):
         # 79 corresponds to the circuit on the power/driver board.  It will be 79 for all WPCAlphanumeric machines.
@@ -524,17 +525,19 @@ class GameController(object):
             self.coils[79].disable()
 
     def enable_bumpers(self, enable):
+        try:
+            for bumper in self.config['PRBumpers']:
+                switch_num = self.switches[bumper].number
+                coil = self.coils[bumper]
 
-        for bumper in self.config['PRBumpers']:
-            switch_num = self.switches[bumper].number
-            coil = self.coils[bumper]
+                drivers = []
+                if enable:
+                    drivers += [pinproc.driver_state_pulse(coil.state(), coil.default_pulse_time)]
 
-            drivers = []
-            if enable:
-                drivers += [pinproc.driver_state_pulse(coil.state(), coil.default_pulse_time)]
-
-            self.proc.switch_update_rule(switch_num, 'closed_nondebounced', {'notifyHost': False, 'reloadActive': True},
-                                         drivers, False)
+                self.proc.switch_update_rule(switch_num, 'closed_nondebounced', {'notifyHost': False, 'reloadActive': True},
+                                             drivers, False)
+        except Exception as e:
+            self.logger.error("Enable Bumpers Error: " + str(e))
 
     def install_switch_rule_coil_disable(self, switch_num, switch_state, coil_name, notify_host, enable,
                                          reload_active=False, drive_coil_now_if_valid=False):
