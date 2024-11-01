@@ -79,6 +79,7 @@ class Lucky7Game(game.BasicGame):
 
         # Let's make sure all coils are disabled
         self.utilities_mode.disableAllCoils(tagFilter=None)
+        self.enable_flippers(enable=False)
 
         # Let's disable all the LEDs and set them to an off state upon startup.
         for led in self.leds:
