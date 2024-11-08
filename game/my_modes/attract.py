@@ -27,6 +27,8 @@ class L7AttractMode(procgame.game.Mode):
         self.set_items(self.game.leds)
         self.startButtonBlinkDelay = 500
         self.startButtonLEDStatus = False
+        self.beaconOnSeconds = 10
+        self.beaconOffSeconds = 120
 
         ## Attract Mode Display Frame list
         self.currentAttractDisplayFrame = 0
@@ -142,12 +144,15 @@ class L7AttractMode(procgame.game.Mode):
         self.currentAttractDisplayFrame = 0
         self.attractModeFrameAdvance()
 
+        self.enableBeaconAttractLoop()
+
     def mode_stopped(self):
         self.logger.debug("L7 Attract mode stopped")
         self.game.utilities_mode.disableAllLEDs("Backglass")
         self.game.coils.StartButtonLED.disable()
         self.game.utilities_mode.setBallReturnLED(r=0,g=0,b=0,pulsetime=0)
         self.stopAttractModeFrameAdvance()
+        self.disableBeaconLoop()
 
     def create_led_script(self, fade_time, pattern):
         script = []
@@ -285,7 +290,7 @@ class L7AttractMode(procgame.game.Mode):
                 self.attractDisplayFrameDisplay1 = self.game.game_data['LastGameScores']['LastPlayer1Score']
                 self.attractDisplayFrameDisplay2 = self.game.game_data['LastGameScores']['LastPlayer2Score']
             case 'GC':
-                self.attractDisplayFrameDisplay1 = ' GC'
+                self.attractDisplayFrameDisplay1 = ' HI'
                 self.attractDisplayFrameDisplay2 = self.game.game_data['GrandChamp']['GrandChampScore']
             #case 'HS1':
             #    self.attractDisplayFrameDisplay1 = 'HS1'
@@ -313,3 +318,20 @@ class L7AttractMode(procgame.game.Mode):
     def stopAttractModeFrameAdvance(self):
         self.currentAttractDisplayFrame = 0
         self.cancel_delayed(name='attractFrameAdvance')
+
+    def enableBeaconAttractLoop(self):
+        self.cancel_delayed(name='disableBeacon')
+        self.cancel_delayed(name='enableBeacon')
+        self.game.coils['beacon'].enable()
+        self.delay(name='disableBeacon',delay=self.beaconOnSeconds,handler=self.disableBeaconAttractLoop)
+
+    def disableBeaconAttractLoop(self):
+        self.cancel_delayed(name='disableBeacon')
+        self.cancel_delayed(name='enableBeacon')
+        self.game.coils['beacon'].disable()
+        self.delay(name='enableBeacon',delay=self.beaconOffSeconds,handler=self.enableBeaconAttractLoop)
+
+    def disableBeaconLoop(self):
+        self.cancel_delayed(name='disableBeacon')
+        self.cancel_delayed(name='enableBeacon')
+        self.game.coils['beacon'].disable()
