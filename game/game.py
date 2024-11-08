@@ -11,14 +11,14 @@ import logging
 
 from my_modes import *
 
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 
 class Lucky7Game(game.BasicGame):
     def __init__(self):
         super(Lucky7Game, self).__init__(pinproc.MachineTypePDB)
         # Global Game Variables
         self.versionMajor = "V.01"
-        self.versionMinor = "r.04"
+        self.versionMinor = "r.05"
         self.logger = logging.getLogger('game.core')
         self.load_config('config/lucky7.yaml')
         self.settings_path = "config/settings.yaml"
