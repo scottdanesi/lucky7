@@ -516,6 +516,37 @@ class GameController(object):
 
         # self.enable_bumpers(enable)
 
+    def enable_flippers_linked(self, enable):
+        # Programming Linked Flippers for Lucky 7
+        self.logger.info("Programming Linked Flippers")
+        left_main_coil = self.coils['leftNudgeLwLMain']
+        right_main_coil = self.coils['rightNudgeLwRMain']
+        left_switch_num = 23
+        right_switch_num = 22
+        drivers = []
+        if enable:
+            drivers += [pinproc.driver_state_pulse(left_main_coil.state(), left_main_coil.default_pulse_time)]
+            drivers += [pinproc.driver_state_pulse(right_main_coil.state(), right_main_coil.default_pulse_time)]
+        self.proc.switch_update_rule(left_switch_num, 'closed_nondebounced',
+                                     {'notifyHost': False, 'reloadActive': False}, drivers, len(drivers) > 0)
+        self.proc.switch_update_rule(right_switch_num, 'closed_nondebounced',
+                                     {'notifyHost': False, 'reloadActive': False}, drivers, len(drivers) > 0)
+
+        drivers = []
+        if enable:
+            drivers += [pinproc.driver_state_disable(left_main_coil.state())]
+            drivers += [pinproc.driver_state_disable(right_main_coil.state())]
+
+        self.proc.switch_update_rule(left_switch_num, 'open_nondebounced', {'notifyHost': False, 'reloadActive': False},
+                                     drivers, len(drivers) > 0)
+        self.proc.switch_update_rule(right_switch_num, 'open_nondebounced', {'notifyHost': False, 'reloadActive': False},
+                                     drivers, len(drivers) > 0)
+
+        if not enable:
+            left_main_coil.disable()
+            right_main_coil.disable()
+
+
     def enable_alphanumeric_flippers(self, enable):
         # 79 corresponds to the circuit on the power/driver board.  It will be 79 for all WPCAlphanumeric machines.
         flipperRelayPRNumber = 79
