@@ -23,6 +23,15 @@ class UtilitiesMode(procgame.game.Mode):
         self.previousG = -1
         self.previousB = -1
 
+        ## Chime map definition ###########################################################
+        self.chime_map = {
+            0: self.game.coils.chimeLow,
+            1: self.game.coils.chimeMed,
+            2: self.game.coils.chimeHigh,
+            3: self.game.coils.lowerKnocker,
+            4: self.game.coils.bell
+        }
+
     def mode_started(self):
         pass
 
@@ -79,6 +88,43 @@ class UtilitiesMode(procgame.game.Mode):
         for coil in self.game.coils:
             if tagFilter is None or tagFilter in coil.tags:
                 self.game.coils[coil.name].disable()
+
+    ####################################################################################################################
+    ## CHIME UTILITIES
+    ####################################################################################################################
+    ## self.game.utilities_mode.play_jingle(jingle_matrix=variableName,step_delay=0.5)
+    # Example jingle: A short melody where 1 represents a chime firing
+        # jingle_matrix = [
+        #     [1, 0, 0],  # Low chime fires
+        #     [0, 1, 0],  # Medium chime fires
+        #     [0, 0, 1],  # High chime fires
+        #     [1, 1, 0],  # Low and medium chimes fire
+        #     [0, 0, 0],  # No chime
+        #     [0, 1, 1],  # Medium and high chimes fire
+        # ]
+
+    def play_jingle(self, jingle_matrix, step_delay=0.5):
+        """
+        Plays a jingle based on a matrix where each row is a time step, and columns
+        represent [low_chime, medium_chime, high_chime]. A 1 means the chime should fire.
+
+        Args:
+            jingle_matrix (list of lists): Matrix where 1 fires the coil, 0 does not.
+            step_delay (float): Delay in seconds between each step.
+        """
+        def play_step(index):
+            if index < len(jingle_matrix):
+                step = jingle_matrix[index]
+                for i, chime_on in enumerate(step):
+                    if chime_on == 1:
+                        self.chime_map[i].pulse()
+
+                # Schedule the next step
+                self.delay(name=f'chime_step_{index}', delay=step_delay, handler=play_step, param=index + 1)
+
+        # Start playing the first step
+        play_step(0)
+
 
     ####################################################################################################################
     ## BALL RETURN LED UTILITIES
