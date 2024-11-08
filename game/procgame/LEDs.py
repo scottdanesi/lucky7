@@ -113,7 +113,7 @@ class LEDshow(object):
         # ways other than from LEDshow files from disk. For example, for LED
         # scripts.
 
-        self.logger.info("Processing the LEDshow")
+        # self.logger.info("Processing the LEDshow")
 
         # add this LEDshow to LEDcontoller's list of registered shows
         # use a weakref so garbage collection will del it if we delete the show
