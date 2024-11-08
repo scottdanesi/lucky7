@@ -21,6 +21,74 @@ class BaseMode(procgame.game.Mode):
         self.logger = logging.getLogger('game.BaseMode')
         self.p = self.game.current_player()
         self.lastRollExtraBall = False
+        self.scoreGapDelaySeconds = .2
+
+        # Global Chime Jingles
+        self.jingleGameOverStepDelay = .1
+        self.jingleGameOver = [
+            [0, 1, 1, 0, 0],  # Low chime fires
+            [1, 1, 0, 0, 0],  # Medium chime fires
+            [0, 0, 0, 0, 0],  # High chime fires
+            [1, 1, 0, 0, 0],  # Low and medium chimes fire
+            [0, 0, 0, 0, 0],  # No chime
+            [1, 1, 1, 0, 0],  # Medium and high chimes fire
+            ]
+
+        self.jingleStartGameStepDelay = .1
+        self.jingleStartGame = [
+            [1, 0, 0, 0, 0],  # Low chime fires
+            [0, 0, 0, 0, 0],  # Medium chime fires
+            [0, 1, 0, 0, 0],  # High chime fires
+            [0, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0],
+            [1, 1, 1, 0, 0],
+        ]
+
+        self.jinglePlayerAddStepDelay = .1
+        self.jinglePlayerAdd = [
+            [1, 0, 0, 0, 0],  # Low chime fires
+            [0, 1, 0, 0, 0],  # Medium chime fires
+            [0, 0, 1, 0, 0],  # High chime fires
+            [0, 0, 1, 0, 0],  # High chime fires
+        ]
+
+        self.jingleSevenRollStepDelay = .2
+        self.jingleSevenRoll = [
+            [1, 0, 1, 0, 1],
+            [0, 1, 0, 0, 0],
+            [0, 1, 1, 0, 0],
+            [1, 1, 0, 0, 1],
+            [0, 1, 0, 0, 0],
+            [1, 1, 1, 0, 0],
+        ]
+
+        self.jingleBonusMadeRollStepDelay = .2
+        self.jingleBonusMadeRoll = [
+            [1, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0],
+            [1, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0],
+        ]
+
+        self.jingleExtraBallDelay = .4
+        self.jingleExtraBall = [
+            [1, 0, 0, 0, 0],  # Low chime fires
+            [0, 1, 0, 0, 0],  # Medium chime fires
+            [0, 0, 1, 0, 0],  # High chime fires
+        ]
+
+        self.jingleNewHighScoreDelay = .3
+        self.jingleNewHighScore = [
+            [0, 0, 0, 1, 0],  # Low chime fires
+            [0, 0, 0, 1, 0],  # Medium chime fires
+            [0, 0, 0, 1, 0],  # High chime fires
+            [0, 0, 0, 0, 0],  # High chime fires
+            [0, 0, 0, 0, 1],  # High chime fires
+        ]
 
 
         # Global Settings
@@ -64,12 +132,18 @@ class BaseMode(procgame.game.Mode):
         self.bonusBlinkScript7.append({'color': '000000', 'time': 160, 'fade': True})
         self.bonusBlinkScript7.append({'color': '000000', 'time': 160, 'fade': True})
 
+        self.bonusBlinkScript7B = []
+        self.bonusBlinkScript7B.append({'color': '000000', 'time': 160, 'fade': True})
+        self.bonusBlinkScript7B.append({'color': '000000', 'time': 160, 'fade': True})
+        self.bonusBlinkScript7B.append({'color': 'FFFFFF', 'time': 160, 'fade': True})
+        self.bonusBlinkScript7B.append({'color': 'FFFFFF', 'time': 160, 'fade': True})
+
         self.madeBonusFlashScript = []
         self.madeBonusFlashScript.append({'color': 'FFFFFF', 'time': 100, 'fade': False})
         self.madeBonusFlashScript.append({'color': '000000', 'time': 100, 'fade': False})
 
     def mode_started(self):
-        self.game.enable_flippers(enable=False)
+        self.game.enable_flippers_linked(enable=False)
         self.game.modes.add(self.game.attract_mode)
 
     def mode_stopped(self):
@@ -84,7 +158,10 @@ class BaseMode(procgame.game.Mode):
         if disableAllPrior:
             self.game.utilities_mode.disableAllLEDs("Backglass")
 
-        self.game.utilities_mode.setBallReturnLED(r=0,g=255,b=0,pulsetime=0)
+        if self.scoreCalculating:
+            self.game.utilities_mode.setBallReturnLED(r=255,g=0,b=0,pulsetime=0)
+        else:
+            self.game.utilities_mode.setBallReturnLED(r=0,g=255,b=0,pulsetime=0)
 
         # Set constant On Lamps
         self.game.LEDs.enable('Big7A',color='FFFFFF')
@@ -116,6 +193,11 @@ class BaseMode(procgame.game.Mode):
         self.game.LEDs.enable('FramesB',color='FFFFFF')
         self.game.LEDs.enable('FramesC',color='FFFFFF')
         self.game.LEDs.enable('FramesD',color='FFFFFF')
+
+        self.game.LEDs.run_script("7ScoresBonusOfA", self.bonusBlinkScript7B)
+        self.game.LEDs.run_script("7ScoresBonusOfB", self.bonusBlinkScript7B)
+        self.game.LEDs.run_script("7ScoresBonusOfC", self.bonusBlinkScript7B)
+        self.game.LEDs.run_script("7ScoresBonusOfD", self.bonusBlinkScript7B)
 
         if(self.game.current_player_index == 0):
             self.game.LEDs.stop_script("Player1A")
@@ -196,10 +278,14 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.enable('Score12',color='FFFFFF')
 
         if self.lastRollExtraBall:
-            self.game.LEDs.enable('ExtraBallA',color='FFFFFF')
-            self.game.LEDs.enable('ExtraBallB',color='FFFFFF')
-            self.game.LEDs.enable('ExtraBallC',color='FFFFFF')
-            self.game.LEDs.enable('ExtraBallD',color='FFFFFF')
+            # self.game.LEDs.enable('ExtraBallA',color='FFFFFF')
+            # self.game.LEDs.enable('ExtraBallB',color='FFFFFF')
+            # self.game.LEDs.enable('ExtraBallC',color='FFFFFF')
+            # self.game.LEDs.enable('ExtraBallD',color='FFFFFF')
+            self.game.LEDs.run_script("ExtraBallA", self.madeBonusFlashScript)
+            self.game.LEDs.run_script("ExtraBallB", self.madeBonusFlashScript)
+            self.game.LEDs.run_script("ExtraBallC", self.madeBonusFlashScript)
+            self.game.LEDs.run_script("ExtraBallD", self.madeBonusFlashScript)
 
         match self.game.ball:
             # Frames
@@ -430,13 +516,17 @@ class BaseMode(procgame.game.Mode):
         self.game.game_data['LastGameScores']['LastPlayer1Score'] = ' '
         self.game.game_data['LastGameScores']['LastPlayer2Score'] = ' '
 
+        # Remove Attract Mode
         self.game.modes.remove(self.game.attract_mode)
+
+        self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleStartGame,step_delay=self.jingleStartGameStepDelay)
 
         self.game.add_player() # will be first player at this point
         self.game.ball = 1 # AKA Frame
         self.game.roll_number = 1
+        self.lastRollExtraBall = False
 
-        self.game.players[0].score = 0
+        self.game.players[0].score = 0 # Set player 1 score to nothing just in case
 
         # Initialize Player Data Arrays with 6 frames and 2 rolls each
         self.player1DataArray = [[0, 0] for _ in range(6)]
@@ -448,10 +538,16 @@ class BaseMode(procgame.game.Mode):
                 self.setPlayerData(1, f, r, 0)
                 self.setPlayerData(2, f, r, 0)
 
-        self.game.enable_flippers(enable=True)
+        self.game.enable_flippers_linked(enable=True)
 
         self.game.score_display_mode.updateScoreDisplays()
         self.update_lamps()
+
+        self.logger.info("---------Start Game----------")
+        self.logger.info(f"Player Index: {self.game.current_player_index}")
+        self.logger.info(f"Total Players: {len(self.game.players)}")
+        self.logger.info(f"Ball Number: {self.game.ball}")
+        self.logger.info(f"Roll Number: {self.game.roll_number}")
 
     def setPlayerData(self, playerNumber, frame, roll, value):
         # Adjust for 1-based indexing by subtracting 1
@@ -471,21 +567,32 @@ class BaseMode(procgame.game.Mode):
         # self.p = self.game.current_player()
         # self.p.score += 100
         self.game.players[self.game.current_player_index].score += 100
-        # Fire Chime 3
+        # Fire Upper Knocker Click
+        self.game.coils['upperKnocker'].pulse(5)
+        # Delay Fire Chime
+        self.delay(handler=self.game.coils['chimeHigh'].pulse, delay=.1)
 
     def score10Points(self):
         # self.p = self.game.current_player()
         # self.p.score += 10
         self.game.players[self.game.current_player_index].score += 10
-        # Fire Chime 2
+        # Fire Upper Knocker Click
+        self.game.coils['upperKnocker'].pulse(5)
+        # Delay Fire Chime
+        self.delay(handler=self.game.coils['chimeMed'].pulse, delay=.1)
 
     def score1Point(self):
         # self.p = self.game.current_player()
         # self.p.score += 1
         self.game.players[self.game.current_player_index].score += 1
-        # Fire Chime 1
+        # Fire Upper Knocker Click
+        self.game.coils['upperKnocker'].pulse(5)
+        # Delay Fire Chime
+        self.delay(handler=self.game.coils['chimeLow'].pulse, delay=.1)
+
 
     def scoreAccumulator(self,pointsLeft, isExtraBall=False):
+        isExtraBall = self.lastRollExtraBall
         if (pointsLeft > 0):
             self.scoreCalculating = True
         else:
@@ -505,19 +612,28 @@ class BaseMode(procgame.game.Mode):
         if (pointsLeft > 0):
             self.game.score_display_mode.updateScoreDisplays()
             #self.update_lamps()
-            self.delay(name='pointsAccumulatorDelay',delay=.3,handler=self.scoreAccumulator,param=pointsLeft)
+            self.delay(name='pointsAccumulatorDelay',delay=self.scoreGapDelaySeconds,handler=self.scoreAccumulator,param=pointsLeft)
         else:
-            self.scoreCalculating = False
             if not isExtraBall:
-                self.endRoll()
-            self.game.score_display_mode.updateScoreDisplays()
-            self.update_lamps()
+                self.delay(name='endRollDelay',delay=self.scoreGapDelaySeconds,handler=self.endRoll)
+                self.game.score_display_mode.updateScoreDisplays()
+            else:
+                self.scoreCalculating = False
+                self.game.score_display_mode.updateScoreDisplays()
+                self.update_lamps()
 
-    def scoreBall(self,score, isExtraBall=False):
+    def scoreBall(self, score, isExtraBall=False):
         if not self.scoreCalculating:
             self.scoreCalculating = True
 
+
+
             self.currentPlayerNumber = self.game.current_player_index + 1
+
+            if self.currentPlayerNumber == 2:
+                playerArrayDataTemp = self.player2DataArray
+            else:
+                playerArrayDataTemp = self.player1DataArray
 
             self.logger.info("---------Score Ball----------")
             self.logger.info(f"Player Index: {self.currentPlayerNumber}")
@@ -525,12 +641,18 @@ class BaseMode(procgame.game.Mode):
             self.logger.info(f"Roll Number: {self.game.roll_number}")
             self.logger.info(f"Score: {score}")
             self.logger.info(f"Extra Ball: {isExtraBall}")
+            self.logger.info(f"Player Data (Pre Score): {playerArrayDataTemp}")
 
             ######## RULES SECTION ##########
             # EXTRA BALL #
             if isExtraBall:
                 self.lastRollExtraBall = True
-                self.scoreAccumulator(score,True)
+                self.update_lamps()
+                # self.game.coils['lowerKnocker'].pulse()
+                # self.delay(name='endRollDelay',delay=self.scoreGapDelaySeconds,handler=self.endRoll)
+                self.startExtraBallFanfare()
+                self.delay(name='ExtraBallFanfareDelay',delay=2,handler=self.scoreAccumulator,param=score)
+                # self.scoreAccumulator(score,True)
                 return
             else:
                 self.lastRollExtraBall = False
@@ -553,10 +675,14 @@ class BaseMode(procgame.game.Mode):
                         # See if any bonuses
                         if self.currentFrameTotal == 7:
                             self.currentRollTotal += 20
+                            self.startSevenRollFanfare()
+                            self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal < 7:
                             self.currentRollTotal += 10
-
-                        self.scoreAccumulator(self.currentRollTotal)
+                            self.startBonusMadeFanfare()
+                            self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
+                        else:
+                            self.scoreAccumulator(self.currentRollTotal)
 
                 case 2:
                     if self.game.roll_number == 1:
@@ -574,10 +700,14 @@ class BaseMode(procgame.game.Mode):
                         # See if any bonuses
                         if self.currentFrameTotal == 7:
                             self.currentRollTotal += 20
+                            self.startSevenRollFanfare()
+                            self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal < 7:
                             self.currentRollTotal += 20
-
-                        self.scoreAccumulator(self.currentRollTotal)
+                            self.startBonusMadeFanfare()
+                            self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
+                        else:
+                            self.scoreAccumulator(self.currentRollTotal)
 
                 case 3:
                     if self.game.roll_number == 1:
@@ -595,10 +725,14 @@ class BaseMode(procgame.game.Mode):
                         # See if any bonuses
                         if self.currentFrameTotal == 7:
                             self.currentRollTotal += 50
+                            self.startSevenRollFanfare()
+                            self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal < 7:
                             self.currentRollTotal += 50
-
-                        self.scoreAccumulator(self.currentRollTotal)
+                            self.startBonusMadeFanfare()
+                            self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
+                        else:
+                            self.scoreAccumulator(self.currentRollTotal)
 
                 case 4:
                     if self.game.roll_number == 1:
@@ -616,10 +750,14 @@ class BaseMode(procgame.game.Mode):
                         # See if any bonuses
                         if self.currentFrameTotal == 7:
                             self.currentRollTotal += 50
+                            self.startSevenRollFanfare()
+                            self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal > 7:
                             self.currentRollTotal += 10
-
-                        self.scoreAccumulator(self.currentRollTotal)
+                            self.startBonusMadeFanfare()
+                            self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
+                        else:
+                            self.scoreAccumulator(self.currentRollTotal)
 
                 case 5:
                     if self.game.roll_number == 1:
@@ -637,10 +775,14 @@ class BaseMode(procgame.game.Mode):
                         # See if any bonuses
                         if self.currentFrameTotal == 7:
                             self.currentRollTotal += 100
+                            self.startSevenRollFanfare()
+                            self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal > 7:
                             self.currentRollTotal += 20
-
-                        self.scoreAccumulator(self.currentRollTotal)
+                            self.startBonusMadeFanfare()
+                            self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
+                        else:
+                            self.scoreAccumulator(self.currentRollTotal)
 
                 case 6:
                     if self.game.roll_number == 1:
@@ -658,11 +800,35 @@ class BaseMode(procgame.game.Mode):
                         # See if any bonuses
                         if self.currentFrameTotal == 7:
                             self.currentRollTotal += 100
+                            self.startSevenRollFanfare()
+                            self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal > 7:
                             self.currentRollTotal += 50
+                            self.startBonusMadeFanfare()
+                            self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
+                        else:
+                            self.scoreAccumulator(self.currentRollTotal)
 
-                        self.scoreAccumulator(self.currentRollTotal)
+        if self.currentPlayerNumber == 2:
+            playerArrayDataTemp = self.player2DataArray
+        else:
+            playerArrayDataTemp = self.player1DataArray
+        self.logger.info(f"Player Data (Post Score Score): {playerArrayDataTemp}")
 
+    def startSevenRollFanfare(self):
+        self.game.coils['beacon'].enable()
+        self.game.coils['bell'].pulse()
+        self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleSevenRoll,step_delay=self.jingleSevenRollStepDelay)
+        self.delay(name='endSevenFanfare',delay=5,handler=self.endSevenRollFanfare)
+
+    def endSevenRollFanfare(self):
+        self.game.coils['beacon'].disable()
+
+    def startBonusMadeFanfare(self):
+        self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleBonusMadeRoll,step_delay=self.jingleBonusMadeRollStepDelay)
+
+    def startExtraBallFanfare(self):
+        self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleExtraBall,step_delay=self.jingleExtraBallDelay)
 
     def endRoll(self):
         self.logger.info("---------END ROLL----------")
@@ -670,19 +836,25 @@ class BaseMode(procgame.game.Mode):
         self.logger.info(f"Current Ball Number: {self.game.ball}")
         self.logger.info(f"Current Roll Number: {self.game.roll_number}")
 
-
         if self.game.roll_number == 2:
-            # Increment Ball and reset roll number
+            # Check if the game is on the last ball
             if self.game.ball < 6:
                 self.game.roll_number = 1
                 if self.game.current_player_index + 1 < len(self.game.players):
-                    self.game.current_player_index += 1 # Increment that current Player
+                    self.game.current_player_index += 1  # Increment to the next player
                 else:
-                    self.game.current_player_index = 0
-                    self.game.ball += 1
+                    self.game.current_player_index = 0  # Reset to the first player
+                    self.game.ball += 1  # Increment the ball number
             else:
-                # END OF GAME
-                self.end_game()
+                # Check if all players have played the last ball
+                if self.game.current_player_index + 1 < len(self.game.players):
+                    self.game.roll_number = 1
+                    self.game.current_player_index += 1  # Move to the next player
+                else:
+                    # END OF GAME after the last player has taken their turn
+                    self.scoreCalculating = False
+                    self.end_game()
+                    return
         else:
             self.game.roll_number += 1
 
@@ -690,27 +862,50 @@ class BaseMode(procgame.game.Mode):
         self.logger.info(f"New Ball Number: {self.game.ball}")
         self.logger.info(f"New Roll Number: {self.game.roll_number}")
 
+        self.scoreCalculating = False
+        self.game.score_display_mode.updateScoreDisplays()
+        self.update_lamps()
+
     def end_game(self):
         self.logger.info("Game Ended")
 
-        self.game.enable_flippers(enable=False)
+        self.game.enable_flippers_linked(enable=False)
+
+        self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleGameOver,step_delay=self.jingleGameOverStepDelay)
+
+        newGrandChamp = False
 
         if len(self.game.players) == 2:
             #Set Prior Game Scores
             self.game.game_data['LastGameScores']['LastPlayer1Score'] = self.game.players[0].score
             self.game.game_data['LastGameScores']['LastPlayer2Score'] = self.game.players[1].score
+
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[0].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
+                newGrandChamp = True
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[1].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[1].score
+                newGrandChamp = True
         else:
             self.game.game_data['LastGameScores']['LastPlayer1Score'] = self.game.players[0].score
             self.game.game_data['LastGameScores']['LastPlayer2Score'] = ' '
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[0].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
+                newGrandChamp = True
 
         # Save the game data file
         self.game.save_game_data()
+
+        if newGrandChamp:
+            self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewHighScore,step_delay=self.jingleNewHighScoreDelay)
+            self.game.coils['beacon'].enable()
+            self.delay(delay=7, handler=self.game.coils['beacon'].disable)
+
+        self.logger.info("---------End Game----------")
+        self.logger.info(f"Player Index: {self.game.current_player_index}")
+        self.logger.info(f"Total Players: {len(self.game.players)}")
+        self.logger.info(f"Ball Number: {self.game.ball}")
+        self.logger.info(f"Roll Number: {self.game.roll_number}")
 
         self.game.ball = 0
         self.game.roll_number = 0
@@ -718,7 +913,19 @@ class BaseMode(procgame.game.Mode):
         self.game.players = []
         self.game.current_player_index = 0
 
-        self.game.modes.add(self.game.attract_mode)
+        self.logger.info("---------End Game After Variable Reset----------")
+        self.logger.info(f"Player Index: {self.game.current_player_index}")
+        self.logger.info(f"Total Players: {len(self.game.players)}")
+        self.logger.info(f"Ball Number: {self.game.ball}")
+        self.logger.info(f"Roll Number: {self.game.roll_number}")
+
+        self.logger.info("---------End Game Final Player Data----------")
+        self.logger.info(f"Player 1 Data Array: {self.player1DataArray}")
+        self.logger.info(f"Player 2 Data Array: {self.player2DataArray}")
+
+        # self.game.modes.add(self.game.attract_mode)
+
+        self.game.reset()
 
     def sw_startButton_active_for_2000ms(self, sw):
         #Force Stop Game
@@ -733,6 +940,7 @@ class BaseMode(procgame.game.Mode):
         elif self.game.ball == 1 and len(self.game.players) < 2:
             #Add Player
             self.game.add_player()
+            self.game.utilities_mode.play_jingle(jingle_matrix=self.jinglePlayerAdd,step_delay=self.jinglePlayerAddStepDelay)
             self.game.players[1].score = 0
             self.game.score_display_mode.updateScoreDisplays()
 
