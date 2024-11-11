@@ -29,12 +29,13 @@ class L7AttractMode(procgame.game.Mode):
         self.startButtonLEDStatus = False
         self.beaconOnSeconds = 10
         self.beaconOffSeconds = 120
+        self.robAnimationFlag = True
 
         ## Attract Mode Display Frame list
         self.currentAttractDisplayFrame = 0
-        self.attractDisplayFrameTypeList = ['LS','GC']
+        self.attractDisplayFrameTypeList = ['LS','GC','LO']
         # self.attractDisplayFrameTypeList = ['LS','GC','HS1','HS2','HS3','HS4'] # Backup for full HS Table
-        self.attractDisplayFrameDelayTimeList = [6,3]
+        self.attractDisplayFrameDelayTimeList = [6,3,3]
         self.attractDisplayFrameDisplay1 = ''
         self.attractDisplayFrameDisplay2 = ''
 
@@ -153,6 +154,9 @@ class L7AttractMode(procgame.game.Mode):
         self.game.utilities_mode.setBallReturnLED(r=0,g=0,b=0,pulsetime=0)
         self.stopAttractModeFrameAdvance()
         self.disableBeaconLoop()
+        self.robAnimationFlag = True
+        self.cancel_delayed(name='attractFrameAdvance')
+        self.cancel_delayed(name='toggleRobAnimation')
 
     def create_led_script(self, fade_time, pattern):
         script = []
@@ -279,6 +283,9 @@ class L7AttractMode(procgame.game.Mode):
 
 
     def attractModeFrameAdvance(self):
+
+        self.cancel_delayed(name='toggleRobAnimation')
+
         # Get the length of the list
         list_length = len(self.attractDisplayFrameTypeList)
 
@@ -287,11 +294,17 @@ class L7AttractMode(procgame.game.Mode):
 
         match current_frame:
             case 'LS':
-                self.attractDisplayFrameDisplay1 = self.game.game_data['LastGameScores']['LastPlayer1Score']
-                self.attractDisplayFrameDisplay2 = self.game.game_data['LastGameScores']['LastPlayer2Score']
+                if self.game.game_data['LastGameScores']['LastPlayer1Score'] == 41 or self.game.game_data['LastGameScores']['LastPlayer2Score'] == 41:
+                    self.toggleRobAnimation()
+                else:
+                    self.attractDisplayFrameDisplay1 = self.game.game_data['LastGameScores']['LastPlayer1Score']
+                    self.attractDisplayFrameDisplay2 = self.game.game_data['LastGameScores']['LastPlayer2Score']
             case 'GC':
                 self.attractDisplayFrameDisplay1 = ' HI'
                 self.attractDisplayFrameDisplay2 = self.game.game_data['GrandChamp']['GrandChampScore']
+            case 'LO':
+                self.attractDisplayFrameDisplay1 = ' LO'
+                self.attractDisplayFrameDisplay2 = self.game.game_data['LowScoreChamp']['LowScore']
             #case 'HS1':
             #    self.attractDisplayFrameDisplay1 = 'HS1'
             #    self.attractDisplayFrameDisplay2 = self.game.game_data['HighScore1']['HighScore1Score']
@@ -314,6 +327,16 @@ class L7AttractMode(procgame.game.Mode):
 
         # Advance to the next frame, wrapping around using modulus
         self.currentAttractDisplayFrame = (self.currentAttractDisplayFrame + 1) % list_length
+
+    def toggleRobAnimation(self):
+        if self.robAnimationFlag:
+            self.game.score_display_mode.updatePlayerDisplay(1, self.game.game_data['LastGameScores']['LastPlayer1Score'])
+            self.game.score_display_mode.updatePlayerDisplay(2, self.game.game_data['LastGameScores']['LastPlayer2Score'])
+        else:
+            self.game.score_display_mode.updatePlayerDisplay(1, "HA")
+            self.game.score_display_mode.updatePlayerDisplay(2, "ROB")
+        self.robAnimationFlag = not self.robAnimationFlag
+        self.delay(name='toggleRobAnimation',delay=.5,handler=self.toggleRobAnimation)
 
     def stopAttractModeFrameAdvance(self):
         self.currentAttractDisplayFrame = 0
