@@ -15,3 +15,7 @@ LastGameScores:
   LastPlayer2Score: 456
 GrandChamp:
   GrandChampScore: 80
+LowScoreChamp:
+  LowScore: 80
+NudgePowerLevel:
+  NudgeLevel: 3
