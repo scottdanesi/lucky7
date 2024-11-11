@@ -81,12 +81,21 @@ class BaseMode(procgame.game.Mode):
             [0, 0, 1, 0, 0],  # High chime fires
         ]
 
-        self.jingleNewHighScoreDelay = .3
+        self.jingleNewHighScoreDelay = .4
         self.jingleNewHighScore = [
-            [0, 0, 0, 1, 0],  # Low chime fires
-            [0, 0, 0, 1, 0],  # Medium chime fires
-            [0, 0, 0, 1, 0],  # High chime fires
+            [1, 0, 0, 1, 0],  # Low chime fires
+            [0, 1, 0, 1, 0],  # Medium chime fires
+            [0, 0, 1, 1, 0],  # High chime fires
             [0, 0, 0, 0, 0],  # High chime fires
+            [0, 0, 0, 0, 1],  # High chime fires
+        ]
+
+        self.jingleNewLowScoreDelay = .6
+        self.jingleNewLowScore = [
+            [0, 0, 1, 0, 0],  # Low chime fires
+            [0, 1, 0, 0, 0],  # Medium chime fires
+            [1, 0, 0, 0, 0],  # High chime fires
+            [0, 0, 0, 1, 0],  # High chime fires
             [0, 0, 0, 0, 1],  # High chime fires
         ]
 
@@ -874,6 +883,7 @@ class BaseMode(procgame.game.Mode):
         self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleGameOver,step_delay=self.jingleGameOverStepDelay)
 
         newGrandChamp = False
+        newLowChamp = False
 
         if len(self.game.players) == 2:
             #Set Prior Game Scores
@@ -886,18 +896,36 @@ class BaseMode(procgame.game.Mode):
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[1].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[1].score
                 newGrandChamp = True
+
+            if self.game.game_data['LowScoreChamp']['LowScore'] > self.game.players[0].score:
+                self.game.game_data['LowScoreChamp']['LowScore'] = self.game.players[0].score
+                newLowChamp = True
+            if self.game.game_data['LowScoreChamp']['LowScore'] > self.game.players[1].score:
+                self.game.game_data['LowScoreChamp']['LowScore'] = self.game.players[1].score
+                newLowChamp = True
         else:
             self.game.game_data['LastGameScores']['LastPlayer1Score'] = self.game.players[0].score
             self.game.game_data['LastGameScores']['LastPlayer2Score'] = ' '
+
             if self.game.game_data['GrandChamp']['GrandChampScore'] < self.game.players[0].score:
                 self.game.game_data['GrandChamp']['GrandChampScore'] = self.game.players[0].score
                 newGrandChamp = True
+
+            if self.game.game_data['LowScoreChamp']['LowScore'] > self.game.players[0].score:
+                self.game.game_data['LowScoreChamp']['LowScore'] = self.game.players[0].score
+                newLowChamp = True
+
+
 
         # Save the game data file
         self.game.save_game_data()
 
         if newGrandChamp:
             self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewHighScore,step_delay=self.jingleNewHighScoreDelay)
+            self.game.coils['beacon'].enable()
+            self.delay(delay=7, handler=self.game.coils['beacon'].disable)
+        elif newLowChamp:
+            self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewLowScore,step_delay=self.jingleNewLowScoreDelay)
             self.game.coils['beacon'].enable()
             self.delay(delay=7, handler=self.game.coils['beacon'].disable)
 

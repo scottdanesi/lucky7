@@ -525,8 +525,25 @@ class GameController(object):
         right_switch_num = 22
         drivers = []
         if enable:
-            drivers += [pinproc.driver_state_pulse(left_main_coil.state(), left_main_coil.default_pulse_time)]
-            drivers += [pinproc.driver_state_pulse(right_main_coil.state(), right_main_coil.default_pulse_time)]
+            match self.game_data['NudgePowerLevel']['NudgeLevel']:
+                case 1:
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 3)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 3)]
+                case 2:
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 6)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 6)]
+                case 3:
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 8)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 8)]
+                case 4:
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 11)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 11)]
+                case 5:
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 15)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 15)]
+
+            #drivers += [pinproc.driver_state_pulse(left_main_coil.state(), left_main_coil.default_pulse_time)]
+            #drivers += [pinproc.driver_state_pulse(right_main_coil.state(), right_main_coil.default_pulse_time)]
         self.proc.switch_update_rule(left_switch_num, 'closed_nondebounced',
                                      {'notifyHost': False, 'reloadActive': False}, drivers, len(drivers) > 0)
         self.proc.switch_update_rule(right_switch_num, 'closed_nondebounced',

@@ -18,7 +18,7 @@ class ServiceMode(procgame.game.Mode):
         self.logger = logging.getLogger('game.ServiceMode')
 
         # self.menuList = ['VER','LED','SW','SOL','DSP','RUL'] # menuList with Ruleset section
-        self.menuList = ['VER','LED','SW','SOL','DSP','RST']
+        self.menuList = ['VER','LED','SW','SOL','DSP','RSTH','RSTL','NDG']
         self.currentMenu = 0
         self.previousMenu = 1
         # self.game.service_mode.serviceModeActive
@@ -164,12 +164,25 @@ class ServiceMode(procgame.game.Mode):
                 ########################################################################################################
                 self.game.score_display_mode.updatePlayerDisplay(1,"RUL", fade=0)
                 self.game.score_display_mode.updatePlayerDisplay(2,str(self.game.user_settings['Standard']['RUL']), fade=0)
-            case 'RST':
+            case 'RSTH':
                 ########################################################################################################
                 ## Reset GC Selection
                 ########################################################################################################
                 self.game.score_display_mode.updatePlayerDisplay(1,"RST", fade=0)
                 self.game.score_display_mode.updatePlayerDisplay(2,"HI", fade=0)
+            case 'RSTL':
+                ########################################################################################################
+                ## Reset Low Score Selection
+                ########################################################################################################
+                self.game.score_display_mode.updatePlayerDisplay(1,"RST", fade=0)
+                self.game.score_display_mode.updatePlayerDisplay(2,"LO", fade=0)
+            case 'NDG':
+                ########################################################################################################
+                ## Set Nudge Level
+                ########################################################################################################
+                nudgeLevel = self.game.game_data['NudgePowerLevel']['NudgeLevel']
+                self.game.score_display_mode.updatePlayerDisplay(1,"NDG", fade=0)
+                self.game.score_display_mode.updatePlayerDisplay(2,nudgeLevel, fade=0)
 
     ## Display Test Loop Function ######################################################################################
     def displayTestLoop(self):
@@ -279,7 +292,7 @@ class ServiceMode(procgame.game.Mode):
                     self.game.save_game_data()
                     self.logger.info(f"Ruleset changed to {self.game.user_settings['Standard']['RUL']}")
                     self.game.score_display_mode.updatePlayerDisplay(2,str(self.game.user_settings['Standard']['RUL']))
-                case 'RST':
+                case 'RSTH':
                     ########################################################################################################
                     ## Reset GC Selection
                     ########################################################################################################
@@ -289,6 +302,29 @@ class ServiceMode(procgame.game.Mode):
 
                     self.game.score_display_mode.updatePlayerDisplay(1,"RST", fade=0)
                     self.game.score_display_mode.updatePlayerDisplay(2,"DON", fade=0)
+                case 'RSTL':
+                    ########################################################################################################
+                    ## Reset Low Score Selection
+                    ########################################################################################################
+                    self.game.game_data['LowScoreChamp']['LowScore'] = 80
+                    # Save the game data file
+                    self.game.save_game_data()
+
+                    self.game.score_display_mode.updatePlayerDisplay(1,"RST", fade=0)
+                    self.game.score_display_mode.updatePlayerDisplay(2,"DON", fade=0)
+                case 'NDG':
+                    ########################################################################################################
+                    ## Set Nudge Level
+                    ########################################################################################################
+                    nudgeLevel = self.game.game_data['NudgePowerLevel']['NudgeLevel']
+                    if nudgeLevel < 5:
+                        nudgeLevel += 1
+                    else:
+                        nudgeLevel = 1
+                    self.game.game_data['NudgePowerLevel']['NudgeLevel'] = nudgeLevel
+                    self.game.save_game_data()
+                    self.game.score_display_mode.updatePlayerDisplay(1,"NDG", fade=0)
+                    self.game.score_display_mode.updatePlayerDisplay(2,nudgeLevel, fade=0)
 
     def sw_up_active(self, sw):
         if self.serviceModeActive:
