@@ -536,11 +536,11 @@ class GameController(object):
                     drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 8)]
                     drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 8)]
                 case 4:
-                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 11)]
-                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 11)]
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 10)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 10)]
                 case 5:
-                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 15)]
-                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 15)]
+                    drivers += [pinproc.driver_state_pulse(left_main_coil.state(), 12)]
+                    drivers += [pinproc.driver_state_pulse(right_main_coil.state(), 12)]
 
             #drivers += [pinproc.driver_state_pulse(left_main_coil.state(), left_main_coil.default_pulse_time)]
             #drivers += [pinproc.driver_state_pulse(right_main_coil.state(), right_main_coil.default_pulse_time)]
