@@ -214,7 +214,8 @@ class ServiceMode(procgame.game.Mode):
                     self.displayTestDisplayCharacter = 0
                     self.displayTestStage = 2
 
-            self.game.score_display_mode.sendValueToDisplay(self.displayTestDisplayNumber,self.displayTestDisplayCharacter, str(self.displayTestText), fade=0)
+            if self.displayTestStage == 1:
+                self.game.score_display_mode.sendValueToDisplay(self.displayTestDisplayNumber,self.displayTestDisplayCharacter, str(self.displayTestText), fade=0)
         else:
             self.game.utilities_mode.disableAllLEDs("NumericDisplay",fade=0)
             self.game.score_display_mode.sendValueToDisplay(1,1, str(self.displayTestText), fade=0)
