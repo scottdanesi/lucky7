@@ -227,13 +227,13 @@ class L7AttractMode(procgame.game.Mode):
         self.game.LEDs.run_script("GameOverB", self.create_led_script(self.FrameNumberScriptFade, self.FrameNumbersLightshows['G']))
 
         self.game.LEDs.run_script("RedBonus50", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['A']))
-        self.game.LEDs.run_script("RedBonus20", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['B']))
+        self.game.LEDs.run_script("RedBonus25", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['B']))
         self.game.LEDs.run_script("RedBonus10", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['C']))
         self.game.LEDs.run_script("BlueBonus20", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['D']))
         self.game.LEDs.run_script("BlueBonus50", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['E']))
         self.game.LEDs.run_script("BlueBonus100", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['F']))
         self.game.LEDs.run_script("YellowBonus10", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['G']))
-        self.game.LEDs.run_script("YellowBonus20", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['H']))
+        self.game.LEDs.run_script("YellowBonus25", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['H']))
         self.game.LEDs.run_script("YellowBonus50", self.create_led_script(self.BonusNumberScriptFade, self.BonusNumbersLightshows['I']))
 
         ## Enable Static Backbox Inserts

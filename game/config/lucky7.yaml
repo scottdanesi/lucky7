@@ -1013,7 +1013,7 @@ PRLEDs:
         polarity: False
         tags: Backglass,RedBonus,RedBonusNumbers,Red
         label: 'Red Bonus 10'
-    RedBonus20:
+    RedBonus25:
         number: A5-R34
         polarity: False
         tags: Backglass,RedBonus,RedBonusNumbers,Red
@@ -1075,7 +1075,7 @@ PRLEDs:
         polarity: False
         tags: Backglass,YellowBonus,YellowBonusNumbers,Yellow
         label: 'Yellow Bonus 10'
-    YellowBonus20:
+    YellowBonus25:
         number: A5-R56
         polarity: False
         tags: Backglass,YellowBonus,YellowBonusNumbers,Yellow

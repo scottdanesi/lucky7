@@ -1,15 +1,15 @@
 ################################################################################################
 ## This mode is the Lucky 7 Base Game Mode.
 ################################################################################################
-from cgitb import handler
+# from cgitb import handler
 
 ###############################
 ## Global Imports
 ###############################
 import procgame.game
-import pygame
-from pygame.locals import *
-from pygame.font import *
+# import pygame
+# from pygame.locals import *
+# from pygame.font import *
 import logging
 
 
@@ -19,7 +19,7 @@ class BaseMode(procgame.game.Mode):
 
         # Global Variables
         self.logger = logging.getLogger('game.BaseMode')
-        self.p = self.game.current_player()
+        # self.p = self.game.current_player()
         self.lastRollExtraBall = False
         self.scoreGapDelaySeconds = .2
 
@@ -221,14 +221,16 @@ class BaseMode(procgame.game.Mode):
             self.game.LEDs.run_script("Player1A", self.playerBlinkScript)
             self.game.LEDs.run_script("Player1B", self.playerBlinkScript)
             if(len(self.game.players) > 1):
-                self.game.LEDs.enable('Player2A')
-                self.game.LEDs.enable('Player2B')
+                self.game.LEDs.enable('Player2A',color='FFFFFF')
+                self.game.LEDs.enable('Player2B',color='FFFFFF')
         elif(self.game.current_player_index == 1):
             # Player 2 is up!
             self.game.LEDs.stop_script("Player1A")
             self.game.LEDs.stop_script("Player1B")
-            self.game.LEDs.enable('Player1A')
-            self.game.LEDs.enable('Player1B')
+            self.game.LEDs.disable('Player1A')
+            self.game.LEDs.disable('Player1B')
+            self.game.LEDs.enable('Player1A',color='FFFFFF')
+            self.game.LEDs.enable('Player1B',color='FFFFFF')
             self.game.LEDs.stop_script("Player2A")
             self.game.LEDs.stop_script("Player2B")
             self.game.LEDs.disable('Player2A')
@@ -317,11 +319,12 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('ShootOver7B')
                 self.game.LEDs.disable('ShootOver7C')
 
+                # Bonus Lights
                 self.game.LEDs.run_script('RedBonus10', self.bonusBlinkScript)
-                self.game.LEDs.disable('RedBonus20')
-                self.game.LEDs.disable('RedBonus50')
                 self.game.LEDs.disable('YellowBonus10')
-                self.game.LEDs.disable('YellowBonus20')
+                self.game.LEDs.disable('RedBonus25')
+                self.game.LEDs.disable('YellowBonus25')
+                self.game.LEDs.disable('RedBonus50')
                 self.game.LEDs.disable('YellowBonus50')
 
                 self.game.LEDs.run_script('BlueBonus20', self.bonusBlinkScript7)
@@ -341,24 +344,25 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 2:
-                if self.currentBallScore < 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                if self.currentBallScore > 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
                     self.game.LEDs.run_script("RedBonusMadeA", self.madeBonusFlashScript)
                     self.game.LEDs.run_script("RedBonusMadeB", self.madeBonusFlashScript)
                     self.game.LEDs.run_script("RedBonusMadeC", self.madeBonusFlashScript)
 
-                self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootUnder7D', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.disable('ShootOver7A')
-                self.game.LEDs.disable('ShootOver7B')
-                self.game.LEDs.disable('ShootOver7C')
+                self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.disable('ShootUnder7A')
+                self.game.LEDs.disable('ShootUnder7B')
+                self.game.LEDs.disable('ShootUnder7C')
+                self.game.LEDs.disable('ShootUnder7D')
 
+                # Bonus Lights
                 self.game.LEDs.disable('RedBonus10')
-                self.game.LEDs.run_script('RedBonus20', self.bonusBlinkScript)
+                self.game.LEDs.run_script('YellowBonus10', self.bonusBlinkScript)
+                self.game.LEDs.disable('RedBonus25')
+                self.game.LEDs.disable('YellowBonus25')
                 self.game.LEDs.disable('RedBonus50')
-                self.game.LEDs.disable('YellowBonus10')
-                self.game.LEDs.disable('YellowBonus20')
                 self.game.LEDs.disable('YellowBonus50')
 
                 self.game.LEDs.run_script('BlueBonus20', self.bonusBlinkScript7)
@@ -391,11 +395,12 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('ShootOver7B')
                 self.game.LEDs.disable('ShootOver7C')
 
+                # Bonus Lights
                 self.game.LEDs.disable('RedBonus10')
-                self.game.LEDs.disable('RedBonus20')
-                self.game.LEDs.run_script('RedBonus50', self.bonusBlinkScript)
                 self.game.LEDs.disable('YellowBonus10')
-                self.game.LEDs.disable('YellowBonus20')
+                self.game.LEDs.run_script('RedBonus25', self.bonusBlinkScript)
+                self.game.LEDs.disable('YellowBonus25')
+                self.game.LEDs.disable('RedBonus50')
                 self.game.LEDs.disable('YellowBonus50')
 
                 self.game.LEDs.disable('BlueBonus20')
@@ -427,11 +432,12 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('ShootUnder7C')
                 self.game.LEDs.disable('ShootUnder7D')
 
+                # Bonus Lights
                 self.game.LEDs.disable('RedBonus10')
-                self.game.LEDs.disable('RedBonus20')
+                self.game.LEDs.disable('YellowBonus10')
+                self.game.LEDs.disable('RedBonus25')
+                self.game.LEDs.run_script('YellowBonus25', self.bonusBlinkScript)
                 self.game.LEDs.disable('RedBonus50')
-                self.game.LEDs.run_script('YellowBonus10', self.bonusBlinkScript)
-                self.game.LEDs.disable('YellowBonus20')
                 self.game.LEDs.disable('YellowBonus50')
 
                 self.game.LEDs.disable('BlueBonus20')
@@ -451,23 +457,24 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('Frame6A')
                 self.game.LEDs.disable('Frame6B')
             case 5:
-                if self.currentBallScore > 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
+                if self.currentBallScore < 7 and self.game.roll_number == 2 and self.scoreCalculating == True:
                     self.game.LEDs.run_script("YellowBonusMadeA", self.madeBonusFlashScript)
                     self.game.LEDs.run_script("YellowBonusMadeB", self.madeBonusFlashScript)
 
-                self.game.LEDs.run_script('ShootOver7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.run_script('ShootOver7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
-                self.game.LEDs.disable('ShootUnder7A')
-                self.game.LEDs.disable('ShootUnder7B')
-                self.game.LEDs.disable('ShootUnder7C')
-                self.game.LEDs.disable('ShootUnder7D')
+                self.game.LEDs.run_script('ShootUnder7A', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7B', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7C', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.run_script('ShootUnder7D', self.game.utilities_mode.generateRandomBlinkSpeedScript())
+                self.game.LEDs.disable('ShootOver7A')
+                self.game.LEDs.disable('ShootOver7B')
+                self.game.LEDs.disable('ShootOver7C')
 
+                # Bonus Lights
                 self.game.LEDs.disable('RedBonus10')
-                self.game.LEDs.disable('RedBonus20')
-                self.game.LEDs.disable('RedBonus50')
                 self.game.LEDs.disable('YellowBonus10')
-                self.game.LEDs.run_script('YellowBonus20', self.bonusBlinkScript)
+                self.game.LEDs.disable('RedBonus25')
+                self.game.LEDs.disable('YellowBonus25')
+                self.game.LEDs.run_script('RedBonus50', self.bonusBlinkScript)
                 self.game.LEDs.disable('YellowBonus50')
 
                 self.game.LEDs.disable('BlueBonus20')
@@ -499,11 +506,12 @@ class BaseMode(procgame.game.Mode):
                 self.game.LEDs.disable('ShootUnder7C')
                 self.game.LEDs.disable('ShootUnder7D')
 
+                # Bonus Lights
                 self.game.LEDs.disable('RedBonus10')
-                self.game.LEDs.disable('RedBonus20')
-                self.game.LEDs.disable('RedBonus50')
                 self.game.LEDs.disable('YellowBonus10')
-                self.game.LEDs.disable('YellowBonus20')
+                self.game.LEDs.disable('RedBonus25')
+                self.game.LEDs.disable('YellowBonus25')
+                self.game.LEDs.disable('RedBonus50')
                 self.game.LEDs.run_script('YellowBonus50', self.bonusBlinkScript)
 
                 self.game.LEDs.disable('BlueBonus20')
@@ -547,10 +555,10 @@ class BaseMode(procgame.game.Mode):
         self.player2DataArray = [[0, 0] for _ in range(6)]
 
         # Initialize Player Data Array
-        for f in range(1, 7):  # Loop from 1 to 6 for 1-based indexing
-            for r in range(1, 3):  # Loop from 1 to 2 for 1-based indexing
-                self.setPlayerData(1, f, r, 0)
-                self.setPlayerData(2, f, r, 0)
+        # for f in range(1, 7):  # Loop from 1 to 6 for 1-based indexing
+        #     for r in range(1, 3):  # Loop from 1 to 2 for 1-based indexing
+        #         self.setPlayerData(1, f, r, 0)
+        #         self.setPlayerData(2, f, r, 0)
 
         self.game.enable_flippers_linked(enable=True)
 
@@ -605,8 +613,7 @@ class BaseMode(procgame.game.Mode):
         self.delay(handler=self.game.coils['chimeLow'].pulse, delay=.1)
 
 
-    def scoreAccumulator(self,pointsLeft, isExtraBall=False):
-        isExtraBall = self.lastRollExtraBall
+    def scoreAccumulator(self,pointsLeft):
         if (pointsLeft > 0):
             self.scoreCalculating = True
         else:
@@ -628,7 +635,7 @@ class BaseMode(procgame.game.Mode):
             #self.update_lamps()
             self.delay(name='pointsAccumulatorDelay',delay=self.scoreGapDelaySeconds,handler=self.scoreAccumulator,param=pointsLeft)
         else:
-            if not isExtraBall:
+            if not self.lastRollExtraBall:
                 self.delay(name='endRollDelay',delay=self.scoreGapDelaySeconds,handler=self.endRoll)
                 self.game.score_display_mode.updateScoreDisplays()
             else:
@@ -716,8 +723,8 @@ class BaseMode(procgame.game.Mode):
                             self.currentRollTotal += 20
                             self.startSevenRollFanfare()
                             self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
-                        elif self.currentFrameTotal < 7:
-                            self.currentRollTotal += 20
+                        elif self.currentFrameTotal > 7:
+                            self.currentRollTotal += 10
                             self.startBonusMadeFanfare()
                             self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         else:
@@ -742,7 +749,7 @@ class BaseMode(procgame.game.Mode):
                             self.startSevenRollFanfare()
                             self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal < 7:
-                            self.currentRollTotal += 50
+                            self.currentRollTotal += 25
                             self.startBonusMadeFanfare()
                             self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         else:
@@ -767,7 +774,7 @@ class BaseMode(procgame.game.Mode):
                             self.startSevenRollFanfare()
                             self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         elif self.currentFrameTotal > 7:
-                            self.currentRollTotal += 10
+                            self.currentRollTotal += 25
                             self.startBonusMadeFanfare()
                             self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         else:
@@ -791,8 +798,8 @@ class BaseMode(procgame.game.Mode):
                             self.currentRollTotal += 100
                             self.startSevenRollFanfare()
                             self.delay(name='7MadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
-                        elif self.currentFrameTotal > 7:
-                            self.currentRollTotal += 20
+                        elif self.currentFrameTotal < 7:
+                            self.currentRollTotal += 50
                             self.startBonusMadeFanfare()
                             self.delay(name='bonusMadeFanfareDelay',delay=2,handler=self.scoreAccumulator,param=self.currentRollTotal)
                         else:
@@ -976,6 +983,7 @@ class BaseMode(procgame.game.Mode):
             self.game.utilities_mode.play_jingle(jingle_matrix=self.jinglePlayerAdd,step_delay=self.jinglePlayerAddStepDelay)
             self.game.players[1].score = 0
             self.game.score_display_mode.updateScoreDisplays()
+            self.update_lamps()
 
     # Score Holes
     def sw_rearHoleScore1_active_for_50ms(self, sw):
