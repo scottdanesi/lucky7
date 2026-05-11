@@ -18,7 +18,7 @@ class Lucky7Game(game.BasicGame):
         super(Lucky7Game, self).__init__(pinproc.MachineTypePDB)
         # Global Game Variables
         self.versionMajor = "V.02"
-        self.versionMinor = "r.00"
+        self.versionMinor = "r.01"
         self.logger = logging.getLogger('game.core')
         self.load_config('config/lucky7.yaml')
         self.settings_path = "config/settings.yaml"

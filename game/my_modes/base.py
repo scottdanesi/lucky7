@@ -21,6 +21,7 @@ class BaseMode(procgame.game.Mode):
         self.logger = logging.getLogger('game.BaseMode')
         # self.p = self.game.current_player()
         self.lastRollExtraBall = False
+        self.celebrationActive = False
         self.scoreGapDelaySeconds = .2
 
         # Global Chime Jingles
@@ -830,11 +831,11 @@ class BaseMode(procgame.game.Mode):
                         else:
                             self.scoreAccumulator(self.currentRollTotal)
 
-        if self.currentPlayerNumber == 2:
-            playerArrayDataTemp = self.player2DataArray
-        else:
-            playerArrayDataTemp = self.player1DataArray
-        self.logger.info(f"Player Data (Post Score Score): {playerArrayDataTemp}")
+            if self.currentPlayerNumber == 2:
+                playerArrayDataTemp = self.player2DataArray
+            else:
+                playerArrayDataTemp = self.player1DataArray
+            self.logger.info(f"Player Data (Post Score Score): {playerArrayDataTemp}")
 
     def startSevenRollFanfare(self):
         self.game.coils['beacon'].enable()
@@ -932,15 +933,6 @@ class BaseMode(procgame.game.Mode):
         # Save the game data file
         self.game.save_game_data()
 
-        if newGrandChamp:
-            self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewHighScore,step_delay=self.jingleNewHighScoreDelay)
-            self.game.coils['beacon'].enable()
-            self.delay(delay=7, handler=self.game.coils['beacon'].disable)
-        elif newLowChamp:
-            self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewLowScore,step_delay=self.jingleNewLowScoreDelay)
-            self.game.coils['beacon'].enable()
-            self.delay(delay=7, handler=self.game.coils['beacon'].disable)
-
         self.logger.info("---------End Game----------")
         self.logger.info(f"Player Index: {self.game.current_player_index}")
         self.logger.info(f"Total Players: {len(self.game.players)}")
@@ -963,8 +955,21 @@ class BaseMode(procgame.game.Mode):
         self.logger.info(f"Player 1 Data Array: {self.player1DataArray}")
         self.logger.info(f"Player 2 Data Array: {self.player2DataArray}")
 
-        # self.game.modes.add(self.game.attract_mode)
+        if newGrandChamp:
+            self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewHighScore,step_delay=self.jingleNewHighScoreDelay)
+            self.game.coils['beacon'].enable()
+            self.celebrationActive = True
+            self.delay(name='celebrationResetDelay', delay=8, handler=self._end_celebration)
+        elif newLowChamp:
+            self.game.utilities_mode.play_jingle(jingle_matrix=self.jingleNewLowScore,step_delay=self.jingleNewLowScoreDelay)
+            self.game.coils['beacon'].enable()
+            self.celebrationActive = True
+            self.delay(name='celebrationResetDelay', delay=8, handler=self._end_celebration)
+        else:
+            self.game.reset()
 
+    def _end_celebration(self):
+        self.celebrationActive = False
         self.game.reset()
 
     def sw_startButton_active_for_2000ms(self, sw):
@@ -975,7 +980,10 @@ class BaseMode(procgame.game.Mode):
 
     def sw_startButton_active(self, sw):
         if self.game.ball == 0:
-            #Start New Game
+            if self.celebrationActive:
+                self.cancel_delayed('celebrationResetDelay')
+                self.celebrationActive = False
+                self.game.reset()  # restore mode stack to clean state before starting
             self.start_game()
         elif self.game.ball == 1 and len(self.game.players) < 2:
             #Add Player
