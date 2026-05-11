@@ -209,6 +209,7 @@ class BaseMode(procgame.game.Mode):
         self.game.LEDs.run_script("7ScoresBonusOfD", self.bonusBlinkScript7B)
 
         if(self.game.current_player_index == 0):
+            # Player 1 is up!
             self.game.LEDs.stop_script("Player1A")
             self.game.LEDs.stop_script("Player1B")
             self.game.LEDs.disable('Player1A')
@@ -219,11 +220,15 @@ class BaseMode(procgame.game.Mode):
             self.game.LEDs.disable('Player2B')
             self.game.LEDs.run_script("Player1A", self.playerBlinkScript)
             self.game.LEDs.run_script("Player1B", self.playerBlinkScript)
+            if(len(self.game.players) > 1):
+                self.game.LEDs.enable('Player2A')
+                self.game.LEDs.enable('Player2B')
         elif(self.game.current_player_index == 1):
+            # Player 2 is up!
             self.game.LEDs.stop_script("Player1A")
             self.game.LEDs.stop_script("Player1B")
-            self.game.LEDs.disable('Player1A')
-            self.game.LEDs.disable('Player1B')
+            self.game.LEDs.enable('Player1A')
+            self.game.LEDs.enable('Player1B')
             self.game.LEDs.stop_script("Player2A")
             self.game.LEDs.stop_script("Player2B")
             self.game.LEDs.disable('Player2A')
