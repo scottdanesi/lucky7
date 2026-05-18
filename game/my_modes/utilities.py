@@ -18,6 +18,11 @@ class UtilitiesMode(procgame.game.Mode):
         super(UtilitiesMode, self).__init__(game=game, priority=priority)
         self.logger = logging.getLogger('game.UtilitiesMode')
 
+        ## Ball Release Gate Variables ####################################################
+        self.ballReleasePulseTimeMs = 30
+        self.ballReleaseOnTimeMs = 1
+        self.ballReleaseOffTimeMs = 1
+
         ## RGB Drivers Global Variables ###################################################
         self.previousR = -1
         self.previousG = -1
@@ -88,6 +93,32 @@ class UtilitiesMode(procgame.game.Mode):
         for coil in self.game.coils:
             if tagFilter is None or tagFilter in coil.tags:
                 self.game.coils[coil.name].disable()
+
+    def initiateBallReleaseGate(self, delaySeconds=0, seconds=2):
+        # Cancel Ball Release Disable Delay
+        self.cancel_delayed('openBallReleaseDelay')
+        if delaySeconds <= 0:
+            self.openBallReleaseGate(seconds=seconds)
+        elif delaySeconds > 0:
+            self.delay(name='openBallReleaseDelay',delay=delaySeconds,handler=self.openBallReleaseGate,param=seconds)
+        pass
+
+    def openBallReleaseGate(self, seconds=2):
+        # Disable the disable delay
+        self.cancel_delayed('ballReleaseDisableDelay')
+        self.disableBallReleaseCoil() # Just in case
+        self.game.coils.ballRelease.pulse(self.ballReleasePulseTimeMs)
+        self.delay(delay=self.ballReleasePulseTimeMs/1000.0,handler=self.patterBallReleaseCoil)
+        #self.game.coils.ballRelease.pulsed_patter(self.ballReleaseOnTimeMs,self.ballReleaseOffTimeMs,run_time=self.ballReleasePulseTimeMs,now=True)
+        # Start Delay to disable
+        self.delay(name='ballReleaseDisableDelay',delay=seconds,handler=self.disableBallReleaseCoil)
+
+    def disableBallReleaseCoil(self):
+        self.game.coils.ballRelease.disable()
+
+    def patterBallReleaseCoil(self):
+        self.game.coils.ballRelease.patter(self.ballReleaseOnTimeMs,self.ballReleaseOffTimeMs,now=True)
+
 
     ####################################################################################################################
     ## CHIME UTILITIES

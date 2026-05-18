@@ -369,10 +369,10 @@ PRCoils:
     #    number: A3-B1-1
     #    pulseTime: 30
     #    label: '-11'
-    #1-2:
-    #    number: A3-B1-2
-    #    pulseTime: 30
-    #    label: '-12'
+    ballRelease:
+        number: A3-B1-2
+        pulseTime: 30
+        label: '1-2'
     beacon:
         number: A3-B1-3
         pulseTime: 30

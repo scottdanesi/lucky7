@@ -563,6 +563,8 @@ class BaseMode(procgame.game.Mode):
 
         self.game.enable_flippers_linked(enable=True)
 
+        self.game.utilities_mode.initiateBallReleaseGate(delaySeconds=0, seconds=2)
+
         self.game.score_display_mode.updateScoreDisplays()
         self.update_lamps()
 
@@ -619,6 +621,7 @@ class BaseMode(procgame.game.Mode):
             self.scoreCalculating = True
         else:
             self.scoreCalculating = False
+
             return 0
 
         if pointsLeft >= 100:
@@ -642,6 +645,7 @@ class BaseMode(procgame.game.Mode):
             else:
                 self.scoreCalculating = False
                 self.game.score_display_mode.updateScoreDisplays()
+                self.game.utilities_mode.initiateBallReleaseGate(delaySeconds=2, seconds=2)
                 self.update_lamps()
 
     def scoreBall(self, score, isExtraBall=False):
@@ -864,14 +868,17 @@ class BaseMode(procgame.game.Mode):
                 self.game.roll_number = 1
                 if self.game.current_player_index + 1 < len(self.game.players):
                     self.game.current_player_index += 1  # Increment to the next player
+                    self.game.utilities_mode.initiateBallReleaseGate(delaySeconds=2, seconds=2)
                 else:
                     self.game.current_player_index = 0  # Reset to the first player
                     self.game.ball += 1  # Increment the ball number
+                    self.game.utilities_mode.initiateBallReleaseGate(delaySeconds=2, seconds=2)
             else:
                 # Check if all players have played the last ball
                 if self.game.current_player_index + 1 < len(self.game.players):
                     self.game.roll_number = 1
                     self.game.current_player_index += 1  # Move to the next player
+                    self.game.utilities_mode.initiateBallReleaseGate(delaySeconds=2, seconds=2)
                 else:
                     # END OF GAME after the last player has taken their turn
                     self.scoreCalculating = False
@@ -879,6 +886,7 @@ class BaseMode(procgame.game.Mode):
                     return
         else:
             self.game.roll_number += 1
+            self.game.utilities_mode.initiateBallReleaseGate(delaySeconds=2, seconds=2)
 
         self.logger.info(f"New Player Index: {self.game.current_player_index + 1}")
         self.logger.info(f"New Ball Number: {self.game.ball}")
